@@ -8,7 +8,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 body{background:#070707;min-height:100vh;min-height:100dvh;display:flex;justify-content:center;align-items:center;font-family:'Montserrat',sans-serif}
@@ -915,6 +914,15 @@ function show(id, direction){
   const next = document.getElementById(id);
   if(!next || next === cur) return;
 
+  // Если GSAP не загрузился — простой переход без анимации
+  if(typeof gsap === 'undefined'){
+    if(cur) cur.classList.remove('active');
+    next.classList.add('active');
+    next.scrollTop = 0;
+    if(id==='s_calc') renderCalc();
+    return;
+  }
+
   const dir = direction === 'back' ? -1 : 1;
   const dur = 0.42;
 
@@ -925,7 +933,7 @@ function show(id, direction){
       ease:'power2.in',
       onComplete:() => {
         cur.classList.remove('active');
-        gsap.set(cur, {opacity:1, y:0});
+        gsap.set(cur, {opacity:1, y:0, clearProps:'all'});
 
         next.classList.add('active');
         next.scrollTop = 0;
@@ -1107,5 +1115,6 @@ window.addEventListener('load', function(){
   );
 });
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </body>
 </html>
