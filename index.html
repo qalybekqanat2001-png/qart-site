@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 body{background:#070707;min-height:100vh;min-height:100dvh;display:flex;justify-content:center;align-items:center;font-family:'Montserrat',sans-serif}
@@ -244,32 +245,56 @@ body{background:#070707;min-height:100vh;min-height:100dvh;display:flex;justify-
 .calc-row .cr-price{font-size:13px;font-weight:600;color:#555}
 .calc-row.selected .cr-price{color:#d4a017}
 .calc-row.locked{opacity:.3;cursor:not-allowed;pointer-events:none}
-.gal-title{text-align:center;font-size:18px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:#fff;margin-bottom:30px}
-.cs-wrap{position:relative;width:100%;height:420px;perspective:1200px;display:flex;align-items:center;justify-content:center}
-.cs-card{
-  position:absolute;width:560px;height:360px;
+.gal-title{text-align:center;font-size:16px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#fff;margin-bottom:24px}
+/* ── INTERACTIVE SELECTOR ── */
+.is-wrap{display:flex;width:100%;height:380px;overflow:hidden}
+.is-panel{
+  position:relative;overflow:hidden;cursor:pointer;
+  flex:1;min-width:60px;
   background-size:cover;background-position:center;
-  border-radius:16px;cursor:pointer;
-  transition:all .6s cubic-bezier(.25,.46,.45,.94);
-  box-shadow:0 20px 60px rgba(0,0,0,.7);
-  user-select:none;
+  background-color:#111;
+  border:2px solid #292929;
+  transition:flex .7s ease,box-shadow .7s ease,border-color .4s ease,background-size .7s ease;
+  opacity:0;transform:translateX(-60px);
 }
-.cs-nav{
-  position:absolute;top:50%;transform:translateY(-50%);
-  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
-  color:#fff;width:46px;height:46px;border-radius:50%;
-  font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;
-  transition:.2s;z-index:20;backdrop-filter:blur(6px);
+.is-panel.visible{opacity:1;transform:translateX(0);transition:flex .7s ease,box-shadow .7s ease,border-color .4s ease,background-size .7s ease,opacity .5s ease,transform .5s ease}
+.is-panel.active{flex:7;border-color:#fff;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.is-shadow{
+  position:absolute;left:0;right:0;height:120px;
+  pointer-events:none;
+  transition:bottom .7s ease,box-shadow .7s ease;
+  bottom:-40px;
+  box-shadow:inset 0 -120px 0px -120px #000,inset 0 -120px 0px -80px #000;
 }
-.cs-nav:hover{background:rgba(212,160,23,.3);border-color:#d4a017}
-.cs-prev{left:10px}.cs-next{right:10px}
-.cs-dots{display:flex;gap:8px;justify-content:center;margin-top:18px}
-.cs-dot{width:8px;height:8px;border-radius:50%;background:#444;cursor:pointer;transition:.3s}
-.cs-dot.on{background:#d4a017;transform:scale(1.3)}
+.is-panel.active .is-shadow{
+  bottom:0;
+  box-shadow:inset 0 -120px 120px -120px #000,inset 0 -120px 120px -80px #000;
+}
+.is-label{
+  position:absolute;bottom:18px;left:0;right:0;
+  display:flex;align-items:center;padding:0 14px;gap:12px;
+  pointer-events:none;z-index:2;
+}
+.is-icon{
+  min-width:44px;max-width:44px;height:44px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:50%;background:rgba(30,30,30,.88);
+  backdrop-filter:blur(10px);border:2px solid #444;
+  flex-shrink:0;color:#d4a017;font-size:18px;
+}
+.is-info .is-title,.is-info .is-sub{
+  transition:opacity .7s ease,transform .7s ease;
+  opacity:0;transform:translateX(25px);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.is-panel.active .is-info .is-title,.is-panel.active .is-info .is-sub{opacity:1;transform:translateX(0)}
+.is-title{font-weight:700;font-size:16px;color:#fff;display:block}
+.is-sub{font-size:13px;color:#bbb;display:block;margin-top:2px}
 @media(max-width:768px){
-  .cs-wrap{height:260px;perspective:800px}
-  .cs-card{width:300px;height:200px;border-radius:10px}
-  .cs-nav{width:36px;height:36px;font-size:16px}
+  .is-wrap{height:220px}
+  .is-panel{min-width:36px}
+  .is-icon{min-width:34px;max-width:34px;height:34px;font-size:14px}
+  .is-title{font-size:14px}.is-sub{font-size:11px}
 }
 
 .calc-wa{
@@ -553,128 +578,94 @@ body{background:#070707;min-height:100vh;min-height:100dvh;display:flex;justify-
 
 <!-- gallery modals live inside s6 -->
 <script>
-// ── CARDSTACK GALLERY ──
-const GAL_IMAGES = {
-  gal_3d: ['кухня 1.jpg','санузел 4.jpg','new спальный 4.jpg','санузел 2.jpg','new спальный 1.jpg'],
-  gal_mb: ['new спальный 4.jpg','санузел 2.jpg','кухня 1.jpg','санузел 4.jpg','new спальный 1.jpg']
+// ── INTERACTIVE SELECTOR GALLERY ──
+const GAL_DATA = {
+  gal_3d: {
+    title: {ru:'ПРИМЕРЫ 3D ВИЗУАЛИЗАЦИИ', kz:'3D ВИЗУАЛИЗАЦИЯ МЫСАЛДАРЫ'},
+    panels: [
+      {img:'кухня 1.jpg',     icon:'fa-utensils', title:{ru:'Кухня-гостиная',ru2:'Фотореалистичный 3D'}},
+      {img:'санузел 4.jpg',   icon:'fa-shower',   title:{ru:'Санузел',       ru2:'Детали и материалы'}},
+      {img:'new спальный 4.jpg', icon:'fa-bed',   title:{ru:'Спальня',       ru2:'Свет и атмосфера'}},
+      {img:'санузел 2.jpg',   icon:'fa-bath',     title:{ru:'Ванная комната', ru2:'Современный стиль'}},
+      {img:'new спальный 1.jpg', icon:'fa-couch', title:{ru:'Зона отдыха',   ru2:'Уют и комфорт'}}
+    ]
+  },
+  gal_mb: {
+    title: {ru:'ПРИМЕРЫ MOODBOARD / КОЛЛАЖЕЙ', kz:'MOODBOARD / КОЛЛАЖ МЫСАЛДАРЫ'},
+    panels: [
+      {img:'new спальный 4.jpg', icon:'fa-palette', title:{ru:'Спальня',       ru2:'Настроение и стиль'}},
+      {img:'санузел 2.jpg',   icon:'fa-droplet',    title:{ru:'Ванная комната', ru2:'Цвет и фактура'}},
+      {img:'кухня 1.jpg',     icon:'fa-utensils',   title:{ru:'Кухня',          ru2:'Концепция дизайна'}},
+      {img:'санузел 4.jpg',   icon:'fa-shower',     title:{ru:'Санузел',        ru2:'Материалы'}},
+      {img:'new спальный 1.jpg', icon:'fa-moon',    title:{ru:'Зона отдыха',    ru2:'Текстуры и тона'}}
+    ]
+  }
 };
-const GAL_TITLES = {
-  gal_3d: {ru:'ПРИМЕРЫ 3D ВИЗУАЛИЗАЦИИ', kz:'3D ВИЗУАЛИЗАЦИЯ МЫСАЛДАРЫ'},
-  gal_mb: {ru:'ПРИМЕРЫ MOODBOARD / КОЛЛАЖЕЙ', kz:'MOODBOARD / КОЛЛАЖ МЫСАЛДАРЫ'}
-};
 
-let csState = {}; // {id: {cur, timer}}
+let galTimer = null;
 
-function buildCardStack(id) {
-  const imgs = GAL_IMAGES[id];
-  const title = GAL_TITLES[id][lang] || GAL_TITLES[id].ru;
-  const n = imgs.length;
-
-  // Позиционирование карточек
-  const positions = [
-    {tx:'-85%', ry:'42deg',  s:.52, z:1, o:.5},
-    {tx:'-48%', ry:'28deg',  s:.74, z:2, o:.8},
-    {tx:'0',    ry:'0deg',   s:1,   z:5, o:1},
-    {tx:'48%',  ry:'-28deg', s:.74, z:2, o:.8},
-    {tx:'85%',  ry:'-42deg', s:.52, z:1, o:.5},
-  ];
-
-  let cards = '';
-  imgs.forEach((src, i) => {
-    cards += `<div class="cs-card" id="${id}_c${i}" style="background-image:url('${src}')" onclick="csClick('${id}',${i})"></div>`;
+function buildGallery(id) {
+  const d = GAL_DATA[id];
+  const title = d.title[lang] || d.title.ru;
+  let panels = '';
+  d.panels.forEach((p, i) => {
+    panels += `
+      <div class="is-panel${i===0?' active':''}" style="background-image:url('${p.img}')" onclick="isClick('${id}',${i})">
+        <div class="is-shadow"></div>
+        <div class="is-label">
+          <div class="is-icon"><i class="fa-solid ${p.icon}"></i></div>
+          <div class="is-info">
+            <span class="is-title">${p.title.ru}</span>
+            <span class="is-sub">${p.title.ru2}</span>
+          </div>
+        </div>
+      </div>`;
   });
-
-  let dots = '';
-  imgs.forEach((_, i) => {
-    dots += `<div class="cs-dot${i===0?' on':''}" onclick="csGo('${id}',${i})"></div>`;
-  });
-
   return `
     <span class="modal-x" onclick="closeGal('${id}')">×</span>
-    <div style="max-width:1000px;margin:0 auto;padding-top:20px">
+    <div style="max-width:1100px;margin:0 auto;padding-top:24px">
       <div class="gal-title">${title}</div>
-      <div class="cs-wrap">
-        <button class="cs-nav cs-prev" onclick="csGo('${id}',(csState['${id}'].cur-1+${n})%${n})">‹</button>
-        ${cards}
-        <button class="cs-nav cs-next" onclick="csGo('${id}',(csState['${id}'].cur+1)%${n})">›</button>
-      </div>
-      <div class="cs-dots" id="${id}_dots">${dots}</div>
+      <div class="is-wrap" id="${id}_wrap">${panels}</div>
     </div>`;
 }
 
-function csRender(id) {
-  const imgs = GAL_IMAGES[id];
-  const n = imgs.length;
-  const cur = csState[id].cur;
-  const positions = [
-    {tx:'-85%', ry:'42deg',  s:.52, z:1, o:.45},
-    {tx:'-48%', ry:'28deg',  s:.74, z:2, o:.75},
-    {tx:'0',    ry:'0deg',   s:1,   z:5, o:1},
-    {tx:'48%',  ry:'-28deg', s:.74, z:2, o:.75},
-    {tx:'85%',  ry:'-42deg', s:.52, z:1, o:.45},
-  ];
-
-  imgs.forEach((_, i) => {
-    const el = document.getElementById(`${id}_c${i}`);
-    if (!el) return;
-    let offset = (i - cur + n) % n;
-    if (offset > n/2) offset -= n;
-    const posIdx = offset + 2; // -2..+2 → 0..4
-    if (posIdx < 0 || posIdx > 4) {
-      el.style.cssText += ';opacity:0;pointer-events:none;z-index:0';
-      return;
-    }
-    const p = positions[posIdx];
-    el.style.transform = `translateX(${p.tx}) rotateY(${p.ry}) scale(${p.s})`;
-    el.style.zIndex = p.z;
-    el.style.opacity = p.o;
-    el.style.pointerEvents = 'auto';
-  });
-
-  // dots
-  document.querySelectorAll(`#${id}_dots .cs-dot`).forEach((d,i) => {
-    d.classList.toggle('on', i === cur);
-  });
+function isClick(id, idx) {
+  const wrap = document.getElementById(`${id}_wrap`);
+  if (!wrap) return;
+  wrap.querySelectorAll('.is-panel').forEach((p, i) => p.classList.toggle('active', i === idx));
+  galAutoReset(id, idx);
 }
 
-function csGo(id, idx) {
-  if (!csState[id]) return;
-  csState[id].cur = idx;
-  csRender(id);
-  csResetTimer(id);
-}
-
-function csClick(id, idx) {
-  csGo(id, idx);
-}
-
-function csResetTimer(id) {
-  if (csState[id].timer) clearInterval(csState[id].timer);
-  const n = GAL_IMAGES[id].length;
-  csState[id].timer = setInterval(() => {
-    csState[id].cur = (csState[id].cur + 1) % n;
-    csRender(id);
-  }, 3000);
+function galAutoReset(id, startIdx) {
+  if (galTimer) clearInterval(galTimer);
+  const d = GAL_DATA[id];
+  let cur = startIdx;
+  galTimer = setInterval(() => {
+    cur = (cur + 1) % d.panels.length;
+    isClick(id, cur);
+  }, 3500);
 }
 
 function openGallery(id) {
   const modal = document.getElementById(id);
   if (!modal) return;
-  modal.innerHTML = buildCardStack(id);
+  modal.innerHTML = buildGallery(id);
   modal.classList.add('active');
-  csState[id] = {cur: 0, timer: null};
-  csRender(id);
-  csResetTimer(id);
+  // анимация появления панелей
+  const panels = modal.querySelectorAll('.is-panel');
+  panels.forEach((p, i) => {
+    setTimeout(() => p.classList.add('visible'), 120 * i);
+  });
+  galAutoReset(id, 0);
 }
 
 function closeGal(id) {
+  if (galTimer) { clearInterval(galTimer); galTimer = null; }
   const modal = document.getElementById(id);
-  if (!modal) return;
-  modal.classList.remove('active');
-  if (csState[id] && csState[id].timer) clearInterval(csState[id].timer);
+  if (modal) modal.classList.remove('active');
 }
 
-// создаём пустые модалы при загрузке
+// создаём пустые модалы
 document.addEventListener('DOMContentLoaded', function(){
   const s6 = document.getElementById('s6');
   ['gal_3d','gal_mb'].forEach(id => {
@@ -919,19 +910,57 @@ const SUP = {
 let lang='ru', hist=[], quiz={name:'',phone:'',sq:0,rooms:'',goal:'',exp:'',firstTime:false};
 let tariff='Рабочий проект', vis='3d', sup='yes';
 
-function show(id){
-  document.querySelectorAll('.slide').forEach(s=>s.classList.remove('active'));
-  const el=document.getElementById(id);
-  if(el){el.classList.add('active');el.scrollTop=0;}
-  if(id==='s_calc') renderCalc();
+function show(id, direction){
+  const cur = document.querySelector('.slide.active');
+  const next = document.getElementById(id);
+  if(!next || next === cur) return;
+
+  const dir = direction === 'back' ? -1 : 1;
+  const dur = 0.42;
+
+  if(cur){
+    gsap.to(cur, {
+      opacity:0, y: -28 * dir,
+      duration: dur * 0.65,
+      ease:'power2.in',
+      onComplete:() => {
+        cur.classList.remove('active');
+        gsap.set(cur, {opacity:1, y:0});
+
+        next.classList.add('active');
+        next.scrollTop = 0;
+        gsap.fromTo(next,
+          {opacity:0, y: 38 * dir},
+          {opacity:1, y:0, duration:dur, ease:'power3.out'}
+        );
+
+        const items = next.querySelectorAll('.stitle,.tile,.pkg-card,.vis-card,.supervision-card,.seq-item,.calc-section,.calc-total-box,.contact-grid>*,.sup-detail>*,.input-wrap>*,.vis-grid,.about-grid');
+        if(items.length){
+          gsap.fromTo(items,
+            {opacity:0, y:16},
+            {opacity:1, y:0, duration:0.38, stagger:0.055, ease:'power2.out', delay:0.12}
+          );
+        }
+        if(id==='s_calc') renderCalc();
+      }
+    });
+  } else {
+    next.classList.add('active');
+    next.scrollTop = 0;
+    gsap.fromTo(next,{opacity:0,y:40},{opacity:1,y:0,duration:dur,ease:'power3.out'});
+    if(id==='s_calc') renderCalc();
+  }
 }
+
 function go(id){
-  const cur=document.querySelector('.slide.active');
+  const cur = document.querySelector('.slide.active');
   if(cur) hist.push(cur.id);
-  show(id);
+  show(id, 'forward');
 }
+
 function back(){
-  if(hist.length) show(hist.pop());
+  fromCalculator = false;
+  if(hist.length) show(hist.pop(), 'back');
 }
 
 function updateSqTitles(){
@@ -1055,6 +1084,28 @@ function setLang(l){
   });
   if(document.getElementById('s_calc').classList.contains('active')) renderCalc();
 }
+
+// Анимация первого слайда при загрузке
+window.addEventListener('load', function(){
+  const s1 = document.getElementById('s1');
+  if(!s1) return;
+  gsap.fromTo(s1.querySelector('.hero-logo'),
+    {opacity:0, y:-40, letterSpacing:'12px'},
+    {opacity:1, y:0, letterSpacing:'6px', duration:1.1, ease:'power3.out', delay:0.2}
+  );
+  gsap.fromTo(s1.querySelector('.hero-sub'),
+    {opacity:0, y:20},
+    {opacity:1, y:0, duration:0.8, ease:'power2.out', delay:0.7}
+  );
+  gsap.fromTo(s1.querySelector('.hero-desc'),
+    {opacity:0, y:20},
+    {opacity:1, y:0, duration:0.8, ease:'power2.out', delay:0.95}
+  );
+  gsap.fromTo(s1.querySelector('.btn-hero'),
+    {opacity:0, y:20},
+    {opacity:1, y:0, duration:0.7, ease:'power2.out', delay:1.2}
+  );
+});
 </script>
 </body>
 </html>
