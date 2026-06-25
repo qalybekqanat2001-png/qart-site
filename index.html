@@ -383,6 +383,323 @@ body{background:#070707;min-height:100vh;min-height:100dvh;display:flex;justify-
   .modal ul{columns:1}
   .lang-sw{bottom:10px;right:10px}
 }
+
+/* ══════════════════════════════════════════
+   DESIGN OVERHAUL — Modern Bold Style
+   ══════════════════════════════════════════ */
+
+/* Import modern rounded font */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap');
+
+body {
+  background: #060606;
+  font-family: 'Plus Jakarta Sans', 'Montserrat', sans-serif;
+}
+
+.slide { background: #080808; border: none; }
+
+/* ── LOGO ── */
+.logo {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 4px;
+}
+
+/* ── HERO ── */
+.hero-logo {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 110px;
+  font-weight: 900;
+  letter-spacing: 4px;
+  line-height: 0.9;
+}
+.hero-sub {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+.hero-desc {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  color: #9a9a9a;
+  line-height: 1.8;
+}
+.btn-hero {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 1.5px;
+  border-radius: 50px;
+  padding: 16px 48px;
+  background: #d4a017;
+  color: #000;
+  border: none;
+  margin-top: 38px;
+}
+.btn-hero:hover { background: #fff; color: #000; }
+
+/* ── SLIDE TITLE ── */
+.stitle {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: 0px;
+  text-transform: none;
+  margin-bottom: 20px;
+  padding: 18px 0 0 22px;
+  border-left: 4px solid #d4a017;
+  margin-left: 50px;
+}
+.stitle.no-border {
+  border-left: none;
+  margin-left: 0;
+  padding-left: 50px;
+  font-size: 38px;
+}
+
+/* ── OPTION TILES ── */
+.tile {
+  border-radius: 14px;
+  background: #111;
+  border: 1px solid #1c1c1c;
+  padding: 32px 22px;
+  transition: all .3s ease;
+}
+.tile:hover {
+  background: #161616;
+  border-color: #d4a017;
+  box-shadow: 0 0 24px rgba(212,160,23,0.12), 0 8px 32px rgba(0,0,0,0.4);
+  transform: translateY(-2px);
+}
+.tile h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.tile i { font-size: 30px; margin-bottom: 14px; }
+
+/* ── PACKAGE CARDS ── */
+.pkg-card {
+  border-radius: 16px;
+  background: #0e0e0e;
+  border: 1px solid #1c1c1c;
+  padding: 26px 20px;
+  transition: all .3s ease;
+}
+.pkg-card:hover {
+  border-color: #d4a017;
+  box-shadow: 0 0 28px rgba(212,160,23,0.1), 0 10px 40px rgba(0,0,0,0.5);
+  transform: translateY(-3px);
+}
+.pkg-card h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: none;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #1e1e1e;
+}
+.price-tag {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+}
+.pkg-card .desc { font-size: 13px; color: #666; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+/* ── BUTTONS ── */
+.btn-fill {
+  border-radius: 50px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  padding: 12px;
+}
+.btn-outline {
+  border-radius: 50px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+.btn-submit, .btn-gold {
+  border-radius: 50px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+.btn-next-step, .btn-next {
+  border-radius: 50px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+}
+.btn-wa {
+  border-radius: 50px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+}
+.btn-back {
+  border-radius: 50px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+}
+.btn-modal-select { border-radius: 50px; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+/* ── CONTACT FORM ── */
+.cinput {
+  border-radius: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 16px;
+  background: #0e0e0e;
+  border: 1px solid #1e1e1e;
+}
+.cinput:focus { border-color: #d4a017; }
+.big-input {
+  border-radius: 14px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #0e0e0e;
+  border: 1px solid #1e1e1e;
+}
+.big-input:focus { border-color: #d4a017; }
+
+/* ── DESIGNER BIO ── */
+.c-left h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+.c-left p {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.feat-list li {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+}
+
+/* ── SUPERVISION CARDS ── */
+.supervision-card {
+  border-radius: 16px;
+  background: #0e0e0e;
+  border: 1px solid #1c1c1c;
+  transition: all .3s ease;
+}
+.supervision-card:hover {
+  border-color: #d4a017;
+  box-shadow: 0 0 24px rgba(212,160,23,0.1);
+  transform: translateY(-2px);
+}
+.supervision-card.active {
+  border-color: #d4a017;
+  background: rgba(212,160,23,0.05);
+  box-shadow: 0 0 30px rgba(212,160,23,0.15);
+}
+.supervision-card h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+}
+.supervision-card p {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+}
+
+/* ── CALCULATOR ── */
+.calc-total-box {
+  border-radius: 16px;
+  background: #0e0e0e;
+  border: 1px solid #1e1e1e;
+}
+.calc-section {
+  border-radius: 12px;
+  background: #0e0e0e;
+  border: 1px solid #1a1a1a;
+  margin-bottom: 6px;
+  overflow: hidden;
+}
+.calc-total-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+}
+.calc-total-value {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 38px;
+  font-weight: 900;
+}
+.calc-section-head {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+}
+.p-name { font-family: 'Plus Jakarta Sans', sans-serif; }
+.p-val  { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+/* ── SEQUENCE ── */
+.seq-num {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+}
+.seq-text {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+}
+.seq-item {
+  border-bottom: 1px solid #141414;
+  padding: 16px 22px;
+  border-radius: 0;
+  transition: background .2s;
+}
+.seq-item:hover { background: #0e0e0e; }
+
+/* ── MODALS ── */
+.modal { background: rgba(6,6,6,.99); }
+.modal h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: 26px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.modal ul li { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+/* ── LANG SWITCHER ── */
+.lang-sw { border-radius: 50px; }
+.lbtn { border-radius: 50px; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+/* ── VISUAL CARDS ── */
+.vis-card {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #1c1c1c;
+}
+.vis-card:hover { border-color: #d4a017; }
+.vis-body h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; }
+.vis-example { font-family: 'Plus Jakarta Sans', sans-serif; }
+.vis-select {
+  border-radius: 50px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* ── SUP DETAIL ── */
+.sup-detail p { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; }
+.sup-detail ul li { font-family: 'Plus Jakarta Sans', sans-serif; }
+.sup-price { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; letter-spacing: 0; }
+
+/* ── MOBILE overrides ── */
+@media(max-width:768px){
+  .hero-logo { font-size: 58px; }
+  .stitle { font-size: 26px; padding-left: 16px; margin-left: 16px; }
+  .stitle.no-border { font-size: 24px; padding-left: 16px; }
+}
 </style>
 </head>
 <body ontouchstart="">
@@ -396,13 +713,6 @@ body{background:#070707;min-height:100vh;min-height:100dvh;display:flex;justify-
   transform-origin:bottom center;
   pointer-events:none;
   will-change:transform;
-"></div>
-<div id="curtain-line" style="
-  position:fixed;left:0;right:0;
-  height:2px;top:50%;
-  background:linear-gradient(90deg,transparent,#d4a017,transparent);
-  z-index:8001;opacity:0;
-  pointer-events:none;
 "></div>
 
 <div class="lang-sw">
@@ -941,11 +1251,10 @@ let tariff='Рабочий проект', vis='3d', sup='yes';
 let curtainBusy = false;
 
 function show(id, direction){
-  const cur = document.querySelector('.slide.active');
+  const cur  = document.querySelector('.slide.active');
   const next = document.getElementById(id);
   if(!next || next === cur || curtainBusy) return;
 
-  // Без GSAP — мгновенный переход
   if(typeof gsap === 'undefined'){
     if(cur) cur.classList.remove('active');
     next.classList.add('active');
@@ -955,55 +1264,59 @@ function show(id, direction){
   }
 
   curtainBusy = true;
-  const curtain  = document.getElementById('curtain');
-  const curtainLine = document.getElementById('curtain-line');
-  const isBack   = direction === 'back';
+  const curtain = document.getElementById('curtain');
+  const isBack  = direction === 'back';
 
-  // Фаза 1: занавес закрывается (снизу вверх или сверху вниз)
+  // --- Фаза 1: занавес закрывает экран ---
   gsap.set(curtain, {
     scaleY: 0,
+    opacity: 1,
     transformOrigin: isBack ? 'top center' : 'bottom center'
   });
-  gsap.set(curtainLine, {opacity:0});
 
-  const tl = gsap.timeline({onComplete: () => { curtainBusy = false; }});
-
-  tl.to(curtain, {
+  gsap.to(curtain, {
     scaleY: 1,
-    duration: 0.38,
-    ease: 'power3.inOut'
-  })
-  .to(curtainLine, {opacity:1, duration:0.1}, '-=0.15')
+    duration: 0.32,
+    ease: 'power2.in',
+    onComplete() {
 
-  // Фаза 2: смена слайда пока занавес закрыт
-  .add(() => {
-    if(cur){ cur.classList.remove('active'); }
-    next.classList.add('active');
-    next.scrollTop = 0;
-    if(id==='s_calc') renderCalc();
-  })
+      // --- Фаза 2: меняем слайд пока экран закрыт ---
+      if(cur) cur.classList.remove('active');
+      next.classList.add('active');
+      next.scrollTop = 0;
+      if(id === 's_calc') renderCalc();
 
-  // Фаза 3: занавес открывается в другую сторону
-  .set(curtain, { transformOrigin: isBack ? 'bottom center' : 'top center' })
-  .to(curtainLine, {opacity:0, duration:0.08})
-  .to(curtain, {
-    scaleY: 0,
-    duration: 0.42,
-    ease: 'power3.inOut'
-  })
+      // Небольшой paint-pause чтобы новый слайд отрисовался
+      requestAnimationFrame(() => requestAnimationFrame(() => {
 
-  // Фаза 4: контент появляется с задержкой stagger
-  .add(() => {
-    const items = next.querySelectorAll(
-      '.stitle,.tile,.pkg-card,.vis-card,.supervision-card,.seq-item,.calc-section,.calc-total-box,.contact-grid>*,.sup-detail>*,.input-wrap>*,.vis-grid,.about-grid,.c-left,.c-right'
-    );
-    if(items.length){
-      gsap.fromTo(items,
-        {opacity:0, y:14},
-        {opacity:1, y:0, duration:0.35, stagger:0.05, ease:'power2.out'}
-      );
+        // --- Фаза 3: занавес открывается ---
+        gsap.set(curtain, {
+          transformOrigin: isBack ? 'bottom center' : 'top center'
+        });
+        gsap.to(curtain, {
+          scaleY: 0,
+          duration: 0.38,
+          ease: 'power2.out',
+          onComplete() {
+            curtainBusy = false;
+            gsap.set(curtain, {clearProps: 'all'});
+
+            // --- Фаза 4: контент появляется stagger ---
+            const items = next.querySelectorAll(
+              '.stitle,.tile,.pkg-card,.vis-card,.supervision-card,.seq-item,.calc-section,.calc-total-box,.contact-grid>*,.sup-detail>*,.input-wrap>*,.vis-grid,.about-grid,.c-left,.c-right'
+            );
+            if(items.length){
+              gsap.fromTo(items,
+                {opacity:0, y:12},
+                {opacity:1, y:0, duration:0.32, stagger:0.045, ease:'power2.out'}
+              );
+            }
+          }
+        });
+
+      }));
     }
-  }, '-=0.1');
+  });
 }
 
 function go(id){
