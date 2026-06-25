@@ -250,14 +250,22 @@ body{background:#070707;min-height:100vh;min-height:100dvh;display:flex;justify-
 .is-panel{
   position:relative;overflow:hidden;cursor:pointer;
   flex:1;min-width:60px;
-  background-size:cover;background-position:center;
+  background-size:auto 120%;background-position:center;
   background-color:#111;
   border:2px solid #292929;
-  transition:flex .7s ease,box-shadow .7s ease,border-color .4s ease,background-size .7s ease;
-  opacity:0;transform:translateX(-60px);
+  opacity:0;
+  transform:translateX(-60px);
+  transition:
+    flex .7s ease,
+    box-shadow .7s ease,
+    border-color .4s ease,
+    background-size .7s ease,
+    opacity .5s ease-in-out,
+    transform .5s ease-in-out;
+  will-change:flex,opacity,transform;
 }
-.is-panel.visible{opacity:1;transform:translateX(0);transition:flex .7s ease,box-shadow .7s ease,border-color .4s ease,background-size .7s ease,opacity .5s ease,transform .5s ease}
-.is-panel.active{flex:7;border-color:#fff;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.is-panel.visible{opacity:1;transform:translateX(0)}
+.is-panel.active{flex:7;border-color:#fff;box-shadow:0 20px 60px rgba(0,0,0,.5);background-size:auto 100%}
 .is-shadow{
   position:absolute;left:0;right:0;height:120px;
   pointer-events:none;
@@ -378,6 +386,24 @@ body{background:#070707;min-height:100vh;min-height:100dvh;display:flex;justify-
 </style>
 </head>
 <body ontouchstart="">
+
+<!-- CURTAIN OVERLAY -->
+<div id="curtain" style="
+  position:fixed;inset:0;
+  background:#0a0a0a;
+  z-index:8000;
+  transform:scaleY(0);
+  transform-origin:bottom center;
+  pointer-events:none;
+  will-change:transform;
+"></div>
+<div id="curtain-line" style="
+  position:fixed;left:0;right:0;
+  height:2px;top:50%;
+  background:linear-gradient(90deg,transparent,#d4a017,transparent);
+  z-index:8001;opacity:0;
+  pointer-events:none;
+"></div>
 
 <div class="lang-sw">
   <button class="lbtn on" id="lru" onclick="setLang('ru')">РУС</button>
@@ -650,11 +676,13 @@ function openGallery(id) {
   if (!modal) return;
   modal.innerHTML = buildGallery(id);
   modal.classList.add('active');
-  // анимация появления панелей
+
+  // Точно как в промпте — stagger 180мс, slide from left + fade in
   const panels = modal.querySelectorAll('.is-panel');
   panels.forEach((p, i) => {
-    setTimeout(() => p.classList.add('visible'), 120 * i);
+    setTimeout(() => p.classList.add('visible'), 180 * i);
   });
+
   galAutoReset(id, 0);
 }
 
@@ -909,12 +937,15 @@ const SUP = {
 let lang='ru', hist=[], quiz={name:'',phone:'',sq:0,rooms:'',goal:'',exp:'',firstTime:false};
 let tariff='Рабочий проект', vis='3d', sup='yes';
 
+// ── CURTAIN REVEAL TRANSITION ──
+let curtainBusy = false;
+
 function show(id, direction){
   const cur = document.querySelector('.slide.active');
   const next = document.getElementById(id);
-  if(!next || next === cur) return;
+  if(!next || next === cur || curtainBusy) return;
 
-  // Если GSAP не загрузился — простой переход без анимации
+  // Без GSAP — мгновенный переход
   if(typeof gsap === 'undefined'){
     if(cur) cur.classList.remove('active');
     next.classList.add('active');
@@ -923,41 +954,56 @@ function show(id, direction){
     return;
   }
 
-  const dir = direction === 'back' ? -1 : 1;
-  const dur = 0.42;
+  curtainBusy = true;
+  const curtain  = document.getElementById('curtain');
+  const curtainLine = document.getElementById('curtain-line');
+  const isBack   = direction === 'back';
 
-  if(cur){
-    gsap.to(cur, {
-      opacity:0, y: -28 * dir,
-      duration: dur * 0.65,
-      ease:'power2.in',
-      onComplete:() => {
-        cur.classList.remove('active');
-        gsap.set(cur, {opacity:1, y:0, clearProps:'all'});
+  // Фаза 1: занавес закрывается (снизу вверх или сверху вниз)
+  gsap.set(curtain, {
+    scaleY: 0,
+    transformOrigin: isBack ? 'top center' : 'bottom center'
+  });
+  gsap.set(curtainLine, {opacity:0});
 
-        next.classList.add('active');
-        next.scrollTop = 0;
-        gsap.fromTo(next,
-          {opacity:0, y: 38 * dir},
-          {opacity:1, y:0, duration:dur, ease:'power3.out'}
-        );
+  const tl = gsap.timeline({onComplete: () => { curtainBusy = false; }});
 
-        const items = next.querySelectorAll('.stitle,.tile,.pkg-card,.vis-card,.supervision-card,.seq-item,.calc-section,.calc-total-box,.contact-grid>*,.sup-detail>*,.input-wrap>*,.vis-grid,.about-grid');
-        if(items.length){
-          gsap.fromTo(items,
-            {opacity:0, y:16},
-            {opacity:1, y:0, duration:0.38, stagger:0.055, ease:'power2.out', delay:0.12}
-          );
-        }
-        if(id==='s_calc') renderCalc();
-      }
-    });
-  } else {
+  tl.to(curtain, {
+    scaleY: 1,
+    duration: 0.38,
+    ease: 'power3.inOut'
+  })
+  .to(curtainLine, {opacity:1, duration:0.1}, '-=0.15')
+
+  // Фаза 2: смена слайда пока занавес закрыт
+  .add(() => {
+    if(cur){ cur.classList.remove('active'); }
     next.classList.add('active');
     next.scrollTop = 0;
-    gsap.fromTo(next,{opacity:0,y:40},{opacity:1,y:0,duration:dur,ease:'power3.out'});
     if(id==='s_calc') renderCalc();
-  }
+  })
+
+  // Фаза 3: занавес открывается в другую сторону
+  .set(curtain, { transformOrigin: isBack ? 'bottom center' : 'top center' })
+  .to(curtainLine, {opacity:0, duration:0.08})
+  .to(curtain, {
+    scaleY: 0,
+    duration: 0.42,
+    ease: 'power3.inOut'
+  })
+
+  // Фаза 4: контент появляется с задержкой stagger
+  .add(() => {
+    const items = next.querySelectorAll(
+      '.stitle,.tile,.pkg-card,.vis-card,.supervision-card,.seq-item,.calc-section,.calc-total-box,.contact-grid>*,.sup-detail>*,.input-wrap>*,.vis-grid,.about-grid,.c-left,.c-right'
+    );
+    if(items.length){
+      gsap.fromTo(items,
+        {opacity:0, y:14},
+        {opacity:1, y:0, duration:0.35, stagger:0.05, ease:'power2.out'}
+      );
+    }
+  }, '-=0.1');
 }
 
 function go(id){
