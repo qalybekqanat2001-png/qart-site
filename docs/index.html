@@ -704,6 +704,28 @@ body {
 </head>
 <body ontouchstart="">
 
+<!-- IMAGE LOADER -->
+<div id="img-loader" style="
+  display:none;position:fixed;inset:0;
+  background:#060606;z-index:9500;
+  flex-direction:column;align-items:center;justify-content:center;gap:28px;
+">
+  <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:36px;font-weight:900;letter-spacing:4px;color:#fff">
+    Q_<span style="color:#d4a017">ART</span>
+  </div>
+  <div style="position:relative;width:48px;height:48px;">
+    <svg viewBox="0 0 48 48" style="width:48px;height:48px;animation:spin 1s linear infinite">
+      <circle cx="24" cy="24" r="20" fill="none" stroke="#1e1e1e" stroke-width="3"/>
+      <circle cx="24" cy="24" r="20" fill="none" stroke="#d4a017" stroke-width="3"
+        stroke-dasharray="30 95" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;color:#555;letter-spacing:2px;text-transform:uppercase">
+    Загрузка изображений...
+  </div>
+</div>
+<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+
 <!-- CURTAIN OVERLAY -->
 <div id="curtain" style="
   position:fixed;inset:0;
@@ -981,19 +1003,56 @@ function galAutoReset(id, startIdx) {
   }, 3500);
 }
 
+// ── PRELOAD & LOADER ──
+function preloadImages(urls){
+  return Promise.all(urls.map(src => new Promise(res => {
+    const img = new Image();
+    img.onload = res;
+    img.onerror = res;
+    img.src = src;
+  })));
+}
+
+function showImgLoader(){
+  const el = document.getElementById('img-loader');
+  el.style.display = 'flex';
+  if(typeof gsap !== 'undefined') gsap.fromTo(el,{opacity:0},{opacity:1,duration:0.25});
+}
+
+function hideImgLoader(cb){
+  const el = document.getElementById('img-loader');
+  if(typeof gsap !== 'undefined'){
+    gsap.to(el,{opacity:0,duration:0.3,onComplete:()=>{el.style.display='none';if(cb)cb();}});
+  } else {
+    el.style.display='none';
+    if(cb) cb();
+  }
+}
+
 function openGallery(id) {
   const modal = document.getElementById(id);
-  if (!modal) return;
-  modal.innerHTML = buildGallery(id);
-  modal.classList.add('active');
+  if(!modal) return;
 
-  // Точно как в промпте — stagger 180мс, slide from left + fade in
-  const panels = modal.querySelectorAll('.is-panel');
-  panels.forEach((p, i) => {
-    setTimeout(() => p.classList.add('visible'), 180 * i);
+  // Собираем все URL картинок галереи
+  const urls = GAL_DATA[id].panels.map(p => p.img);
+
+  // Показываем лоадер
+  showImgLoader();
+
+  // Предзагружаем картинки
+  preloadImages(urls).then(() => {
+    hideImgLoader(() => {
+      modal.innerHTML = buildGallery(id);
+      modal.classList.add('active');
+
+      const panels = modal.querySelectorAll('.is-panel');
+      panels.forEach((p, i) => {
+        setTimeout(() => p.classList.add('visible'), 180 * i);
+      });
+
+      galAutoReset(id, 0);
+    });
   });
-
-  galAutoReset(id, 0);
 }
 
 function closeGal(id) {
