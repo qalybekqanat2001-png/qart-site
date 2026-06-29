@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дизайн мебели | Q.Art</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0a;--bg2:#111;--bg3:#161616;
+  --gold:#d4a017;--gold2:#e8b825;
+  --text:#f2f2f2;--muted:#888;--dim:#444;
+  --border:rgba(255,255,255,0.07);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;line-height:1.6}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 64px;
+  background:rgba(10,10,10,.92);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(212,160,23,.1);
+}
+.nav-logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;letter-spacing:3px;color:#fff;text-transform:uppercase}
+.nav-logo em{color:var(--gold);font-style:normal}
+.nav-back{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:color .3s}
+.nav-back:hover{color:var(--gold)}
+
+.page-hero{
+  padding:160px 64px 100px;
+  max-width:1280px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+}
+.ph-label{font-size:10px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.ph-title{font-family:'Playfair Display',serif;font-size:clamp(40px,6vw,72px);font-weight:400;line-height:1.05;color:#fff;margin-bottom:24px}
+.ph-title em{font-style:italic;color:var(--gold)}
+.ph-desc{font-size:16px;font-weight:300;color:var(--muted);line-height:1.75;max-width:500px;margin-bottom:36px}
+.ph-price-badge{display:inline-flex;align-items:baseline;gap:8px;border:1px solid rgba(212,160,23,.3);padding:16px 24px}
+.ph-price-from{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
+.ph-price-val{font-family:'Playfair Display',serif;font-size:32px;color:var(--gold)}
+.ph-price-unit{font-size:12px;color:var(--muted)}
+.ph-img{aspect-ratio:4/5;overflow:hidden}
+.ph-img img{width:100%;height:100%;object-fit:cover}
+
+.included{padding:80px 64px;max-width:1280px;margin:0 auto}
+.section-eyebrow{font-size:10px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:block}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(28px,3.5vw,44px);font-weight:400;color:#fff;margin-bottom:56px}
+
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.step{background:var(--bg2);padding:44px 36px;position:relative;overflow:hidden;transition:background .3s}
+.step::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--gold);transition:width .4s}
+.step:hover{background:var(--bg3)}
+.step:hover::after{width:100%}
+.step-num{font-family:'Playfair Display',serif;font-size:48px;font-weight:700;color:rgba(212,160,23,.15);line-height:1;margin-bottom:20px}
+.step-name{font-size:16px;font-weight:600;color:#fff;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px}
+.step-desc{font-size:13px;font-weight:300;color:var(--muted);line-height:1.7}
+
+/* Advantages */
+.advantages{padding:80px 64px;background:var(--bg2);max-width:100%}
+.adv-inner{max-width:1280px;margin:0 auto}
+.adv-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;margin-top:0}
+.adv{background:var(--bg3);padding:40px 36px;display:flex;align-items:flex-start;gap:20px}
+.adv-icon{font-size:28px;flex-shrink:0;margin-top:2px}
+.adv-title{font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px}
+.adv-desc{font-size:13px;font-weight:300;color:var(--muted);line-height:1.7}
+
+.page-cta{padding:100px 64px;background:var(--bg);border-top:1px solid var(--border);text-align:center}
+.page-cta h2{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,48px);font-weight:400;color:#fff;margin-bottom:16px}
+.page-cta p{font-size:15px;font-weight:300;color:var(--muted);margin-bottom:40px}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn-gold{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:#000;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:16px 36px;transition:all .3s}
+.btn-gold:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 10px 32px rgba(212,160,23,.3)}
+.btn-outline{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.2);color:#fff;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:16px 36px;transition:all .3s}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+
+footer{background:#050505;border-top:1px solid var(--border);padding:28px 64px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;letter-spacing:3px;color:#fff;text-transform:uppercase}
+.footer-logo em{color:var(--gold);font-style:normal}
+.footer-copy{font-size:12px;color:var(--dim)}
+
+@media(max-width:900px){
+  .nav{padding:16px 24px}
+  .page-hero{grid-template-columns:1fr;padding:120px 24px 60px;gap:40px}
+  .ph-img{aspect-ratio:16/9}
+  .included,.advantages,.page-cta{padding:60px 24px}
+  .steps-grid,.adv-grid{grid-template-columns:1fr}
+  footer{padding:24px;justify-content:center;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="new-site.html" class="nav-logo">Q<em>.</em>Art</a>
+  <a href="new-site.html#services" class="nav-back">← Назад к услугам</a>
+</nav>
+
+<div class="page-hero">
+  <div>
+    <p class="ph-label">Услуга № 02</p>
+    <h1 class="ph-title">Дизайн <em>мебели</em></h1>
+    <p class="ph-desc">Выезжаем на объект, проводим консультацию и снимаем замеры. Опыт в мебельной сфере позволяет точно рассчитать стоимость и подобрать оптимальные решения.</p>
+    <div class="ph-price-badge">
+      <span class="ph-price-from">выезд</span>
+      <span class="ph-price-val">по запросу</span>
+    </div>
+  </div>
+  <div class="ph-img">
+    <img src="тв зона.jpg" alt="Консультация по мебели">
+  </div>
+</div>
+
+<div class="included">
+  <span class="section-eyebrow">Что входит</span>
+  <h2 class="section-title">Что вы получите</h2>
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-name">Выезд на объект</div>
+      <p class="step-desc">Осматриваем пространство, снимаем замеры, обсуждаем ваши пожелания и стиль жизни. Фиксируем все нюансы на месте.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-name">Расчёт и эскизы</div>
+      <p class="step-desc">Составляем список мебели с точными размерами и расчётом стоимости. Рисуем эскизы расстановки с учётом эргономики.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-name">Подбор поставщиков</div>
+      <p class="step-desc">Предлагаем проверенных поставщиков под ваш бюджет. Рекомендации по материалам, фурнитуре и текстилю.</p>
+    </div>
+  </div>
+</div>
+
+<div class="advantages">
+  <div class="adv-inner">
+    <span class="section-eyebrow">Почему это важно</span>
+    <h2 class="section-title" style="margin-bottom:32px">Наши преимущества</h2>
+    <div class="adv-grid">
+      <div class="adv">
+        <span class="adv-icon">🪑</span>
+        <div>
+          <div class="adv-title">Опыт в мебельной сфере</div>
+          <p class="adv-desc">Знаем рынок изнутри — подберём качественную мебель по справедливой цене без переплат.</p>
+        </div>
+      </div>
+      <div class="adv">
+        <span class="adv-icon">📐</span>
+        <div>
+          <div class="adv-title">Точный расчёт</div>
+          <p class="adv-desc">Самостоятельно считаем стоимость комплектации — вы заранее знаете итоговый бюджет.</p>
+        </div>
+      </div>
+      <div class="adv">
+        <span class="adv-icon">✦</span>
+        <div>
+          <div class="adv-title">Эргономика и комфорт</div>
+          <p class="adv-desc">Расстановка с учётом реальной жизни: потоки движения, зоны хранения, удобство каждого члена семьи.</p>
+        </div>
+      </div>
+      <div class="adv">
+        <span class="adv-icon">🎯</span>
+        <div>
+          <div class="adv-title">Ожидание = реальность</div>
+          <p class="adv-desc">Эскизы точно отражают итог — не будет сюрпризов, когда мебель окажется «не той».</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page-cta">
+  <h2>Хотите подобрать мебель?</h2>
+  <p>Напишите нам — обсудим задачу и договоримся о выезде</p>
+  <div class="cta-btns">
+    <a href="https://wa.me/77478016162" class="btn-gold" target="_blank">Написать в WhatsApp</a>
+    <a href="new-site.html#quiz" class="btn-outline">Пройти анкету</a>
+  </div>
+</div>
+
+<footer>
+  <a href="new-site.html" class="footer-logo">Q<em>.</em>Art</a>
+  <p class="footer-copy">© 2026 Q.Art · Дизайн интерьера в Астане</p>
+</footer>
+
+</body>
+</html>

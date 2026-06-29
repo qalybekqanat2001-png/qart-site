@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дизайн-проект | Q.Art</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0a;--bg2:#111;--bg3:#18181b;
+  --gold:#d4a017;--gold2:#e8b825;
+  --text:#f2f2f2;--muted:#888;--dim:#444;
+  --border:rgba(255,255,255,0.09);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;line-height:1.6}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+
+/* ── NAV ── */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 64px;
+  background:rgba(10,10,10,.96);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(212,160,23,.1);
+}
+.nav-logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;letter-spacing:3px;color:#fff;text-transform:uppercase}
+.nav-logo em{color:var(--gold);font-style:normal}
+.nav-back{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:color .3s}
+.nav-back:hover{color:var(--gold)}
+
+/* ── HERO ── */
+.page-hero{
+  padding:160px 64px 80px;
+  max-width:1280px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+}
+.ph-label{font-size:10px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.ph-title{font-family:'Playfair Display',serif;font-size:clamp(36px,5vw,68px);font-weight:400;line-height:1.1;color:#fff;margin-bottom:24px;word-break:break-word}
+.ph-title em{font-style:italic;color:var(--gold)}
+.ph-desc{font-size:16px;font-weight:300;color:var(--muted);line-height:1.75;max-width:500px;margin-bottom:36px}
+.ph-cta{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:#000;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:16px 36px;transition:all .3s}
+.ph-cta:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 10px 32px rgba(212,160,23,.3)}
+.ph-img{aspect-ratio:4/5;overflow:hidden;border-radius:4px}
+.ph-img img{width:100%;height:100%;object-fit:cover}
+
+/* ── PRICING ── */
+.pricing-sec{padding:90px 64px 110px}
+.pricing-inner{max-width:1360px;margin:0 auto}
+.pricing-header{text-align:center;margin-bottom:56px}
+.sec-label{font-size:10px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:14px}
+.sec-title{font-family:'Playfair Display',serif;font-size:clamp(32px,4vw,52px);font-weight:400;color:#fff;margin-bottom:12px}
+.sec-sub{font-size:15px;font-weight:300;color:var(--muted)}
+
+/* 4 cards in a row */
+.pricing-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+/* Card — matches React dark-gradient-pricing style */
+.pkg-card{
+  background:linear-gradient(160deg,rgba(30,30,34,.95) 0%,rgba(18,18,20,.98) 100%);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:28px 22px 22px;
+  display:flex;flex-direction:column;
+  /* blur-in animation */
+  filter:blur(3px);
+  opacity:0;
+  transform:translateY(16px);
+  transition:filter .5s ease,opacity .5s ease,transform .5s ease,border-color .3s,box-shadow .3s;
+}
+.pkg-card.visible{filter:blur(0);opacity:1;transform:translateY(0)}
+.pkg-card:hover{border-color:rgba(212,160,23,.28);box-shadow:0 8px 40px rgba(0,0,0,.4)}
+.pkg-card.featured{
+  border-color:rgba(212,160,23,.4);
+  background:linear-gradient(160deg,rgba(35,30,18,.97) 0%,rgba(20,17,10,.98) 100%);
+}
+
+/* Card header — centered like in screenshot */
+.pkg-head{
+  text-align:center;
+  padding-bottom:22px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:22px;
+}
+.pkg-tier{
+  font-size:13px;font-weight:500;letter-spacing:.5px;
+  color:rgba(255,255,255,.7);margin-bottom:16px;display:block;
+}
+.pkg-card.featured .pkg-tier{color:var(--gold)}
+.pkg-price{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(30px,3vw,42px);font-weight:700;
+  color:#fff;line-height:1;margin-bottom:6px;
+}
+.pkg-price small{
+  font-size:13px;font-family:'Montserrat',sans-serif;
+  font-weight:300;color:var(--muted);
+}
+.pkg-sub{font-size:12px;color:var(--muted);font-weight:300}
+
+/* Feature list — vertical, 1 column like screenshot */
+.pkg-features{
+  display:flex;flex-direction:column;gap:11px;flex:1;
+}
+.pf{display:flex;align-items:center;gap:12px}
+
+/* Icons matching React component: */
+/* ✓ — white circle, dark checkmark */
+.pf-yes{
+  width:20px;height:20px;border-radius:50%;flex-shrink:0;
+  background:#fff;color:#111;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;line-height:1;
+}
+/* ✕ — dark zinc circle, gray X */
+.pf-no{
+  width:20px;height:20px;border-radius:50%;flex-shrink:0;
+  background:#27272a;color:#71717a;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:11px;line-height:1;
+}
+.pf-text{font-size:13px;font-weight:300}
+.pf-text.on{color:rgba(255,255,255,.82)}
+.pf-text.off{color:#52525b}
+
+/* Card button — bottom */
+.pkg-btn{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  margin-top:24px;padding:12px;
+  font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  border:1px solid var(--border);color:var(--muted);
+  border-radius:6px;transition:all .3s;cursor:pointer;
+  background:transparent;font-family:'Montserrat',sans-serif;width:100%;
+}
+.pkg-btn:hover{border-color:rgba(255,255,255,.25);color:#fff}
+.pkg-btn.selected-btn{background:var(--gold);color:#000;border-color:var(--gold);font-weight:700}
+
+/* Selected card states */
+.pkg-card.selected{border-color:var(--gold) !important;border-width:2px;background:rgba(212,160,23,.07) !important}
+.nc.selected{border-color:var(--gold) !important;border-width:2px !important;background:rgba(212,160,23,.07) !important}
+
+/* ── BOTTOM CTA BAR ── */
+.bottom-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:200;
+  background:rgba(8,8,8,.97);backdrop-filter:blur(16px);
+  border-top:1px solid rgba(212,160,23,.25);
+  padding:18px 64px;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+  transform:translateY(100%);
+  transition:transform .45s cubic-bezier(.25,.46,.45,.94);
+}
+.bottom-bar.show{transform:translateY(0)}
+.bottom-summary{font-size:13px;color:var(--muted);flex:1;line-height:1.5}
+.bottom-summary strong{color:#fff;font-weight:600}
+.bottom-summary .bs-tag{
+  display:inline-block;background:rgba(212,160,23,.15);
+  border:1px solid rgba(212,160,23,.3);
+  color:var(--gold);font-size:11px;font-weight:600;
+  letter-spacing:1px;padding:3px 10px;border-radius:4px;
+  margin:2px 4px 2px 0;
+}
+.bottom-go{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--gold);color:#000;
+  font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  padding:14px 36px;border:none;cursor:pointer;
+  transition:all .3s;white-space:nowrap;
+  font-family:'Montserrat',sans-serif;
+}
+.bottom-go:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 8px 28px rgba(212,160,23,.35)}
+@media(max-width:768px){
+  .bottom-bar{padding:14px 20px;flex-direction:column;align-items:stretch;gap:12px}
+  .bottom-go{justify-content:center}
+}
+
+/* ── VISUAL ACCORDION ── */
+.viz-sec{padding:90px 64px;background:var(--bg);border-top:1px solid var(--border)}
+.viz-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.viz-eyebrow{font-size:10px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:16px}
+.viz-title{font-family:'Playfair Display',serif;font-size:clamp(36px,4.5vw,60px);font-weight:400;color:#fff;line-height:1.1;margin-bottom:20px}
+.viz-desc{font-size:14px;font-weight:300;color:var(--muted);line-height:1.75;margin-bottom:36px;max-width:440px}
+.viz-tabs{display:flex;flex-direction:column;gap:10px;margin-bottom:36px}
+.viz-tab{
+  display:flex;align-items:center;gap:16px;
+  padding:18px 22px;background:var(--bg2);
+  border:1px solid var(--border);color:var(--muted);
+  text-align:left;cursor:pointer;transition:all .3s;
+  font-family:'Montserrat',sans-serif;
+}
+.viz-tab:hover{border-color:rgba(212,160,23,.3);color:var(--text)}
+.viz-tab.active{border-color:var(--gold);background:rgba(212,160,23,.06)}
+.viz-tab-num{font-family:'Playfair Display',serif;font-size:12px;color:var(--dim);flex-shrink:0;min-width:20px}
+.viz-tab.active .viz-tab-num{color:var(--gold)}
+.viz-tab-info{flex:1}
+.viz-tab-name{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:inherit;display:block;margin-bottom:2px}
+.viz-tab.active .viz-tab-name{color:#fff}
+.viz-tab-price{font-family:'Playfair Display',serif;font-size:14px;color:var(--gold)}
+.viz-tab-arrow{font-size:16px;color:var(--dim);transition:transform .3s,color .3s}
+.viz-tab.active .viz-tab-arrow{color:var(--gold);transform:translateX(4px)}
+
+.viz-cta{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:#000;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:14px 32px;transition:all .3s}
+.viz-cta:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 10px 28px rgba(212,160,23,.3)}
+
+/* Accordion */
+.viz-right{position:relative;height:460px}
+.viz-accordion{position:absolute;inset:0;display:none;flex-direction:row;gap:8px;align-items:stretch}
+.viz-accordion.active{display:flex}
+.vacc-item{
+  flex:0 0 56px;border-radius:16px;overflow:hidden;
+  cursor:pointer;position:relative;
+  transition:flex .65s cubic-bezier(.4,0,.2,1);
+}
+.vacc-item.expanded{flex:1}
+.vacc-item img{width:100%;height:100%;object-fit:cover;transition:transform .65s ease}
+.vacc-item:hover img{transform:scale(1.04)}
+.vacc-item-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.5) 0%,transparent 50%);
+  opacity:0;transition:opacity .4s;
+}
+.vacc-item.expanded .vacc-item-overlay{opacity:1}
+
+/* НАДЗОР */
+.nadz-sec{padding:80px 64px 100px;background:var(--bg2);border-top:1px solid var(--border)}
+.nadz-inner{max-width:1100px;margin:0 auto}
+.nadz-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:16px;align-items:start;padding:28px 0 8px;
+}
+/* Base card */
+.nc{
+  border-radius:16px;border:1px solid var(--border);
+  padding:28px 22px;background:var(--bg3);
+  display:flex;flex-direction:column;position:relative;
+  transform:translateY(60px);opacity:0;
+  transition:transform .9s cubic-bezier(.25,.46,.45,.94),
+             opacity .7s ease, border-color .3s, box-shadow .3s;
+}
+.nc-left.visible {transform:translate(30px,0) scale(.94);opacity:1}
+.nc-right.visible{transform:translate(-30px,0) scale(.94);opacity:1}
+.nc-popular{
+  border:2px solid var(--gold) !important;
+  background:linear-gradient(160deg,rgba(30,24,6,.97) 0%,rgba(18,14,3,.99) 100%);
+  z-index:2;
+}
+.nc-popular.visible{transform:translateY(-20px);opacity:1}
+.nc-left,.nc-right{margin-top:20px}
+
+/* Badge */
+.nc-badge{
+  position:absolute;top:-1px;right:-1px;
+  background:var(--gold);color:#000;
+  font-size:11px;font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;
+  padding:5px 12px;border-radius:0 14px 0 10px;
+  display:flex;align-items:center;gap:5px;
+}
+
+/* Tier */
+.nc-tier{
+  font-size:11px;font-weight:600;letter-spacing:3px;
+  text-transform:uppercase;color:var(--muted);
+  margin-bottom:20px;text-align:center;
+}
+.nc-popular .nc-tier{color:rgba(212,160,23,.7)}
+
+/* Price */
+.nc-price-row{display:flex;align-items:flex-end;justify-content:center;gap:8px;margin-bottom:4px}
+.nc-price{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(32px,4vw,48px);font-weight:700;color:#fff;line-height:1;
+}
+.nc-period{font-size:13px;color:var(--muted);margin-bottom:6px}
+.nc-billing{
+  font-size:11px;color:var(--dim);text-align:center;
+  margin-bottom:24px;letter-spacing:.5px;
+}
+
+/* Features */
+.nc-features{list-style:none;margin-bottom:20px;display:flex;flex-direction:column;gap:10px}
+.nc-features li{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:13px;font-weight:300;color:rgba(255,255,255,.75);
+}
+.nc-features li::before{
+  content:'✓';color:var(--gold);font-weight:700;
+  font-size:12px;flex-shrink:0;margin-top:1px;
+}
+
+/* Divider */
+.nc-divider{border:none;border-top:1px solid var(--border);margin:16px 0}
+
+/* Button */
+.nc-btn{
+  display:flex;align-items:center;justify-content:center;
+  padding:13px;font-size:12px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  border:1px solid rgba(255,255,255,.15);color:#fff;
+  border-radius:8px;transition:all .3s;
+  background:transparent;
+}
+.nc-btn:hover{border-color:var(--gold);color:var(--gold)}
+.nc-btn-gold{
+  background:var(--gold);color:#000;
+  border-color:var(--gold);
+}
+.nc-btn-gold:hover{background:var(--gold2);border-color:var(--gold2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,160,23,.3)}
+
+/* Footer desc */
+.nc-footer{
+  font-size:11px;color:var(--dim);
+  text-align:center;margin-top:14px;line-height:1.5;
+}
+
+@media(max-width:900px){
+  .viz-sec,.nadz-sec{padding:60px 24px}
+  .viz-inner{grid-template-columns:1fr;gap:48px}
+  .viz-right{height:280px}
+  .vacc-item{flex:0 0 36px;border-radius:10px}
+  .nadz-grid{grid-template-columns:1fr;padding:0}
+  .nc-left,.nc-right{margin-top:0}
+  .nc-left.visible{transform:translateY(0) scale(1);opacity:1}
+  .nc-right.visible{transform:translateY(0) scale(1);opacity:1}
+  .nc-popular.visible{transform:translateY(0);opacity:1}
+}
+
+/* ── CTA ── */
+.page-cta{padding:90px 64px;background:var(--bg2);border-top:1px solid var(--border);text-align:center}
+.page-cta h2{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,44px);font-weight:400;color:#fff;margin-bottom:14px}
+.page-cta p{font-size:15px;font-weight:300;color:var(--muted);margin-bottom:36px}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn-gold{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:#000;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:16px 36px;transition:all .3s}
+.btn-gold:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 10px 32px rgba(212,160,23,.3)}
+.btn-ghost{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--border);color:var(--muted);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:16px 36px;border-radius:6px;transition:all .3s}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── FOOTER ── */
+footer{background:#050505;border-top:1px solid var(--border);padding:28px 64px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;letter-spacing:3px;color:#fff;text-transform:uppercase}
+.footer-logo em{color:var(--gold);font-style:normal}
+.footer-copy{font-size:12px;color:var(--dim)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){
+  .pricing-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:800px){
+  .nav{padding:16px 24px}
+  .page-hero{grid-template-columns:1fr;padding:120px 24px 60px;gap:40px}
+  .ph-img{aspect-ratio:16/9}
+  .pricing-sec,.page-cta{padding:60px 24px}
+  .pricing-grid{grid-template-columns:1fr}
+  footer{padding:24px;justify-content:center;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="new-site.html" class="nav-logo">Q<em>.</em>Art</a>
+  <a href="new-site.html#services" class="nav-back">← Назад к услугам</a>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div>
+    <p class="ph-label">Услуга № 01</p>
+    <h1 class="ph-title">Дизайн-<br><em>проект</em></h1>
+    <p class="ph-desc">Полный комплект документации, который даёт строителям чёткие ответы на все вопросы — от планировки до последнего выключателя.</p>
+    <a href="#pricing" class="ph-cta">Выбрать пакет ↓</a>
+  </div>
+  <div class="ph-img">
+    <img src="спальня.jpg" alt="Дизайн-проект Q.Art">
+  </div>
+</div>
+
+<!-- PRICING -->
+<div class="pricing-sec" id="pricing">
+  <div class="pricing-inner">
+
+    <div class="pricing-grid">
+
+      <!-- ПЛАНИРОВОЧНОЕ РЕШЕНИЕ -->
+      <div class="pkg-card" style="transition-delay:.05s">
+        <div class="pkg-head">
+          <span class="pkg-tier">Планировочное решение</span>
+          <div class="pkg-price">1 900 <small>тг/м²</small></div>
+          <p class="pkg-sub">Базовый пакет</p>
+        </div>
+        <div class="pkg-features">
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Замерный план</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Демонтаж/монтаж стен</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Расстановка мебели</span></div>
+          <div class="pf"><span class="pf-no">✕</span><span class="pf-text off">Сантехника</span></div>
+          <div class="pf"><span class="pf-no">✕</span><span class="pf-text off">Потолок</span></div>
+          <div class="pf"><span class="pf-no">✕</span><span class="pf-text off">Развёртки стен</span></div>
+          <div class="pf"><span class="pf-no">✕</span><span class="pf-text off">3D-визуализация</span></div>
+        </div>
+        <button class="pkg-btn" onclick="selectPkgCard(0,this)">Выбрать</button>
+      </div>
+
+      <!-- ЭКСПРЕСС ПРОЕКТ -->
+      <div class="pkg-card" style="transition-delay:.15s">
+        <div class="pkg-head">
+          <span class="pkg-tier">Экспресс проект</span>
+          <div class="pkg-price">2 700 <small>тг/м²</small></div>
+          <p class="pkg-sub">Популярный выбор</p>
+        </div>
+        <div class="pkg-features">
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Замерный план</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Расстановка мебели</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Сантехника</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Потолок</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Освещение</span></div>
+          <div class="pf"><span class="pf-no">✕</span><span class="pf-text off">Развёртки стен</span></div>
+          <div class="pf"><span class="pf-no">✕</span><span class="pf-text off">Ведомость материалов</span></div>
+          <div class="pf"><span class="pf-no">✕</span><span class="pf-text off">3D-визуализация</span></div>
+        </div>
+        <button class="pkg-btn" onclick="selectPkgCard(1,this)">Выбрать</button>
+      </div>
+
+      <!-- РАБОЧИЙ ПРОЕКТ -->
+      <div class="pkg-card" style="transition-delay:.25s">
+        <div class="pkg-head">
+          <span class="pkg-tier">Рабочий проект</span>
+          <div class="pkg-price">3 700 <small>тг/м²</small></div>
+          <p class="pkg-sub">Рекомендуем</p>
+        </div>
+        <div class="pkg-features">
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Замерный план</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Демонтаж/монтаж стен</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Расстановка мебели</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Сантехника</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Потолок</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Освещение</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Ведомость материалов</span></div>
+          <div class="pf"><span class="pf-no">✕</span><span class="pf-text off">Тёплый пол</span></div>
+          <div class="pf"><span class="pf-no">✕</span><span class="pf-text off">Развёртки стен</span></div>
+          <div class="pf"><span class="pf-no">✕</span><span class="pf-text off">3D-визуализация</span></div>
+        </div>
+        <button class="pkg-btn" onclick="selectPkgCard(2,this)">Выбрать</button>
+      </div>
+
+      <!-- ПОЛНЫЙ ПРОЕКТ -->
+      <div class="pkg-card featured" style="transition-delay:.35s">
+        <div class="pkg-head">
+          <span class="pkg-tier">Полный проект</span>
+          <div class="pkg-price">6 900 <small>тг/м²</small></div>
+          <p class="pkg-sub">Максимальный пакет</p>
+        </div>
+        <div class="pkg-features">
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Замерный план</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Демонтаж/монтаж стен</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Расстановка мебели</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Сантехника</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Двери</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Тёплый пол</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Плинтус</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Потолок</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Освещение</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Выключатели</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Розетки</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Развёртки стен</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">Ведомость материалов</span></div>
+          <div class="pf"><span class="pf-yes">✓</span><span class="pf-text on">3D-визуализация</span></div>
+        </div>
+        <button class="pkg-btn" onclick="selectPkgCard(3,this)">Выбрать</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ВИЗУАЛЬНАЯ ПОДАЧА -->
+<div class="viz-sec">
+  <div class="viz-inner">
+
+    <!-- Левая сторона -->
+    <div class="viz-left">
+      <span class="viz-eyebrow">Дополнительно</span>
+      <h2 class="viz-title">Визуальная<br>подача</h2>
+      <p class="viz-desc" id="vizDesc">Фотореалистичные рендеры интерьера — увидите финальный результат до начала ремонта. Никаких сюрпризов, полное совпадение ожидания и реальности.</p>
+
+      <div class="viz-tabs">
+        <button class="viz-tab active" data-tab="3d" onclick="switchViz('3d')">
+          <span class="viz-tab-num">01</span>
+          <div class="viz-tab-info">
+            <span class="viz-tab-name">3D Визуализация</span>
+            <span class="viz-tab-price">2 300 тг/м²</span>
+          </div>
+          <span class="viz-tab-arrow">→</span>
+        </button>
+        <button class="viz-tab" data-tab="mood" onclick="switchViz('mood')">
+          <span class="viz-tab-num">02</span>
+          <div class="viz-tab-info">
+            <span class="viz-tab-name">Moodboard / Коллаж</span>
+            <span class="viz-tab-price">1 500 тг/м²</span>
+          </div>
+          <span class="viz-tab-arrow">→</span>
+        </button>
+      </div>
+
+      <button class="viz-cta" onclick="selectViz()">Выбрать →</button>
+    </div>
+
+    <!-- Правая сторона: аккордеон -->
+    <div class="viz-right">
+
+      <!-- 3D изображения -->
+      <div class="viz-accordion active" id="accord-3d">
+        <div class="vacc-item" onmouseenter="expandVacc(this)">
+          <img src="new спальный 1.jpg" alt="3D Спальня">
+          <div class="vacc-item-overlay"></div>
+        </div>
+        <div class="vacc-item expanded" onmouseenter="expandVacc(this)">
+          <img src="спальня.jpg" alt="3D Гостиная">
+          <div class="vacc-item-overlay"></div>
+        </div>
+        <div class="vacc-item" onmouseenter="expandVacc(this)">
+          <img src="кухня 1.jpg" alt="3D Кухня">
+          <div class="vacc-item-overlay"></div>
+        </div>
+      </div>
+
+      <!-- Moodboard изображения -->
+      <div class="viz-accordion" id="accord-mood">
+        <div class="vacc-item" onmouseenter="expandVacc(this)">
+          <img src="тв зона.jpg" alt="Коллаж гостиная">
+          <div class="vacc-item-overlay"></div>
+        </div>
+        <div class="vacc-item expanded" onmouseenter="expandVacc(this)">
+          <img src="кухня.jpg" alt="Коллаж кухня">
+          <div class="vacc-item-overlay"></div>
+        </div>
+        <div class="vacc-item" onmouseenter="expandVacc(this)">
+          <img src="санузел.jpg" alt="Коллаж санузел">
+          <div class="vacc-item-overlay"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- АВТОРСКИЙ НАДЗОР -->
+<div class="nadz-sec">
+  <div class="nadz-inner">
+    <div style="margin-bottom:16px">
+      <span class="viz-eyebrow">Дополнительно</span>
+      <h2 class="viz-title" style="font-size:clamp(26px,3vw,40px)">Авторский надзор</h2>
+    </div>
+
+    <div class="nadz-grid">
+
+      <!-- РАЗОВЫЙ ВЫЕЗД (левая) -->
+      <div class="nc nc-left">
+        <p class="nc-tier">Разовый выезд</p>
+        <div class="nc-price-row">
+          <span class="nc-price">20 000</span>
+          <span class="nc-period">тг</span>
+        </div>
+        <p class="nc-billing">за один визит на объект</p>
+        <ul class="nc-features">
+          <li>Выезд на объект</li>
+          <li>Проверка хода ремонта</li>
+          <li>Консультация на месте</li>
+          <li>Решение срочного вопроса</li>
+          <li>Фотоотчёт после визита</li>
+        </ul>
+        <hr class="nc-divider">
+        <button class="nc-btn" onclick="selectNadz('single',this)">Выбрать</button>
+        <p class="nc-footer">Для разовых и срочных ситуаций</p>
+      </div>
+
+      <!-- АВТОРСКОЕ СОПРОВОЖДЕНИЕ (центр, popular) -->
+      <div class="nc nc-popular">
+        <div class="nc-badge">⭐ Рекомендуем</div>
+        <p class="nc-tier">Авторское сопровождение</p>
+        <div class="nc-price-row">
+          <span class="nc-price">150 000</span>
+          <span class="nc-period">тг</span>
+        </div>
+        <p class="nc-billing">в месяц · полное сопровождение</p>
+        <ul class="nc-features">
+          <li>Неограниченные выезды</li>
+          <li>Контроль качества работ</li>
+          <li>Согласование с подрядчиками</li>
+          <li>Решение всех вопросов</li>
+          <li>Контроль соответствия проекту</li>
+          <li>Сопровождение до сдачи объекта</li>
+        </ul>
+        <hr class="nc-divider">
+        <button class="nc-btn nc-btn-gold" onclick="selectNadz('monthly',this)">Выбрать</button>
+        <p class="nc-footer">Полный контроль ремонта от старта до финала</p>
+      </div>
+
+      <!-- ПАКЕТ ВИЗИТОВ (правая) -->
+      <div class="nc nc-right">
+        <p class="nc-tier">Пакет визитов</p>
+        <div class="nc-price-row">
+          <span class="nc-price">100 000</span>
+          <span class="nc-period">тг</span>
+        </div>
+        <p class="nc-billing">6 плановых выездов</p>
+        <ul class="nc-features">
+          <li>6 выездов на объект</li>
+          <li>Контроль ключевых этапов</li>
+          <li>Гибкое расписание визитов</li>
+          <li>Согласование на месте</li>
+          <li>Фиксированная стоимость</li>
+        </ul>
+        <hr class="nc-divider">
+        <button class="nc-btn" onclick="selectNadz('visits',this)">Выбрать</button>
+        <p class="nc-footer">Контроль без постоянного сопровождения</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM BAR -->
+<div class="bottom-bar" id="bottomBar">
+  <div class="bottom-summary" id="bottomSummary"></div>
+  <button class="bottom-go" onclick="goToQuiz()">Пройти анкету →</button>
+</div>
+
+<footer>
+  <a href="new-site.html" class="footer-logo">Q<em>.</em>Art</a>
+  <p class="footer-copy">© 2026 Q.Art · Дизайн интерьера в Астане</p>
+</footer>
+
+<script>
+/* Scroll animations */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.1 });
+
+/* Pricing cards */
+document.querySelectorAll('.pkg-card').forEach((c,i) => {
+  c.style.transitionDelay = (i * 0.08) + 's';
+  obs.observe(c);
+});
+
+/* Надзор — все 3 появляются вместе с задержкой */
+const nObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      setTimeout(() => e.target.classList.add('visible'), e.target.dataset.delay || 0);
+      nObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+const nCards = document.querySelectorAll('.nc');
+nCards.forEach((c, i) => {
+  c.dataset.delay = [200, 0, 200][i] || 0;
+  nObs.observe(c);
+});
+
+/* ── SELECTION LOGIC ── */
+const PKG_NAMES  = ['Планировочное решение','Экспресс проект','Рабочий проект','Полный проект'];
+const NADZ_NAMES = { single:'Разовый выезд', visits:'Пакет визитов', monthly:'Авторское сопровождение' };
+const VIZ_NAMES  = { '3d':'3D Визуализация', mood:'Moodboard / Коллаж' };
+
+let selPkg  = null;
+let selNadz = null;
+let selViz  = null;
+
+function selectPkgCard(idx, btn) {
+  const cards = document.querySelectorAll('.pkg-card');
+  const same  = selPkg === idx;
+  cards.forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.pkg-card .pkg-btn').forEach(b => b.classList.remove('selected-btn'));
+  selPkg = same ? null : idx;
+  if (selPkg !== null) {
+    cards[idx].classList.add('selected');
+    btn.classList.add('selected-btn');
+  }
+  updateBar();
+}
+
+function selectNadz(type, btn) {
+  const same = selNadz === type;
+  document.querySelectorAll('.nc').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.nc-btn').forEach(b => { b.textContent = 'Выбрать'; b.classList.remove('selected-btn'); });
+  selNadz = same ? null : type;
+  if (selNadz) {
+    btn.closest('.nc').classList.add('selected');
+    btn.classList.add('selected-btn');
+    btn.textContent = '✓ Выбрано';
+  }
+  updateBar();
+}
+
+function selectViz() {
+  const activeTab = document.querySelector('.viz-tab.active');
+  if (!activeTab) return;
+  const tab = activeTab.dataset.tab;
+  selViz = selViz === tab ? null : tab;
+  updateBar();
+}
+
+function updateBar() {
+  const bar = document.getElementById('bottomBar');
+  const sum = document.getElementById('bottomSummary');
+  const tags = [];
+  if (selPkg  !== null) tags.push(PKG_NAMES[selPkg]);
+  if (selViz)           tags.push(VIZ_NAMES[selViz]);
+  if (selNadz)          tags.push(NADZ_NAMES[selNadz]);
+
+  if (tags.length === 0) {
+    bar.classList.remove('show');
+    return;
+  }
+  bar.classList.add('show');
+  sum.innerHTML = '<strong>Выбрано:</strong> ' + tags.map(t => `<span class="bs-tag">${t}</span>`).join('');
+}
+
+function goToQuiz() {
+  const params = [];
+  if (selPkg  !== null) params.push('pkg='  + selPkg);
+  if (selViz)           params.push('viz='  + selViz);
+  if (selNadz)          params.push('nadz=' + selNadz);
+  const qs = params.length ? '?' + params.join('&') : '';
+  window.location.href = 'new-site.html' + qs + '#quiz';
+}
+
+/* Визуальная подача: переключение табов */
+const vizDescs = {
+  '3d':   'Фотореалистичные рендеры интерьера — увидите финальный результат до начала ремонта. Никаких сюрпризов, полное совпадение ожидания и реальности.',
+  'mood': 'Концептуальный коллаж из материалов, мебели и атмосферы. Быстро согласуем стиль и направление до старта проекта — без лишних слов.'
+};
+
+function switchViz(tab) {
+  document.querySelectorAll('.viz-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.viz-tab[data-tab="${tab}"]`).classList.add('active');
+  document.querySelectorAll('.viz-accordion').forEach(a => a.classList.remove('active'));
+  document.getElementById('accord-' + tab).classList.add('active');
+  document.getElementById('vizDesc').textContent = vizDescs[tab];
+}
+
+/* Аккордеон изображений */
+function expandVacc(item) {
+  item.parentElement.querySelectorAll('.vacc-item').forEach(i => i.classList.remove('expanded'));
+  item.classList.add('expanded');
+}
+</script>
+</body>
+</html>
