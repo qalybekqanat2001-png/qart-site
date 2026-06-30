@@ -399,6 +399,67 @@ img{max-width:100%;display:block}
   display:flex;justify-content:center;margin-top:44px;
 }
 
+/* ── PROCESS ── */
+.process{padding:120px 0;background:var(--bg)}
+.process-timeline{position:relative;max-width:760px;margin:0 auto}
+.process-step{position:relative;display:flex;gap:32px;padding-bottom:50px}
+.process-step:last-child{padding-bottom:0}
+.process-marker{position:relative;flex-shrink:0;width:14px}
+.process-dot{
+  position:relative;width:14px;height:14px;border-radius:50%;
+  background:#1c1c1c;border:2px solid var(--dim);
+  transition:background .5s,border-color .5s,box-shadow .5s,transform .5s;
+  z-index:2;
+}
+.process-step.active .process-dot{
+  background:var(--gold);border-color:var(--gold);
+  box-shadow:0 0 0 6px rgba(212,160,23,.12),0 0 22px rgba(212,160,23,.4);
+  transform:scale(1.15);
+}
+.process-orbit{
+  position:absolute;top:7px;left:7px;width:36px;height:36px;
+  margin:-18px 0 0 -18px;pointer-events:none;opacity:0;
+  transition:opacity .4s;
+}
+.process-step.current .process-orbit{opacity:1;animation:processSpin 7s linear infinite}
+.process-orbit span{
+  position:absolute;width:3px;height:3px;border-radius:50%;
+  background:var(--gold2);margin:-1.5px 0 0 -1.5px;
+  opacity:0;transform:scale(.3);
+  transition:opacity .35s ease,transform .35s ease;
+}
+.process-step.current .process-orbit span{opacity:1;transform:scale(1)}
+.process-orbit span:nth-child(1){left:calc(50% + 16px);  top:calc(50% + 0px);    transition-delay:0s}
+.process-orbit span:nth-child(2){left:calc(50% + 11.3px);top:calc(50% + 11.3px);transition-delay:.03s}
+.process-orbit span:nth-child(3){left:calc(50% + 0px);   top:calc(50% + 16px);  transition-delay:.06s}
+.process-orbit span:nth-child(4){left:calc(50% - 11.3px);top:calc(50% + 11.3px);transition-delay:.09s}
+.process-orbit span:nth-child(5){left:calc(50% - 16px);  top:calc(50% + 0px);   transition-delay:.12s}
+.process-orbit span:nth-child(6){left:calc(50% - 11.3px);top:calc(50% - 11.3px);transition-delay:.15s}
+.process-orbit span:nth-child(7){left:calc(50% + 0px);   top:calc(50% - 16px);  transition-delay:.18s}
+.process-orbit span:nth-child(8){left:calc(50% + 11.3px);top:calc(50% - 11.3px);transition-delay:.21s}
+@keyframes processSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.process-line{
+  position:absolute;top:14px;left:6px;width:2px;height:calc(100% - 14px);
+  background:var(--border);overflow:hidden;
+}
+.process-line::after{
+  content:'';position:absolute;top:0;left:0;width:100%;height:0%;
+  background:linear-gradient(to bottom,var(--gold),var(--gold2));
+  transition:height .7s cubic-bezier(.25,.46,.45,.94);
+}
+.process-step.active .process-line::after{height:100%}
+.process-num{
+  display:block;font-family:'Playfair Display',serif;
+  font-size:13px;letter-spacing:2px;color:var(--dim);
+  margin-bottom:8px;transition:color .5s;
+}
+.process-step.active .process-num{color:var(--gold)}
+.process-title{
+  font-size:17px;font-weight:500;color:var(--muted);
+  line-height:1.55;transition:color .5s;max-width:560px;
+}
+.process-step.active .process-title{color:var(--text)}
+
 /* ── CONTACT ── */
 .contact{
   padding:140px 0;background:var(--bg2);
@@ -607,6 +668,11 @@ footer{
   .svc-item{padding:20px 0}
   .svc-includes li{font-size:13px}
   .btn-more{font-size:10px;padding:12px 22px}
+
+  .process{padding:64px 0}
+  .process-step{gap:20px;padding-bottom:36px}
+  .process-title{font-size:14px;line-height:1.5}
+  .process-num{font-size:11px;margin-bottom:6px}
 
   .contact{padding:80px 0}
   .contact-inner{padding:0 24px}
@@ -1128,6 +1194,138 @@ footer{
   </div>
 </section>
 
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <p class="section-eyebrow">Как мы работаем</p>
+      <h2 class="section-title">Последовательность проектирования</h2>
+    </div>
+    <div class="process-timeline reveal">
+
+      <div class="process-step">
+        <div class="process-marker">
+          <div class="process-dot"></div>
+          <div class="process-orbit"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="process-line"></div>
+        </div>
+        <div class="process-content">
+          <span class="process-num">01</span>
+          <p class="process-title">Знакомство и обсуждение проекта</p>
+        </div>
+      </div>
+
+      <div class="process-step">
+        <div class="process-marker">
+          <div class="process-dot"></div>
+          <div class="process-orbit"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="process-line"></div>
+        </div>
+        <div class="process-content">
+          <span class="process-num">02</span>
+          <p class="process-title">Заполнение брифа (анкеты)</p>
+        </div>
+      </div>
+
+      <div class="process-step">
+        <div class="process-marker">
+          <div class="process-dot"></div>
+          <div class="process-orbit"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="process-line"></div>
+        </div>
+        <div class="process-content">
+          <span class="process-num">03</span>
+          <p class="process-title">Фиксация договорённостей — обсуждение сроков и этапов работы, стоимости услуг, количества бесплатных правок</p>
+        </div>
+      </div>
+
+      <div class="process-step">
+        <div class="process-marker">
+          <div class="process-dot"></div>
+          <div class="process-orbit"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="process-line"></div>
+        </div>
+        <div class="process-content">
+          <span class="process-num">04</span>
+          <p class="process-title">Внесение предоплаты 50%</p>
+        </div>
+      </div>
+
+      <div class="process-step">
+        <div class="process-marker">
+          <div class="process-dot"></div>
+          <div class="process-orbit"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="process-line"></div>
+        </div>
+        <div class="process-content">
+          <span class="process-num">05</span>
+          <p class="process-title">Обсуждение концепции</p>
+        </div>
+      </div>
+
+      <div class="process-step">
+        <div class="process-marker">
+          <div class="process-dot"></div>
+          <div class="process-orbit"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="process-line"></div>
+        </div>
+        <div class="process-content">
+          <span class="process-num">06</span>
+          <p class="process-title">Разработка дизайна</p>
+        </div>
+      </div>
+
+      <div class="process-step">
+        <div class="process-marker">
+          <div class="process-dot"></div>
+          <div class="process-orbit"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="process-line"></div>
+        </div>
+        <div class="process-content">
+          <span class="process-num">07</span>
+          <p class="process-title">Презентация проекта</p>
+        </div>
+      </div>
+
+      <div class="process-step">
+        <div class="process-marker">
+          <div class="process-dot"></div>
+          <div class="process-orbit"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="process-line"></div>
+        </div>
+        <div class="process-content">
+          <span class="process-num">08</span>
+          <p class="process-title">Внесение правок</p>
+        </div>
+      </div>
+
+      <div class="process-step">
+        <div class="process-marker">
+          <div class="process-dot"></div>
+          <div class="process-orbit"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="process-line"></div>
+        </div>
+        <div class="process-content">
+          <span class="process-num">09</span>
+          <p class="process-title">Передача проекта заказчику</p>
+        </div>
+      </div>
+
+      <div class="process-step">
+        <div class="process-marker">
+          <div class="process-dot"></div>
+          <div class="process-orbit"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+        <div class="process-content">
+          <span class="process-num">10</span>
+          <p class="process-title">Передача файлов клиенту</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 
 <!-- QUIZ -->
 <section class="quiz" id="quiz">
@@ -1490,6 +1688,23 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ── PROCESS TIMELINE ── */
+(function(){
+  const steps = document.querySelectorAll('.process-step');
+  if(!steps.length || !window.IntersectionObserver) return;
+  let currentEl = null;
+  const procObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(!e.isIntersecting) return;
+      e.target.classList.add('active');
+      if(currentEl && currentEl !== e.target) currentEl.classList.remove('current');
+      e.target.classList.add('current');
+      currentEl = e.target;
+    });
+  }, {threshold:.4, rootMargin:'0px 0px -15% 0px'});
+  steps.forEach(s => procObs.observe(s));
+})();
 
 /* Counter animation */
 function countUp(el, target) {
