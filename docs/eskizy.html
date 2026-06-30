@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Примеры эскизов | QiAll Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0a;--bg2:#111;--bg3:#161616;
+  --gold:#d4a017;--gold2:#e8b825;
+  --text:#f2f2f2;--muted:#888;--dim:#444;
+  --border:rgba(255,255,255,0.07);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;line-height:1.6}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+
+/* NAV */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 64px;
+  background:rgba(10,10,10,.95);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(212,160,23,.1);
+}
+.nav-logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;letter-spacing:3px;color:#fff;text-transform:uppercase}
+.nav-logo em{color:var(--gold);font-style:normal}
+.nav-back{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:color .3s}
+.nav-back:hover{color:var(--gold)}
+
+/* PAGE HEADER */
+.page-head{
+  padding:140px 64px 64px;
+  max-width:1280px;margin:0 auto;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:flex-end;justify-content:space-between;gap:40px;
+  flex-wrap:wrap;
+}
+.head-left h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(36px,5vw,68px);font-weight:400;color:#fff;
+  margin-bottom:16px;line-height:1.1;
+}
+.head-left p{font-size:15px;font-weight:300;color:var(--muted);max-width:500px;line-height:1.75}
+.head-count{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(48px,6vw,80px);font-weight:700;
+  color:rgba(212,160,23,.15);line-height:1;flex-shrink:0;
+}
+
+/* FILTER TABS */
+.filter-bar{
+  padding:32px 64px;
+  max-width:1280px;margin:0 auto;
+  display:flex;gap:8px;flex-wrap:wrap;
+  border-bottom:1px solid var(--border);
+}
+.filter-btn{
+  background:none;border:1px solid var(--border);
+  font-family:'Montserrat',sans-serif;
+  font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);padding:8px 20px;cursor:pointer;
+  transition:all .3s;
+}
+.filter-btn:hover{border-color:rgba(212,160,23,.4);color:var(--text)}
+.filter-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(212,160,23,.06)}
+
+/* GALLERY GRID */
+.gallery{
+  padding:48px 64px 100px;
+  max-width:1280px;margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:2px;
+}
+
+.gi{
+  position:relative;overflow:hidden;cursor:pointer;
+  background:var(--bg2);
+  /* blur-in */
+  opacity:0;transform:translateY(20px);
+  transition:opacity .6s ease,transform .6s ease;
+}
+.gi.visible{opacity:1;transform:translateY(0)}
+.gi:hover .gi-img{transform:scale(1.03)}
+.gi:hover .gi-overlay{opacity:1}
+
+.gi-img{
+  width:100%;aspect-ratio:4/3;object-fit:cover;
+  transition:transform .7s cubic-bezier(.25,.46,.45,.94);
+  display:block;
+}
+
+/* Portrait images (эскизы формата А4 вертикальные) */
+.gi.portrait .gi-img{aspect-ratio:3/4}
+
+.gi-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.7) 0%,transparent 50%);
+  opacity:0;transition:opacity .4s;
+  display:flex;flex-direction:column;justify-content:flex-end;padding:24px;
+}
+.gi-label{
+  font-size:10px;font-weight:600;letter-spacing:3px;
+  text-transform:uppercase;color:var(--gold);margin-bottom:6px;
+}
+.gi-title{
+  font-family:'Playfair Display',serif;
+  font-size:20px;font-weight:400;color:#fff;
+}
+
+/* Lightbox */
+.lb{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(4,4,4,.97);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .35s ease;
+}
+.lb.open{opacity:1;pointer-events:all}
+
+.lb-wrap{
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+  transform:scale(.95);transition:transform .35s cubic-bezier(.25,.46,.45,.94);
+}
+.lb.open .lb-wrap{transform:scale(1)}
+
+.lb-img{
+  max-width:90vw;max-height:88vh;
+  object-fit:contain;
+  box-shadow:0 32px 80px rgba(0,0,0,.7);
+}
+
+/* Lightbox controls */
+.lb-close{
+  position:fixed;top:20px;right:24px;z-index:201;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+  color:#fff;font-size:22px;
+  width:48px;height:48px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .25s;border-radius:50%;
+}
+.lb-close:hover{background:rgba(212,160,23,.2);border-color:var(--gold);color:var(--gold)}
+
+.lb-nav{
+  position:fixed;top:50%;transform:translateY(-50%);z-index:201;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+  color:#fff;font-size:32px;line-height:1;
+  width:56px;height:56px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .25s;
+}
+.lb-nav:hover{background:rgba(212,160,23,.15);border-color:var(--gold);color:var(--gold)}
+.lb-prev{left:20px}
+.lb-next{right:20px}
+
+.lb-counter{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%);
+  font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,.3);pointer-events:none;
+}
+.lb-caption{
+  position:fixed;bottom:60px;left:50%;transform:translateX(-50%);
+  font-family:'Playfair Display',serif;font-size:18px;color:rgba(255,255,255,.7);
+  pointer-events:none;white-space:nowrap;
+}
+
+/* Swipe hint on mobile */
+.lb-swipe{
+  position:fixed;bottom:28px;right:24px;
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.2);
+}
+
+footer{
+  background:#050505;border-top:1px solid var(--border);
+  padding:28px 64px;display:flex;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;gap:12px;
+}
+.footer-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;letter-spacing:3px;color:#fff;text-transform:uppercase}
+.footer-logo em{color:var(--gold);font-style:normal}
+.footer-copy{font-size:12px;color:var(--dim)}
+
+/* CTA strip */
+.cta-strip{
+  padding:64px;background:var(--bg2);border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;
+}
+.cta-strip h2{font-family:'Playfair Display',serif;font-size:clamp(22px,3vw,36px);font-weight:400;color:#fff}
+.cta-strip p{font-size:14px;font-weight:300;color:var(--muted);margin-top:8px}
+.btn-gold{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:#000;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:16px 36px;transition:all .3s;flex-shrink:0}
+.btn-gold:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 10px 32px rgba(212,160,23,.3)}
+
+/* Responsive */
+@media(max-width:900px){
+  .nav{padding:16px 24px}
+  .page-head{padding:120px 24px 48px}
+  .filter-bar{padding:24px}
+  .gallery{padding:32px 24px 80px;grid-template-columns:1fr;gap:8px}
+  .cta-strip{padding:48px 24px;flex-direction:column;align-items:flex-start}
+  footer{padding:24px;justify-content:center;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="new-site.html" class="nav-logo">QiAll <em>Design</em></a>
+  <a href="furniture-consultation.html" class="nav-back">← Дизайн мебели</a>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-head">
+  <div class="head-left">
+    <h1>Примеры<br>эскизов</h1>
+    <p>Премиальные эскизы мебели с точными размерами, материалами, фурнитурой и схемами. Это то, что вы получаете — без сюрпризов.</p>
+  </div>
+  <div class="head-count">06</div>
+</div>
+
+<!-- FILTER -->
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterGallery('all', this)">Все</button>
+  <button class="filter-btn" onclick="filterGallery('kuhnya', this)">Кухня</button>
+  <button class="filter-btn" onclick="filterGallery('detskaya', this)">Детская / Рабочая зона</button>
+</div>
+
+<!-- GALLERY -->
+<div class="gallery" id="gallery">
+
+  <div class="gi portrait" data-cat="kuhnya" onclick="openLb(0)">
+    <img class="gi-img" src="eskiz1.jpg" alt="Кухня — эскиз 1" loading="eager">
+    <div class="gi-overlay">
+      <p class="gi-label">Кухня</p>
+      <p class="gi-title">Эскиз · закрытые фасады</p>
+    </div>
+  </div>
+
+  <div class="gi portrait" data-cat="kuhnya" onclick="openLb(1)">
+    <img class="gi-img" src="eskiz2.jpg" alt="Кухня — эскиз 2" loading="eager">
+    <div class="gi-overlay">
+      <p class="gi-label">Кухня</p>
+      <p class="gi-title">Эскиз · открытые фасады</p>
+    </div>
+  </div>
+
+  <div class="gi portrait" data-cat="kuhnya" onclick="openLb(2)">
+    <img class="gi-img" src="eskiz3.jpg" alt="Кухня — эскиз 3" loading="lazy">
+    <div class="gi-overlay">
+      <p class="gi-label">Кухня</p>
+      <p class="gi-title">Угловая · закрытые фасады</p>
+    </div>
+  </div>
+
+  <div class="gi portrait" data-cat="kuhnya" onclick="openLb(3)">
+    <img class="gi-img" src="eskiz4.jpg" alt="Кухня — эскиз 4" loading="lazy">
+    <div class="gi-overlay">
+      <p class="gi-label">Кухня</p>
+      <p class="gi-title">Угловая · с холодильником</p>
+    </div>
+  </div>
+
+  <div class="gi portrait" data-cat="detskaya" onclick="openLb(4)">
+    <img class="gi-img" src="eskiz5.jpg" alt="Детская, Рабочая зона — эскиз 5" loading="lazy">
+    <div class="gi-overlay">
+      <p class="gi-label">Детская / Рабочая зона</p>
+      <p class="gi-title">Эскиз · закрытые полки</p>
+    </div>
+  </div>
+
+  <div class="gi portrait" data-cat="detskaya" onclick="openLb(5)">
+    <img class="gi-img" src="eskiz6.jpg" alt="Детская, Рабочая зона — эскиз 6" loading="lazy">
+    <div class="gi-overlay">
+      <p class="gi-label">Детская / Рабочая зона</p>
+      <p class="gi-title">Эскиз · открытые полки</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- CTA STRIP -->
+<div class="cta-strip">
+  <div>
+    <h2>Хотите такой эскиз для своей мебели?</h2>
+    <p>Запишитесь на выезд — замерим и разработаем эскиз под ваш проект</p>
+  </div>
+  <a href="https://wa.me/77478016162" class="btn-gold" target="_blank">Записаться в WhatsApp</a>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lb" id="lb" onclick="handleLbClick(event)">
+  <button class="lb-close" onclick="closeLb()">✕</button>
+  <button class="lb-nav lb-prev" onclick="lbPrev(event)">‹</button>
+  <div class="lb-wrap">
+    <img class="lb-img" id="lbImg" src="" alt="">
+  </div>
+  <button class="lb-nav lb-next" onclick="lbNext(event)">›</button>
+  <div class="lb-caption" id="lbCaption"></div>
+  <div class="lb-counter" id="lbCounter"></div>
+  <div class="lb-swipe">← свайп →</div>
+</div>
+
+<footer>
+  <a href="new-site.html" class="footer-logo">QiAll <em>Design</em></a>
+  <p class="footer-copy">© 2026 QiAll Design · Дизайн мебели в Астане</p>
+</footer>
+
+<script>
+/* ── GALLERY FILTER ── */
+function filterGallery(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const items = document.querySelectorAll('.gi');
+  items.forEach(item => {
+    const show = cat === 'all' || item.dataset.cat === cat;
+    item.style.display = show ? '' : 'none';
+  });
+  buildVisible();
+}
+
+/* ── VISIBLE ITEMS ARRAY (for lightbox nav) ── */
+let visible = [];
+let lbIdx   = 0;
+
+function buildVisible() {
+  visible = Array.from(document.querySelectorAll('.gi'))
+    .filter(el => el.style.display !== 'none');
+}
+buildVisible();
+
+/* ── LIGHTBOX ── */
+function openLb(globalIdx) {
+  const allItems = Array.from(document.querySelectorAll('.gi'));
+  const item = allItems[globalIdx];
+  const visIdx = visible.indexOf(item);
+  if (visIdx === -1) return;
+  lbIdx = visIdx;
+  showLbItem();
+  document.getElementById('lb').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function showLbItem() {
+  const item = visible[lbIdx];
+  if (!item) return;
+  const img  = item.querySelector('.gi-img');
+  const cap  = item.querySelector('.gi-title');
+  document.getElementById('lbImg').src = img ? img.src : '';
+  document.getElementById('lbCaption').textContent = cap ? cap.textContent : '';
+  document.getElementById('lbCounter').textContent = (lbIdx + 1) + ' / ' + visible.length;
+}
+
+function closeLb() {
+  document.getElementById('lb').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function lbPrev(e) {
+  if (e) e.stopPropagation();
+  lbIdx = (lbIdx - 1 + visible.length) % visible.length;
+  showLbItem();
+}
+
+function lbNext(e) {
+  if (e) e.stopPropagation();
+  lbIdx = (lbIdx + 1) % visible.length;
+  showLbItem();
+}
+
+function handleLbClick(e) {
+  if (e.target === document.getElementById('lb')) closeLb();
+}
+
+/* Keyboard */
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lb').classList.contains('open')) return;
+  if (e.key === 'ArrowLeft')  lbPrev();
+  if (e.key === 'ArrowRight') lbNext();
+  if (e.key === 'Escape')     closeLb();
+});
+
+/* Touch swipe */
+let touchX = 0;
+document.getElementById('lb').addEventListener('touchstart', e => {
+  touchX = e.touches[0].clientX;
+}, { passive: true });
+document.getElementById('lb').addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchX;
+  if (Math.abs(dx) > 50) dx < 0 ? lbNext() : lbPrev();
+});
+
+/* ── SCROLL REVEAL ── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.gi').forEach((el, i) => {
+  el.style.transitionDelay = (i % 2 * 0.1) + 's';
+  obs.observe(el);
+});
+</script>
+</body>
+</html>

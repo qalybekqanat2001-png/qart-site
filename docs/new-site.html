@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Q.Art | Дизайн интерьера Астана</title>
+<title>QiAll Design | Дизайн интерьера Астана</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
@@ -405,7 +405,7 @@ img{max-width:100%;display:block}
   position:relative;overflow:hidden;
 }
 .contact::before{
-  content:'Q.Art';
+  content:'QiAll';
   position:absolute;
   font-family:'Playfair Display',serif;
   font-size:clamp(180px,22vw,320px);
@@ -945,7 +945,7 @@ footer{
 
 <!-- NAV -->
 <nav class="nav" id="nav">
-  <a href="#home" class="nav-logo">Q<em>.</em>Art</a>
+  <a href="#home" class="nav-logo">QiAll <em>Design</em></a>
   <div class="nav-links">
     <a href="#portfolio">Портфолио</a>
     <a href="#services">Услуги</a>
@@ -1439,8 +1439,8 @@ footer{
 
 <!-- FOOTER -->
 <footer>
-  <a href="#home" class="footer-logo">Q<em>.</em>Art</a>
-  <p class="footer-copy">© 2026 Q.Art · Дизайн интерьера в Астане</p>
+  <a href="#home" class="footer-logo">QiAll <em>Design</em></a>
+  <p class="footer-copy">© 2026 QiAll Design · Дизайн интерьера в Астане</p>
   <div class="footer-links">
     <a href="#portfolio">Портфолио</a>
     <a href="#services">Услуги</a>
@@ -1830,7 +1830,7 @@ function buildLeadMessage() {
     ? `\n📁 <b>Файлы:</b> ${files.length} шт. (отправлены отдельно)`
     : '';
 
-  return `🏠 <b>НОВАЯ ЗАЯВКА — Q.Art</b>\n\n👤 <b>Имя:</b> ${name}\n📱 <b>Телефон:</b> ${phone}\n\n${qs}${commentLine}${pkg}${visual}${extraLine}${tot}${filesLine}`;
+  return `🏠 <b>НОВАЯ ЗАЯВКА — QiAll Design</b>\n\n👤 <b>Имя:</b> ${name}\n📱 <b>Телефон:</b> ${phone}\n\n${qs}${commentLine}${pkg}${visual}${extraLine}${tot}${filesLine}`;
 }
 
 async function sendFilesToTelegram(files) {
@@ -1858,7 +1858,7 @@ document.getElementById('quizWaBtn').addEventListener('click', function(e) {
   const lines  = labels.map((l,i) => `• ${l}: ${answers['q'+(i+1)] || '—'}`).join('\n');
   const pkg    = answers['pkg']   ? `\n\n📦 Выбранный пакет: ${answers['pkg']}` : '';
   const tot    = answers['total'] ? `\n💰 Стоимость: ${answers['total']}` : '';
-  const msg    = `Привет! Я заполнил(а) анкету на сайте Q.Art.\n\nИмя: ${name}${phone ? '\nТелефон: '+phone : ''}\n\n${lines}${pkg}${tot}\n\nЖду вашего ответа!`;
+  const msg    = `Привет! Я заполнил(а) анкету на сайте QiAll Design.\n\nИмя: ${name}${phone ? '\nТелефон: '+phone : ''}\n\n${lines}${pkg}${tot}\n\nЖду вашего ответа!`;
   this.href = 'https://wa.me/77478016162?text=' + encodeURIComponent(msg);
   window.open(this.href, '_blank');
 });
