@@ -402,24 +402,52 @@ img{max-width:100%;display:block}
 /* ── PROCESS ── */
 .process{padding:140px 0;background:var(--bg)}
 .process-head{max-width:680px}
-.process-head .section-title{margin-bottom:48px}
-.process-list{list-style:none;max-width:720px}
-.process-list li{
-  position:relative;padding:20px 0 20px 30px;
-  border-bottom:1px solid var(--border);
+.process-head .section-title{margin-bottom:36px}
+.process-desc-wrap{position:relative;min-height:64px}
+.process-desc{
+  position:absolute;top:0;left:0;width:100%;
+  font-size:18px;font-weight:300;color:var(--muted);
+  line-height:1.6;display:flex;gap:10px;
+  opacity:0;transform:translateY(10px);
+  transition:opacity .4s ease,transform .4s ease;
+  pointer-events:none;
 }
-.process-list li:first-child{border-top:1px solid var(--border)}
-.process-list li::before{
-  content:'';position:absolute;left:2px;top:30px;
-  width:6px;height:6px;border-radius:50%;background:var(--gold);
+.process-desc.active{opacity:1;transform:translateY(0);pointer-events:auto}
+.process-desc-num{
+  font-family:'Playfair Display',serif;color:var(--gold);flex-shrink:0;
 }
-.process-li-title{
-  display:block;font-size:16px;font-weight:600;letter-spacing:1px;
-  text-transform:uppercase;color:var(--text);
+.process-dots-wrap{
+  position:relative;max-width:760px;margin:96px auto 0;
+  padding:46px 0;
 }
-.process-li-desc{
-  margin-top:10px;font-size:14px;font-weight:300;
-  color:var(--muted);line-height:1.65;max-width:560px;
+.process-dot-cur,.process-dot-total{
+  position:absolute;left:0;transform:translateX(-50%);
+  font-family:'Playfair Display',serif;font-size:14px;
+  transition:left .45s cubic-bezier(.25,.46,.45,.94);
+  pointer-events:none;white-space:nowrap;
+}
+.process-dot-cur{top:0;color:var(--text);font-weight:600}
+.process-dot-total{bottom:0;color:var(--dim);font-weight:400}
+.process-dots-track{
+  position:relative;display:flex;justify-content:space-between;align-items:center;
+}
+.process-dots-track::before{
+  content:'';position:absolute;top:50%;left:0;right:0;height:1px;
+  background:var(--border);transform:translateY(-50%);z-index:0;
+}
+.process-dotbtn{
+  position:relative;z-index:1;width:8px;height:8px;border-radius:50%;
+  background:var(--dim);border:none;cursor:pointer;padding:0;flex-shrink:0;
+  transition:all .4s cubic-bezier(.25,.46,.45,.94);
+}
+.process-dotbtn:hover{background:var(--muted)}
+.process-dotbtn.active{
+  width:20px;height:20px;background:var(--bg3);
+  border:2px solid var(--gold);
+  box-shadow:0 0 0 5px rgba(212,160,23,.12),0 0 20px rgba(212,160,23,.35);
+}
+.process-dotbtn.active::after{
+  content:'';position:absolute;inset:4px;border-radius:50%;background:var(--gold);pointer-events:none;
 }
 
 /* ── CONTACT ── */
@@ -632,10 +660,13 @@ footer{
   .btn-more{font-size:10px;padding:12px 22px}
 
   .process{padding:64px 0}
-  .process-head .section-title{margin-bottom:32px}
-  .process-list li{padding:16px 0 16px 24px}
-  .process-li-title{font-size:14px}
-  .process-li-desc{font-size:13px}
+  .process-desc{font-size:15px}
+  .process-desc-wrap{min-height:84px}
+  .process-dots-wrap{margin-top:48px;padding:36px 0}
+  .process-dotbtn{width:6px;height:6px}
+  .process-dotbtn.active{width:16px;height:16px}
+  .process-dotbtn.active::after{inset:3px}
+  .process-dot-cur,.process-dot-total{font-size:12px}
 
   .contact{padding:80px 0}
   .contact-inner{padding:0 24px}
@@ -1163,23 +1194,14 @@ footer{
 
     <div class="process-head reveal">
       <h2 class="section-title">Этапы работы над дизайн-проектом</h2>
+      <div class="process-desc-wrap" id="processDescWrap"></div>
     </div>
 
-    <ul class="process-list reveal">
-      <li><span class="process-li-title">Знакомство и обсуждение проекта</span></li>
-      <li><span class="process-li-title">Заполнение брифа (анкеты)</span></li>
-      <li>
-        <span class="process-li-title">Фиксация договорённостей</span>
-        <p class="process-li-desc">Обсуждение сроков и этапов работы, стоимости услуг, количества бесплатных правок</p>
-      </li>
-      <li><span class="process-li-title">Внесение предоплаты 50%</span></li>
-      <li><span class="process-li-title">Обсуждение концепции</span></li>
-      <li><span class="process-li-title">Разработка дизайна</span></li>
-      <li><span class="process-li-title">Презентация проекта</span></li>
-      <li><span class="process-li-title">Внесение правок</span></li>
-      <li><span class="process-li-title">Доплата</span></li>
-      <li><span class="process-li-title">Передача файлов клиенту</span></li>
-    </ul>
+    <div class="process-dots-wrap reveal">
+      <span class="process-dot-cur" id="processDotCur">01</span>
+      <span class="process-dot-total" id="processDotTotal">10</span>
+      <div class="process-dots-track" id="processDotsTrack"></div>
+    </div>
 
   </div>
 </section>
@@ -1546,6 +1568,66 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ── PROCESS STEP SELECTOR ── */
+(function(){
+  const descWrap  = document.getElementById('processDescWrap');
+  const track     = document.getElementById('processDotsTrack');
+  const curLabel  = document.getElementById('processDotCur');
+  const totalLabel= document.getElementById('processDotTotal');
+  if(!descWrap || !track) return;
+
+  const STEPS = [
+    'Знакомство и обсуждение проекта',
+    'Заполнение брифа (анкеты)',
+    'Фиксация договорённостей — сроки и этапы работы, стоимость услуг, количество бесплатных правок',
+    'Внесение предоплаты 50%',
+    'Обсуждение концепции',
+    'Разработка дизайна',
+    'Презентация проекта',
+    'Внесение правок',
+    'Доплата',
+    'Передача файлов клиенту'
+  ];
+
+  totalLabel.textContent = String(STEPS.length).padStart(2,'0');
+
+  STEPS.forEach((text, i) => {
+    const p = document.createElement('p');
+    p.className = 'process-desc' + (i===0 ? ' active' : '');
+    p.dataset.i = i;
+    p.innerHTML = `<span class="process-desc-num">${i+1}.</span><span>${text}</span>`;
+    descWrap.appendChild(p);
+
+    const btn = document.createElement('button');
+    btn.className = 'process-dotbtn' + (i===0 ? ' active' : '');
+    btn.type = 'button';
+    btn.setAttribute('aria-label', 'Шаг ' + (i+1));
+    btn.addEventListener('click', () => goTo(i));
+    track.appendChild(btn);
+  });
+
+  const descs = descWrap.querySelectorAll('.process-desc');
+  const btns  = track.querySelectorAll('.process-dotbtn');
+
+  function positionLabels(){
+    const activeBtn = track.querySelector('.process-dotbtn.active');
+    if(!activeBtn) return;
+    const left = activeBtn.offsetLeft + activeBtn.offsetWidth/2;
+    curLabel.style.left = left + 'px';
+    totalLabel.style.left = left + 'px';
+  }
+
+  function goTo(i){
+    descs.forEach(d => d.classList.toggle('active', +d.dataset.i === i));
+    btns.forEach((b,bi) => b.classList.toggle('active', bi === i));
+    curLabel.textContent = String(i+1).padStart(2,'0');
+    positionLabels();
+  }
+
+  positionLabels();
+  window.addEventListener('resize', positionLabels, {passive:true});
+})();
 
 /* Counter animation */
 function countUp(el, target) {
