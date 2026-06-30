@@ -1,4 +1,4 @@
-# Q.Art
+# QiAll Design
 
 ## Важно
 В первую очередь всегда запускай скиллы:
@@ -6,8 +6,9 @@
 2. `ui-ux-pro-max-skill`
 
 ## Контакты
+- **Город:** Астана
 - **WhatsApp:** 77478016162
-- **Instagram:** https://www.instagram.com/q_art.kz
+- **Instagram:** https://www.instagram.com/qiall_design?igsh=bTh5bnA0enk2cW0w
 
 ## Цены (тг/м²)
 | Пакет | Цена |
@@ -20,3 +21,4 @@
 | Moodboard / Коллаж (доп.) | 1 500 тг/м² |
 | Авторское сопровождение | 150 000 тг/мес |
 | Пакет визитов (6 выездов) | 100 000 тг |
+| Разовый выезд | 20 000 тг |
