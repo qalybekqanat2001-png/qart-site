@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Q.Art | Дизайн интерьера Алматы</title>
+<title>Q.Art | Дизайн интерьера Астана</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
@@ -64,7 +64,7 @@ img{max-width:100%;display:block}
 
 /* ── MOBILE NAV ── */
 .mobile-nav{
-  display:none;position:fixed;inset:0;z-index:99;
+  display:none;position:fixed;inset:0;z-index:105;
   background:var(--bg);flex-direction:column;
   align-items:center;justify-content:center;gap:36px;
 }
@@ -75,9 +75,14 @@ img{max-width:100%;display:block}
 }
 .mobile-nav a:hover{color:var(--gold)}
 .mobile-close{
-  position:absolute;top:24px;right:24px;
+  position:absolute;top:16px;right:16px;
   background:none;border:none;cursor:pointer;
-  color:#fff;font-size:30px;line-height:1;
+  color:#fff;font-size:28px;line-height:1;
+  z-index:110;
+  width:52px;height:52px;
+  display:flex;align-items:center;justify-content:center;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
 }
 
 /* ── HERO ── */
@@ -153,29 +158,41 @@ img{max-width:100%;display:block}
   animation:scrollAnim 1.8s 1.5s infinite;
 }
 
-/* ── STATS ── */
-.stats{
+/* ── ABOUT STRIP ── */
+.about-strip{
   background:var(--bg2);
   border-top:1px solid var(--border);
   border-bottom:1px solid var(--border);
-  display:grid;grid-template-columns:repeat(4,1fr);
+  padding:72px 64px;
 }
-.stat{
-  padding:52px 40px;text-align:center;
-  border-right:1px solid var(--border);
-  transition:background .3s;
+.about-strip-inner{
+  max-width:1280px;margin:0 auto;
+  display:flex;align-items:flex-start;gap:0;
 }
-.stat:last-child{border-right:none}
-.stat:hover{background:var(--bg3)}
-.stat-num{
-  display:block;
+.about-divider{
+  width:1px;background:var(--border);
+  align-self:stretch;flex-shrink:0;
+  margin:0 56px;
+}
+.about-item{flex:1}
+.about-icon{
+  font-size:28px;margin-bottom:20px;
+  display:block;color:var(--gold);
+}
+.about-title{
   font-family:'Playfair Display',serif;
-  font-size:clamp(34px,4vw,52px);font-weight:700;
-  color:var(--gold);line-height:1;margin-bottom:10px;
+  font-size:20px;font-weight:400;color:#fff;
+  margin-bottom:12px;line-height:1.25;
 }
-.stat-label{
-  display:block;font-size:10px;font-weight:500;
-  letter-spacing:2px;text-transform:uppercase;color:var(--muted);
+.about-desc{
+  font-size:14px;font-weight:300;color:var(--muted);
+  line-height:1.75;
+}
+.about-city{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:20px;font-size:11px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold);
 }
 
 /* ── SECTION COMMON ── */
@@ -199,66 +216,158 @@ img{max-width:100%;display:block}
   color:#fff;line-height:1.12;
 }
 
-/* ── PORTFOLIO ── */
-.portfolio{padding:120px 0;background:var(--bg)}
-.portfolio-grid{
-  display:grid;
-  grid-template-columns:repeat(12,1fr);
-  gap:10px;
+/* ── PORTFOLIO: 3D CAROUSEL ── */
+.portfolio{padding:120px 0;background:var(--bg);overflow:hidden}
+.pf-carousel{
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+  height:560px;
 }
-.pi{position:relative;overflow:hidden;cursor:pointer}
-.pi:nth-child(1){grid-column:1/8;grid-row:1/3}
-.pi:nth-child(2){grid-column:8/13;grid-row:1}
-.pi:nth-child(3){grid-column:8/13;grid-row:2}
-.pi:nth-child(4){grid-column:1/5;grid-row:3}
-.pi:nth-child(5){grid-column:5/9;grid-row:3}
-.pi:nth-child(6){grid-column:9/13;grid-row:3}
-.pi:nth-child(7){grid-column:1/7;grid-row:4}
-.pi:nth-child(8){grid-column:7/13;grid-row:4}
-.pi img{
-  width:100%;height:100%;min-height:260px;
-  object-fit:cover;
-  transition:transform .7s cubic-bezier(.25,.46,.45,.94);
+.pf-stage{
+  position:relative;width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  perspective:1400px;
 }
-.pi:nth-child(1) img{min-height:540px}
-.pi:nth-child(7) img,.pi:nth-child(8) img{min-height:300px}
-.pi:hover img{transform:scale(1.07)}
-.pi-overlay{
+.pf-card{
+  position:absolute;
+  width:280px;height:440px;
+  border-radius:20px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.1);
+  box-shadow:0 30px 70px rgba(0,0,0,.55);
+  cursor:pointer;
+  transition:transform .6s cubic-bezier(.25,.46,.45,.94),
+             opacity .6s ease,filter .6s ease;
+  will-change:transform,opacity,filter;
+}
+.pf-card img{width:100%;height:100%;object-fit:cover;display:block}
+.pf-card .pi-overlay{
   position:absolute;inset:0;
-  background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 55%);
+  background:linear-gradient(to top,rgba(0,0,0,.8) 0%,transparent 55%);
   opacity:0;transition:opacity .4s;
-  display:flex;flex-direction:column;
-  justify-content:flex-end;padding:28px;
+  display:flex;flex-direction:column;justify-content:flex-end;padding:26px;
 }
-.pi:hover .pi-overlay{opacity:1}
-.pi-label{
+.pf-card.center .pi-overlay{opacity:1}
+.pf-card .pi-label{
   font-size:10px;font-weight:600;letter-spacing:2.5px;
   text-transform:uppercase;color:var(--gold);margin-bottom:5px;
 }
-.pi-name{
+.pf-card .pi-name{
   font-family:'Playfair Display',serif;
   font-size:19px;font-weight:400;color:#fff;
 }
 
-/* ── SERVICES ── */
+/* Nav buttons */
+.pf-nav{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:48px;height:48px;border-radius:50%;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.15);
+  backdrop-filter:blur(8px);
+  color:#fff;font-size:24px;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;z-index:30;transition:all .3s;
+}
+.pf-nav:hover{background:rgba(212,160,23,.18);border-color:var(--gold);color:var(--gold)}
+.pf-prev{left:8px}
+.pf-next{right:8px}
+
+/* ── SERVICES SLIDER ── */
 .services{padding:120px 0;background:var(--bg2)}
-.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
-.svc{
-  background:var(--bg3);padding:52px 44px;
-  position:relative;overflow:hidden;transition:background .3s,transform .3s;
+.svc-slider{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:80px;align-items:start;
 }
-.svc::after{
-  content:'';position:absolute;bottom:0;left:0;
-  width:0;height:2px;background:var(--gold);transition:width .4s;
+.svc-item{
+  padding:28px 0;border-bottom:1px solid var(--border);
+  cursor:pointer;user-select:none;
 }
-.svc:hover{background:#1a1a1a;transform:translateY(-4px)}
-.svc:hover::after{width:100%}
-.svc-icon{font-size:36px;margin-bottom:24px;display:block}
-.svc-name{
+.svc-item:first-child{border-top:1px solid var(--border)}
+.svc-item-header{display:flex;align-items:center;gap:20px;cursor:pointer}
+.svc-price{
   font-family:'Playfair Display',serif;
-  font-size:22px;font-weight:400;color:#fff;margin-bottom:14px;
+  font-size:15px;color:var(--gold);
+  white-space:nowrap;flex-shrink:0;
+  margin-left:auto;
+  opacity:0;transition:opacity .4s;
 }
-.svc-desc{font-size:14px;font-weight:300;color:var(--muted);line-height:1.75}
+.svc-item.active .svc-price{opacity:1}
+.svc-toggle-icon{
+  flex-shrink:0;
+  font-size:22px;font-weight:300;color:var(--dim);
+  line-height:1;transition:color .3s,transform .3s;
+}
+.svc-item.active .svc-toggle-icon{color:var(--gold);transform:rotate(45deg)}
+.svc-num{
+  font-family:'Playfair Display',serif;
+  font-size:13px;letter-spacing:2px;color:var(--dim);
+  flex-shrink:0;transition:color .4s;min-width:24px;
+}
+.svc-item.active .svc-num{color:var(--gold)}
+.svc-title{
+  font-size:clamp(18px,2vw,26px);font-weight:700;
+  letter-spacing:.5px;text-transform:uppercase;
+  color:rgba(255,255,255,.2);
+  transition:color .4s;line-height:1.2;
+}
+.svc-item.active .svc-title{color:#fff}
+
+/* Letter animation */
+.svc-title .lo{
+  display:inline-block;
+  opacity:.2;
+  transition:transform .35s ease,opacity .35s ease;
+}
+.svc-title .li{
+  position:absolute;top:0;left:0;
+  display:inline-block;opacity:1;
+  transform:translateY(110%);
+  transition:transform .35s ease;
+}
+.svc-title .lw{
+  position:relative;display:inline-block;
+  overflow:hidden;vertical-align:top;
+}
+.svc-item.active .svc-title .lo{transform:translateY(-110%);opacity:0}
+.svc-item.active .svc-title .li{transform:translateY(0)}
+
+.svc-body{
+  overflow:hidden;max-height:0;
+  transition:max-height .5s ease,margin-top .4s ease,opacity .4s ease;
+  margin-top:0;opacity:0;
+}
+.svc-item.active .svc-body{max-height:500px;margin-top:24px;opacity:1}
+.svc-includes-label{
+  font-size:10px;font-weight:600;letter-spacing:3px;
+  text-transform:uppercase;color:var(--gold);margin-bottom:16px;
+}
+.svc-includes{list-style:none;margin-bottom:28px}
+.svc-includes li{
+  font-size:14px;font-weight:300;color:var(--muted);
+  padding:9px 0;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;
+}
+.svc-includes li::before{content:'—';color:var(--gold);font-size:11px;flex-shrink:0}
+.btn-more{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:11px;font-weight:700;letter-spacing:2.5px;
+  text-transform:uppercase;color:#000;background:var(--gold);
+  padding:14px 30px;transition:all .3s;
+}
+.btn-more:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 10px 32px rgba(212,160,23,.25)}
+
+/* Right images */
+.svc-imgs{position:sticky;top:120px}
+.svc-img-wrap{
+  aspect-ratio:4/3;position:relative;overflow:hidden;
+  background:var(--bg3);
+}
+.svc-img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;
+  clip-path:polygon(0 100%,100% 100%,100% 100%,0 100%);
+  transition:clip-path .8s cubic-bezier(.33,1,.68,1);
+}
+.svc-img.active{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
 
 /* ── PRICES ── */
 .prices{padding:120px 0;background:var(--bg)}
@@ -359,6 +468,64 @@ footer{
 }
 .footer-links a:hover{color:var(--gold)}
 
+/* ── LIGHTBOX ── */
+.lightbox{
+  position:fixed;inset:0;z-index:200;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,0);
+  opacity:0;pointer-events:none;
+  transition:opacity .35s ease,background .35s ease;
+}
+.lightbox.open{
+  opacity:1;pointer-events:all;
+  background:rgba(5,5,5,.95);
+}
+.lb-img-wrap{
+  position:relative;
+  display:flex;flex-direction:column;align-items:center;
+  transform:scale(.93);
+  transition:transform .35s cubic-bezier(.25,.46,.45,.94);
+}
+.lightbox.open .lb-img-wrap{transform:scale(1)}
+.lb-img{
+  max-width:88vw;max-height:82vh;
+  object-fit:contain;display:block;
+  box-shadow:0 32px 80px rgba(0,0,0,.6);
+}
+.lb-caption{
+  margin-top:16px;
+  font-size:12px;font-weight:600;letter-spacing:2.5px;
+  text-transform:uppercase;color:rgba(255,255,255,.45);
+}
+.lb-close{
+  position:fixed;top:24px;right:28px;
+  background:none;border:1px solid rgba(255,255,255,.15);
+  color:#fff;font-size:20px;line-height:1;
+  width:44px;height:44px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .25s;z-index:201;
+}
+.lb-close:hover{border-color:var(--gold);color:var(--gold)}
+.lb-nav{
+  position:fixed;top:50%;transform:translateY(-50%);
+  background:none;border:1px solid rgba(255,255,255,.15);
+  color:#fff;font-size:28px;line-height:1;
+  width:52px;height:52px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .25s;z-index:201;
+}
+.lb-nav:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-50%) scale(1.05)}
+.lb-prev{left:20px}
+.lb-next{right:20px}
+.lb-counter{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%);
+  font-size:11px;font-weight:600;letter-spacing:3px;
+  text-transform:uppercase;color:rgba(255,255,255,.35);
+  pointer-events:none;
+}
+/* cursor pointer на pi */
+.pi{cursor:pointer}
+
 /* ── ANIMATIONS ── */
 @keyframes fadeUp{
   from{opacity:0;transform:translateY(30px)}
@@ -375,6 +542,9 @@ footer{
 
 /* ── RESPONSIVE ── */
 @media(max-width:1100px){
+  .about-strip{padding:56px 40px}
+  .about-divider{margin:0 36px}
+
   .nav,.nav.scrolled{padding-left:40px;padding-right:40px}
   .section-inner{padding:0 40px}
   .hero-content{padding:0 40px}
@@ -382,9 +552,8 @@ footer{
   .contact-inner{padding:0 40px}
   footer{padding:28px 40px}
 
-  .portfolio-grid{grid-template-columns:repeat(2,1fr)}
-  .pi:nth-child(n){grid-column:auto;grid-row:auto}
-  .pi img{min-height:220px !important}
+  .pf-carousel{height:480px}
+  .pf-card{width:230px;height:370px}
 
   .services-grid{grid-template-columns:repeat(2,1fr)}
   .prices-grid{gap:32px}
@@ -405,15 +574,39 @@ footer{
 
   .portfolio{padding:80px 0}
   .section-inner{padding:0 20px}
-  .portfolio-grid{grid-template-columns:1fr;gap:8px}
-  .pi img{min-height:240px !important}
+  .pf-carousel{height:380px}
+  .pf-card{width:190px;height:300px}
+  .pf-nav{width:40px;height:40px;font-size:20px}
 
-  .services{padding:80px 0}
-  .services-grid{grid-template-columns:1fr}
-  .svc{padding:36px 28px}
+  .services{padding:60px 0}
 
-  .prices{padding:80px 0}
-  .prices-grid{grid-template-columns:1fr;gap:48px}
+  /* Слайдер услуг на мобильном */
+  .svc-slider{
+    grid-template-columns:1fr;
+    gap:0;
+  }
+
+  /* Картинка — поднимаем наверх, ограничиваем высоту */
+  .svc-imgs{
+    order:-1;
+    margin-bottom:0;
+  }
+  .svc-img-wrap{
+    aspect-ratio:16/9;
+    border-radius:0;
+  }
+
+  /* Убираем sticky на мобильном */
+  .svc-imgs{position:static}
+  .svc-img-wrap{position:relative;top:auto}
+
+  /* Заголовок услуги — немного меньше */
+  .svc-title{font-size:16px}
+  .svc-price{font-size:13px}
+  .svc-num{font-size:11px}
+  .svc-item{padding:20px 0}
+  .svc-includes li{font-size:13px}
+  .btn-more{font-size:10px;padding:12px 22px}
 
   .contact{padding:80px 0}
   .contact-inner{padding:0 24px}
@@ -423,7 +616,329 @@ footer{
 
   footer{padding:24px;justify-content:center;text-align:center}
   .footer-links{justify-content:center}
+
+  .about-strip{padding:52px 24px}
+  .about-strip-inner{flex-direction:column;gap:40px}
+  .about-divider{width:100%;height:1px;margin:0}
+
+  /* ── QUIZ mobile ── */
+  .quiz{padding:52px 0 64px}
+  .quiz-inner{padding:0 20px}
+
+  .quiz-progress{margin-bottom:32px}
+  .quiz-counter{font-size:10px;margin-bottom:20px}
+  .quiz-q{font-size:20px;margin-bottom:28px;line-height:1.3}
+
+  .quiz-options{grid-template-columns:1fr;gap:10px}
+  .quiz-opt{padding:16px 18px;font-size:13px}
+
+  /* Quiz input площадь */
+  .quiz-name-input{padding:14px 16px;font-size:14px}
+
+  /* ── CALC mobile ── */
+  .calc-area-row{padding:14px 16px;margin-bottom:24px}
+  .calc-area-row span{font-size:22px}
+  .calc-area-edit{font-size:10px;padding:6px 12px}
+
+  .calc-pkg-grid{grid-template-columns:1fr;gap:10px}
+
+  .calc-pkg{padding:20px 18px}
+  .calc-pkg-badge{font-size:8px;padding:2px 8px;margin-bottom:10px}
+  .calc-pkg-name{font-size:16px;margin-bottom:4px}
+  .calc-pkg-rate{font-size:11px;margin-bottom:10px}
+  .calc-pkg-total{font-size:28px}
+  .calc-pkg-desc{font-size:11px;margin-top:8px}
+
+  .calc-extras-title{font-size:9px;margin-top:20px;margin-bottom:10px}
+  .calc-extra-item{padding:11px 0}
+  .calc-extra-name{font-size:13px}
+  .calc-extra-price{font-size:12px}
+
+  .calc-result-box{padding:18px 20px;margin-top:24px}
+  .calc-result-label{font-size:10px}
+  .calc-result-val{font-size:26px}
+
+  /* ── FINAL mobile ── */
+  .quiz-final h2{font-size:22px}
+  .quiz-final p{font-size:13px}
+  .quiz-final-btns{flex-direction:column;align-items:stretch}
+  .cbtn{justify-content:center;padding:16px}
+
+  /* Quiz nav buttons */
+  .quiz-btn{padding:12px 24px;font-size:10px}
+  .quiz-btn-back{padding:12px 20px;font-size:10px}
 }
+
+/* ── CALCULATOR ── */
+.calc-area-row{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--bg2);border:1px solid var(--border);
+  padding:18px 24px;margin-bottom:36px;
+}
+.calc-area-row span{
+  font-family:'Playfair Display',serif;
+  font-size:20px;color:var(--gold);
+}
+.calc-area-edit{
+  background:none;border:1px solid var(--border);
+  color:var(--muted);font-size:11px;font-weight:600;
+  letter-spacing:1.5px;text-transform:uppercase;
+  padding:7px 16px;cursor:pointer;transition:all .25s;
+}
+.calc-area-edit:hover{border-color:var(--gold);color:var(--gold)}
+
+.calc-pkg-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:10px;margin-bottom:28px;
+}
+.calc-pkg{
+  background:var(--bg2);border:1px solid var(--border);
+  padding:28px 24px;cursor:pointer;
+  transition:all .3s;position:relative;overflow:hidden;
+}
+.calc-pkg::after{
+  content:'';position:absolute;bottom:0;left:0;
+  width:0;height:2px;background:var(--gold);transition:width .35s;
+}
+.calc-pkg:hover{border-color:rgba(212,160,23,.35);background:var(--bg3)}
+.calc-pkg:hover::after{width:100%}
+.calc-pkg.selected{
+  border-color:var(--gold);background:var(--bg3);
+}
+.calc-pkg.selected::after{width:100%}
+.calc-pkg-badge{
+  display:inline-block;font-size:9px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  color:#000;background:var(--gold);
+  padding:3px 10px;margin-bottom:12px;
+}
+.calc-pkg-name{
+  font-family:'Playfair Display',serif;
+  font-size:18px;color:#fff;margin-bottom:6px;
+}
+.calc-pkg-rate{
+  font-size:12px;color:var(--muted);margin-bottom:16px;
+}
+.calc-pkg-total{
+  font-family:'Playfair Display',serif;
+  font-size:28px;font-weight:700;color:var(--gold);
+  line-height:1;
+}
+.calc-pkg-total small{
+  font-size:14px;font-weight:400;font-family:'Montserrat',sans-serif;
+  color:var(--muted);
+}
+.calc-pkg-desc{
+  font-size:12px;color:var(--dim);margin-top:10px;line-height:1.5;
+}
+.calc-check{
+  display:none;position:absolute;top:12px;right:14px;
+  color:var(--gold);font-size:18px;
+}
+.calc-pkg.selected .calc-check{display:block}
+
+.calc-extras-title{
+  font-size:10px;font-weight:600;letter-spacing:3px;
+  text-transform:uppercase;color:var(--dim);
+  margin-bottom:14px;
+}
+.calc-extra-item{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 0;border-bottom:1px solid var(--border);
+  cursor:pointer;
+}
+.calc-extra-item:last-child{border-bottom:none}
+.calc-extra-cb{
+  width:18px;height:18px;
+  accent-color:var(--gold);cursor:pointer;flex-shrink:0;
+}
+.calc-extra-name{font-size:14px;color:var(--text);flex:1}
+.calc-extra-price{
+  font-size:13px;color:var(--gold);
+  white-space:nowrap;font-weight:600;
+}
+
+.calc-result-box{
+  margin-top:32px;padding:24px 28px;
+  border:1px solid var(--gold);
+  background:rgba(212,160,23,.05);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.calc-result-label{
+  font-size:12px;font-weight:600;letter-spacing:2px;
+  text-transform:uppercase;color:var(--muted);
+}
+.calc-result-val{
+  font-family:'Playfair Display',serif;
+  font-size:32px;font-weight:700;color:var(--gold);
+}
+
+/* ── QUIZ ── */
+.quiz{padding:120px 0;background:var(--bg);position:relative;overflow:hidden}
+.quiz-canvas{
+  position:absolute;inset:0;width:100%;height:100%;
+  z-index:0;opacity:1;
+}
+.quiz-dots{
+  position:absolute;inset:0;width:100%;height:100%;
+  z-index:1;pointer-events:none;opacity:.55;
+}
+.quiz-glow{
+  position:absolute;z-index:1;pointer-events:none;
+  width:200px;height:200px;
+  background:rgba(255,255,255,.03);
+  border-radius:50%;filter:blur(60px);
+  animation:quizGlow 3s ease-in-out infinite alternate;
+}
+@keyframes quizGlow{
+  from{opacity:.3;transform:scale(1)}
+  to{opacity:.8;transform:scale(1.15)}
+}
+.quiz-inner{position:relative;z-index:2}
+.quiz-inner{
+  max-width:860px;margin:0 auto;
+  padding:0 64px;
+}
+.quiz-step{display:none}
+.quiz-step.active{display:block}
+.quiz-counter{
+  font-size:11px;font-weight:600;letter-spacing:3px;
+  text-transform:uppercase;color:var(--dim);margin-bottom:32px;
+}
+.quiz-counter span{color:var(--gold)}
+.quiz-q{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(24px,3.5vw,40px);font-weight:400;
+  color:#fff;margin-bottom:40px;line-height:1.25;
+}
+.quiz-options{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:14px;margin-bottom:44px;
+}
+.quiz-opt{
+  border:1px solid rgba(255,255,255,.15);
+  padding:20px 24px;cursor:pointer;
+  font-size:14px;font-weight:400;color:rgba(255,255,255,.75);
+  text-align:left;
+  background:rgba(255,255,255,.07);
+  backdrop-filter:blur(6px);
+  transition:all .25s;position:relative;
+}
+.quiz-opt::before{
+  content:'';position:absolute;bottom:0;left:0;
+  width:0;height:2px;background:var(--gold);transition:width .3s;
+}
+.quiz-opt:hover{
+  border-color:rgba(212,160,23,.5);
+  color:#fff;
+  background:rgba(255,255,255,.12);
+}
+.quiz-opt:hover::before{width:100%}
+.quiz-opt.selected{
+  border-color:var(--gold);
+  color:#fff;
+  background:rgba(212,160,23,.12);
+}
+.quiz-opt.selected::before{width:100%}
+.quiz-nav{display:flex;gap:14px;align-items:center}
+.quiz-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--gold);color:#000;
+  font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  padding:14px 32px;border:none;cursor:pointer;transition:all .3s;
+}
+.quiz-btn:hover{background:var(--gold2);transform:translateY(-2px)}
+.quiz-btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.quiz-btn-back{
+  background:none;border:1px solid var(--border);color:var(--muted);
+  font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  padding:14px 28px;cursor:pointer;transition:all .3s;
+}
+.quiz-btn-back:hover{border-color:var(--gold);color:var(--gold)}
+.quiz-progress{
+  height:2px;background:var(--border);margin-bottom:52px;position:relative;
+}
+.quiz-progress-fill{
+  height:100%;background:var(--gold);
+  transition:width .4s ease;
+}
+
+/* Quiz final */
+.quiz-final{text-align:center;padding:40px 0}
+.quiz-final-icon{font-size:56px;margin-bottom:24px}
+.quiz-final h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(26px,3.5vw,40px);color:#fff;
+  margin-bottom:16px;
+}
+.quiz-final p{
+  font-size:15px;font-weight:300;color:var(--muted);
+  max-width:480px;margin:0 auto 40px;line-height:1.75;
+}
+.quiz-final-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.quiz-name-input{
+  width:100%;border:1px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.08);
+  color:var(--text);font-family:'Montserrat',sans-serif;
+  font-size:15px;padding:18px 22px;margin-bottom:14px;
+  transition:border .25s,background .25s;outline:none;
+  backdrop-filter:blur(4px);
+}
+.quiz-name-input:focus{border-color:var(--gold);background:rgba(255,255,255,.11)}
+.quiz-name-input::placeholder{color:rgba(255,255,255,.38)}
+
+/* ── COMMENT STEP ── */
+.quiz-textarea{
+  width:100%;min-height:140px;resize:vertical;
+  border:1px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.07);
+  backdrop-filter:blur(6px);
+  color:#fff;font-family:'Montserrat',sans-serif;
+  font-size:14px;font-weight:300;line-height:1.7;
+  padding:18px 22px;margin-bottom:18px;
+  transition:border .25s,background .25s;outline:none;
+}
+.quiz-textarea:focus{border-color:var(--gold);background:rgba(255,255,255,.1)}
+.quiz-textarea::placeholder{color:rgba(255,255,255,.38)}
+
+.quiz-file-label{
+  display:inline-flex;align-items:center;gap:10px;
+  border:1px dashed rgba(212,160,23,.35);
+  padding:14px 24px;cursor:pointer;
+  font-size:12px;font-weight:600;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--muted);
+  transition:all .3s;width:100%;justify-content:center;
+  margin-bottom:14px;
+}
+.quiz-file-label:hover{border-color:var(--gold);color:var(--gold)}
+.quiz-file-input{display:none}
+
+.quiz-file-list{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.quiz-file-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--bg3);border:1px solid var(--border);
+  padding:6px 12px;font-size:11px;color:var(--muted);
+  max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.quiz-file-chip span{color:var(--gold);font-size:10px}
+
+/* ── SERVICE MINI-SELECT ── */
+.svc-mini-pkg{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.svc-mini-pkg-btn{
+  font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  padding:8px 14px;border:1px solid var(--border);background:none;
+  color:var(--muted);cursor:pointer;transition:all .2s;line-height:1.5;text-align:left;
+}
+.svc-mini-pkg-btn small{display:block;font-size:9px;color:var(--dim);font-weight:400;letter-spacing:0;text-transform:none}
+.svc-mini-pkg-btn:hover{border-color:rgba(212,160,23,.4);color:var(--text)}
+.svc-mini-pkg-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(212,160,23,.07)}
+.svc-mini-extras{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.svc-mini-label{
+  display:flex;align-items:center;gap:10px;cursor:pointer;
+  font-size:13px;color:var(--muted);font-weight:400;
+}
+.svc-mini-label input{accent-color:var(--gold);cursor:pointer;flex-shrink:0}
+.svc-mini-price{color:var(--gold);font-size:11px;margin-left:auto;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -447,8 +962,7 @@ footer{
 <div class="mobile-nav" id="mobileNav">
   <button class="mobile-close" id="mobileClose">✕</button>
   <a href="#portfolio" class="ml">Портфолио</a>
-  <a href="#services" class="ml">Услуги</a>
-  <a href="#prices" class="ml">Цены</a>
+  <a href="#services" class="ml">Услуги и цены</a>
   <a href="#contact" class="ml">Контакт</a>
   <a href="https://wa.me/77478016162" style="color:var(--gold)" target="_blank">WhatsApp</a>
 </div>
@@ -458,7 +972,7 @@ footer{
   <div class="hero-bg" id="heroBg"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <p class="hero-eyebrow">Студия дизайна интерьера · Алматы</p>
+    <p class="hero-eyebrow">Студия дизайна интерьера · Астана</p>
     <h1 class="hero-title">
       Пространства,<br>
       <em>созданные для жизни</em>
@@ -466,9 +980,8 @@ footer{
     <p class="hero-desc">
       Создаём интерьеры, которые отражают вашу индивидуальность — от концепции до реализации.
     </p>
-    <div class="hero-btns">
-      <a href="#portfolio" class="btn-primary">Наши работы</a>
-      <a href="https://wa.me/77478016162" class="btn-outline" target="_blank">Обсудить проект</a>
+    <div class="hero-btns" style="justify-content:flex-start">
+      <a href="#quiz" class="btn-primary">Обсудить проект</a>
     </div>
   </div>
   <div class="hero-scroll">
@@ -477,23 +990,27 @@ footer{
   </div>
 </section>
 
-<!-- STATS -->
-<section class="stats">
-  <div class="stat reveal">
-    <span class="stat-num" data-count="5">0</span>
-    <span class="stat-label">Лет опыта</span>
-  </div>
-  <div class="stat reveal d1">
-    <span class="stat-num" data-count="50">0</span>
-    <span class="stat-label">Реализованных проектов</span>
-  </div>
-  <div class="stat reveal d2">
-    <span class="stat-num">100%</span>
-    <span class="stat-label">Довольных клиентов</span>
-  </div>
-  <div class="stat reveal d3">
-    <span class="stat-num">Алматы</span>
-    <span class="stat-label">и вся Казахстан</span>
+<!-- ABOUT STRIP -->
+<section class="about-strip">
+  <div class="about-strip-inner">
+    <div class="about-item reveal">
+      <div class="about-icon">🪑</div>
+      <h3 class="about-title">Мебельная экспертиза</h3>
+      <p class="about-desc">Большой опыт в мебельной сфере — самостоятельно рассчитываю стоимость и подбираю оптимальные решения без посредников.</p>
+    </div>
+    <div class="about-divider"></div>
+    <div class="about-item reveal d2">
+      <div class="about-icon">📐</div>
+      <h3 class="about-title">Эргономика и комфорт</h3>
+      <p class="about-desc">Глубокое понимание пространства: каждый сантиметр продуман под реальную жизнь — удобство на первом месте.</p>
+    </div>
+    <div class="about-divider"></div>
+    <div class="about-item reveal d4">
+      <div class="about-icon">✦</div>
+      <h3 class="about-title">Ожидание = Реальность</h3>
+      <p class="about-desc">Визуализация точно отражает финальный результат — никакого разрыва между тем, что на экране, и тем, что в жизни.</p>
+      <div class="about-city">📍 г. Астана</div>
+    </div>
   </div>
 </section>
 
@@ -504,63 +1021,50 @@ footer{
       <p class="section-eyebrow">Наши работы</p>
       <h2 class="section-title">Портфолио</h2>
     </div>
-    <div class="portfolio-grid">
-      <div class="pi reveal">
-        <img src="спальня.jpg" alt="Мастер-спальня" loading="eager">
-        <div class="pi-overlay">
-          <p class="pi-label">Спальня</p>
-          <p class="pi-name">Мастер-спальня</p>
+
+    <div class="pf-carousel reveal">
+      <button class="pf-nav pf-prev" onclick="pfPrev()" aria-label="Назад">‹</button>
+
+      <div class="pf-stage" id="pfStage">
+        <div class="pf-card">
+          <img src="p1.jpg" alt="Гостиная">
+          <div class="pi-overlay"><p class="pi-label">Гостиная</p><p class="pi-name">Гостиная · вид сверху</p></div>
+        </div>
+        <div class="pf-card">
+          <img src="p2.jpg" alt="Спальня">
+          <div class="pi-overlay"><p class="pi-label">Спальня</p><p class="pi-name">Спальня с кольцевыми светильниками</p></div>
+        </div>
+        <div class="pf-card">
+          <img src="p3.jpg" alt="Санузел">
+          <div class="pi-overlay"><p class="pi-label">Санузел</p><p class="pi-name">Санузел · мрамор и золото</p></div>
+        </div>
+        <div class="pf-card">
+          <img src="p4.jpg" alt="Спальня">
+          <div class="pi-overlay"><p class="pi-label">Спальня</p><p class="pi-name">Спальня · французский стиль</p></div>
+        </div>
+        <div class="pf-card">
+          <img src="p5.jpg" alt="Спальня">
+          <div class="pi-overlay"><p class="pi-label">Спальня</p><p class="pi-name">Спальня · элегантный интерьер</p></div>
+        </div>
+        <div class="pf-card">
+          <img src="p6.jpg" alt="Кухня">
+          <div class="pi-overlay"><p class="pi-label">Кухня-гостиная</p><p class="pi-name">Кухня · зелёные акценты</p></div>
+        </div>
+        <div class="pf-card">
+          <img src="p7.jpg" alt="Ванная">
+          <div class="pi-overlay"><p class="pi-label">Ванная</p><p class="pi-name">Ванная · вид сверху</p></div>
+        </div>
+        <div class="pf-card">
+          <img src="p8.jpg" alt="Спальня">
+          <div class="pi-overlay"><p class="pi-label">Спальня</p><p class="pi-name">Спальня · нейтральные тона</p></div>
+        </div>
+        <div class="pf-card">
+          <img src="p9.jpg" alt="Санузел">
+          <div class="pi-overlay"><p class="pi-label">Санузел</p><p class="pi-name">Санузел · бордовый акцент</p></div>
         </div>
       </div>
-      <div class="pi reveal d1">
-        <img src="кухня 1.jpg" alt="Кухня" loading="lazy">
-        <div class="pi-overlay">
-          <p class="pi-label">Кухня</p>
-          <p class="pi-name">Кухня-гостиная</p>
-        </div>
-      </div>
-      <div class="pi reveal d2">
-        <img src="тв зона.jpg" alt="ТВ-зона" loading="lazy">
-        <div class="pi-overlay">
-          <p class="pi-label">Гостиная</p>
-          <p class="pi-name">ТВ-зона</p>
-        </div>
-      </div>
-      <div class="pi reveal d1">
-        <img src="new спальный 1.jpg" alt="Спальня" loading="lazy">
-        <div class="pi-overlay">
-          <p class="pi-label">Спальня</p>
-          <p class="pi-name">Дизайн спальни</p>
-        </div>
-      </div>
-      <div class="pi reveal d2">
-        <img src="кухня.jpg" alt="Кухня" loading="lazy">
-        <div class="pi-overlay">
-          <p class="pi-label">Кухня</p>
-          <p class="pi-name">Современная кухня</p>
-        </div>
-      </div>
-      <div class="pi reveal d3">
-        <img src="санузел.jpg" alt="Санузел" loading="lazy">
-        <div class="pi-overlay">
-          <p class="pi-label">Санузел</p>
-          <p class="pi-name">Ванная комната</p>
-        </div>
-      </div>
-      <div class="pi reveal d2">
-        <img src="new спальный 4.jpg" alt="Спальня" loading="lazy">
-        <div class="pi-overlay">
-          <p class="pi-label">Спальня</p>
-          <p class="pi-name">Спальня · минимализм</p>
-        </div>
-      </div>
-      <div class="pi reveal d3">
-        <img src="санузел 4.jpg" alt="Санузел" loading="lazy">
-        <div class="pi-overlay">
-          <p class="pi-label">Санузел</p>
-          <p class="pi-name">Современный санузел</p>
-        </div>
-      </div>
+
+      <button class="pf-nav pf-next" onclick="pfNext()" aria-label="Вперёд">›</button>
     </div>
   </div>
 </section>
@@ -569,98 +1073,326 @@ footer{
 <section class="services" id="services">
   <div class="section-inner">
     <div class="section-header reveal">
-      <p class="section-eyebrow">Что мы делаем</p>
-      <h2 class="section-title">Услуги</h2>
+      <p class="section-eyebrow">Чем мы занимаемся</p>
+      <h2 class="section-title">Услуги и цены</h2>
     </div>
-    <div class="services-grid">
-      <div class="svc reveal">
-        <span class="svc-icon">📐</span>
-        <h3 class="svc-name">Дизайн-проект</h3>
-        <p class="svc-desc">Полный комплект документации для строителей: планировочное решение, развёртки, рабочие чертежи, спецификации материалов.</p>
+    <div class="svc-slider reveal">
+
+      <!-- Left: list -->
+      <div class="svc-list">
+
+        <div class="svc-item" data-slide="0">
+          <div class="svc-item-header">
+            <span class="svc-num">01</span>
+            <h3 class="svc-title">ДИЗАЙН-ПРОЕКТ</h3>
+            <span class="svc-price">от 1 900 тг</span>
+          </div>
+          <div class="svc-body">
+            <p class="svc-includes-label">Включает:</p>
+            <ul class="svc-includes">
+              <li>Замерный план</li>
+              <li>Демонтаж/монтаж стен</li>
+              <li>Расстановка мебели</li>
+            </ul>
+            <a href="design-project.html" class="btn-more">ПОДРОБНЕЕ →</a>
+          </div>
+        </div>
+
+        <div class="svc-item" data-slide="1">
+          <div class="svc-item-header">
+            <span class="svc-num">02</span>
+            <h3 class="svc-title">ДИЗАЙН МЕБЕЛИ</h3>
+          </div>
+          <div class="svc-body">
+            <p class="svc-includes-label">Включает:</p>
+            <ul class="svc-includes">
+              <li>Выезд на объект</li>
+              <li>Консультация</li>
+              <li>Замеры</li>
+            </ul>
+            <a href="furniture-consultation.html" class="btn-more">ПОДРОБНЕЕ →</a>
+          </div>
+        </div>
+
       </div>
-      <div class="svc reveal d1">
-        <span class="svc-icon">🖼</span>
-        <h3 class="svc-name">3D-визуализация</h3>
-        <p class="svc-desc">Фотореалистичные 3D-рендеры вашего будущего интерьера. Увидите результат до начала ремонта.</p>
+
+      <!-- Right: images -->
+      <div class="svc-imgs">
+        <div class="svc-img-wrap">
+          <img class="svc-img active" src="спальня.jpg" alt="Дизайн-проект" loading="lazy">
+          <img class="svc-img" src="тв зона.jpg" alt="Консультация по мебели" loading="lazy">
+        </div>
       </div>
-      <div class="svc reveal d2">
-        <span class="svc-icon">🎨</span>
-        <h3 class="svc-name">Moodboard / Коллаж</h3>
-        <p class="svc-desc">Концептуальные коллажи, отражающие стиль и атмосферу будущего интерьера. Идеально для согласования идей.</p>
-      </div>
-      <div class="svc reveal d1">
-        <span class="svc-icon">👁</span>
-        <h3 class="svc-name">Авторское сопровождение</h3>
-        <p class="svc-desc">Контроль качества ремонтных работ, выезды на объект, решение всех вопросов на месте. Ваш проект под нашим надзором.</p>
-      </div>
-      <div class="svc reveal d2">
-        <span class="svc-icon">📋</span>
-        <h3 class="svc-name">Планировочное решение</h3>
-        <p class="svc-desc">Несколько вариантов планировки с расстановкой мебели. Оптимальное использование каждого квадратного метра.</p>
-      </div>
-      <div class="svc reveal d3">
-        <span class="svc-icon">🚗</span>
-        <h3 class="svc-name">Пакет выездов</h3>
-        <p class="svc-desc">6 плановых выездов на объект для контроля и согласования. Фиксированная стоимость без лишних расходов.</p>
-      </div>
+
     </div>
   </div>
 </section>
 
-<!-- PRICES -->
-<section class="prices" id="prices">
-  <div class="section-inner">
-    <div class="section-header reveal">
-      <p class="section-eyebrow">Прозрачные условия</p>
-      <h2 class="section-title">Пакеты и цены</h2>
+
+<!-- QUIZ -->
+<section class="quiz" id="quiz">
+  <canvas class="quiz-canvas" id="quizCanvas"></canvas>
+  <canvas class="quiz-dots" id="quizDots"></canvas>
+  <!-- Световые блики (как в демо) -->
+  <div class="quiz-glow" style="top:25%;left:33%;animation-duration:3s"></div>
+  <div class="quiz-glow" style="top:60%;right:25%;animation-duration:2s;animation-delay:1s;width:150px;height:150px"></div>
+  <div class="quiz-glow" style="top:40%;right:40%;animation-duration:4s;animation-delay:.5s;width:120px;height:120px"></div>
+  <div class="quiz-inner">
+    <div class="section-header reveal" style="text-align:left;margin-bottom:48px">
+      <p class="section-eyebrow" style="display:inline-block;position:relative">Начнём знакомство</p>
+      <h2 class="section-title" style="margin-top:12px">Расскажите о вашем проекте</h2>
     </div>
-    <div class="prices-grid">
-      <div class="reveal">
-        <p class="prices-col-title">Основные пакеты</p>
-        <div class="price-row">
-          <span class="price-name">Полный проект</span>
-          <span class="price-val">6 900 тг/м²</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Рабочий проект</span>
-          <span class="price-val">3 700 тг/м²</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Экспресс проект</span>
-          <span class="price-val">2 700 тг/м²</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Планировочное решение</span>
-          <span class="price-val">1 900 тг/м²</span>
-        </div>
-      </div>
-      <div class="reveal d2">
-        <p class="prices-col-title">Дополнительные услуги</p>
-        <div class="price-row">
-          <span class="price-name">3D Визуализация</span>
-          <span class="price-val">2 300 тг/м²</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Moodboard / Коллаж</span>
-          <span class="price-val">1 500 тг/м²</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Авторское сопровождение</span>
-          <span class="price-val">150 000 тг/мес</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Пакет визитов (6 выездов)</span>
-          <span class="price-val">100 000 тг</span>
-        </div>
+
+    <div class="quiz-progress reveal">
+      <div class="quiz-progress-fill" id="quizProgress" style="width:0%"></div>
+    </div>
+
+    <!-- Шаг 0: Имя и телефон -->
+    <div class="quiz-step active" id="stepName">
+      <p class="quiz-q" style="margin-bottom:28px">Давайте познакомимся 👋</p>
+      <input class="quiz-name-input" type="text" id="quizName" placeholder="Ваше имя" style="margin-bottom:12px">
+      <input class="quiz-name-input" type="tel" id="quizPhone" placeholder="Номер телефона (WhatsApp)">
+      <p style="font-size:12px;color:rgba(255,255,255,.55);margin-top:10px;letter-spacing:1px">Мы свяжемся с вами после прохождения анкеты</p>
+      <div class="quiz-nav" style="margin-top:28px">
+        <button class="quiz-btn" onclick="nextStepName()" id="btnName" disabled>Начать →</button>
       </div>
     </div>
-    <p class="prices-note reveal">
-      Точная стоимость рассчитывается после замера площади.<br>
-      <strong>Первая консультация — бесплатно.</strong>
-    </p>
-    <div class="prices-cta reveal">
-      <a href="https://wa.me/77478016162" class="btn-primary" target="_blank">Рассчитать стоимость</a>
+
+    <!-- Шаг 1: Тип объекта -->
+    <div class="quiz-step" id="step1">
+      <p class="quiz-counter">Вопрос <span>1</span> из <span>5</span></p>
+      <p class="quiz-q">Какой у вас тип объекта?</p>
+      <div class="quiz-options" style="grid-template-columns:repeat(3,1fr)">
+        <button class="quiz-opt">🏢<br><strong>Квартира</strong></button>
+        <button class="quiz-opt">🏠<br><strong>Дом</strong></button>
+        <button class="quiz-opt">🏪<br><strong>Коммерция</strong></button>
+      </div>
+      <input
+        class="quiz-name-input"
+        type="text"
+        id="quizAddress"
+        placeholder="Адрес объекта / название ЖК или дома"
+        style="margin-top:8px;margin-bottom:0"
+      >
+      <p style="font-size:11px;color:rgba(255,255,255,.5);margin-top:8px;margin-bottom:28px;letter-spacing:1px">Необязательно, но поможет нам лучше понять проект</p>
+      <div class="quiz-nav">
+        <button class="quiz-btn-back" onclick="goToStepName()">← Назад</button>
+        <button class="quiz-btn" onclick="nextStep(1)" id="btn1" disabled>Далее →</button>
+      </div>
     </div>
+
+    <!-- Шаг 2: Площадь (текстовый ввод) -->
+    <div class="quiz-step" id="step2">
+      <p class="quiz-counter">Вопрос <span>2</span> из <span>5</span></p>
+      <p class="quiz-q">Какова площадь вашего объекта?</p>
+      <div style="margin-bottom:40px">
+        <div style="position:relative">
+          <input
+            class="quiz-name-input"
+            type="number"
+            id="areaInput"
+            placeholder="Введите площадь"
+            min="1"
+            style="padding-right:72px"
+          >
+          <span style="position:absolute;right:22px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--muted);pointer-events:none">м²</span>
+        </div>
+        <p style="font-size:12px;color:rgba(255,255,255,.5);margin-top:10px;letter-spacing:1px">Укажите приблизительную площадь в квадратных метрах</p>
+      </div>
+      <div class="quiz-nav">
+        <button class="quiz-btn-back" onclick="prevStep(2)">← Назад</button>
+        <button class="quiz-btn" onclick="nextStep(2)" id="btn2" disabled>Далее →</button>
+      </div>
+    </div>
+
+    <!-- Шаг 3: Срок сдачи -->
+    <div class="quiz-step" id="step3">
+      <p class="quiz-counter">Вопрос <span>3</span> из <span>5</span></p>
+      <p class="quiz-q">Когда планируете начать ремонт?</p>
+      <div class="quiz-options">
+        <button class="quiz-opt">🔑 Ключи уже на руках</button>
+        <button class="quiz-opt">📅 В течение 3 месяцев</button>
+        <button class="quiz-opt">🗓 В течение 6 месяцев</button>
+        <button class="quiz-opt">⏳ Через 6 и более месяцев</button>
+      </div>
+      <div class="quiz-nav">
+        <button class="quiz-btn-back" onclick="prevStep(3)">← Назад</button>
+        <button class="quiz-btn" onclick="nextStep(3)" id="btn3" disabled>Далее →</button>
+      </div>
+    </div>
+
+    <!-- Шаг 4: Город -->
+    <div class="quiz-step" id="step4">
+      <p class="quiz-counter">Вопрос <span>4</span> из <span>5</span></p>
+      <p class="quiz-q">Где находится ваш объект?</p>
+      <div class="quiz-options" style="grid-template-columns:repeat(3,1fr)">
+        <button class="quiz-opt">🏙<br><strong>Астана</strong></button>
+        <button class="quiz-opt">🌆<br><strong>Алматы</strong></button>
+        <button class="quiz-opt">📍<br><strong>Другой город</strong></button>
+      </div>
+      <div class="quiz-nav">
+        <button class="quiz-btn-back" onclick="prevStep(4)">← Назад</button>
+        <button class="quiz-btn" onclick="nextStep(4)" id="btn4" disabled>Далее →</button>
+      </div>
+    </div>
+
+    <!-- Шаг 5: Опыт -->
+    <div class="quiz-step" id="step5">
+      <p class="quiz-counter">Вопрос <span>5</span> из <span>5</span></p>
+      <p class="quiz-q">Был ли у вас ранее опыт работы с дизайнером?</p>
+      <div class="quiz-options" style="grid-template-columns:1fr">
+        <button class="quiz-opt">✅ Да, я уже работал(а) с дизайнером и знаком(а) с процессом</button>
+        <button class="quiz-opt">🔨 Опыт ремонта есть, но с дизайнером работаю впервые</button>
+        <button class="quiz-opt">🆕 Нет, делаю ремонт впервые</button>
+      </div>
+      <div class="quiz-nav">
+        <button class="quiz-btn-back" onclick="prevStep(5)">← Назад</button>
+        <button class="quiz-btn" onclick="nextStep(5)" id="btn5" disabled>Далее →</button>
+      </div>
+    </div>
+
+    <!-- Шаг 6: Комментарий + файлы -->
+    <div class="quiz-step" id="stepComment">
+      <p class="quiz-counter" style="color:var(--gold)">Почти готово ✦</p>
+      <p class="quiz-q">Расскажите подробнее о вашем проекте</p>
+      <textarea
+        class="quiz-textarea"
+        id="quizComment"
+        placeholder="Например: хочу минималистичный стиль, у меня уже есть референсы. Нахожусь в другом городе, нужно авторское сопровождение..."
+      ></textarea>
+
+      <label class="quiz-file-label" for="quizFiles">
+        📎 Прикрепить фото или документ
+        <input type="file" id="quizFiles" class="quiz-file-input" multiple accept="image/*,.pdf,.doc,.docx">
+      </label>
+      <div class="quiz-file-list" id="quizFileList"></div>
+      <p style="font-size:11px;color:var(--dim);margin-bottom:28px">Этот шаг необязателен — можно пропустить</p>
+
+      <div class="quiz-nav">
+        <button class="quiz-btn-back" onclick="goBackToStep5()">← Назад</button>
+        <button class="quiz-btn" onclick="goToCalc()">Далее →</button>
+      </div>
+    </div>
+
+    <!-- Калькулятор -->
+    <div class="quiz-step" id="stepCalc">
+      <p class="quiz-counter">Расчёт стоимости</p>
+      <p class="quiz-q">Выберите подходящий пакет</p>
+
+      <div class="calc-area-row">
+        <div>
+          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:4px">Ваша площадь</div>
+          <span id="calcAreaDisplay">—</span>
+        </div>
+        <button class="calc-area-edit" onclick="prevToQuizArea()">Изменить</button>
+      </div>
+
+      <div class="calc-pkg-grid">
+        <div class="calc-pkg" onclick="selectPkg(0)">
+          <span class="calc-check">✓</span>
+          <div class="calc-pkg-badge">Базовый</div>
+          <div class="calc-pkg-name">Планировочное решение</div>
+          <div class="calc-pkg-rate">1 900 тг/м²</div>
+          <div class="calc-pkg-total" id="pkg0-total">— <small>тг</small></div>
+          <div class="calc-pkg-desc">Варианты планировки с расстановкой мебели</div>
+        </div>
+        <div class="calc-pkg" onclick="selectPkg(1)">
+          <span class="calc-check">✓</span>
+          <div class="calc-pkg-badge">Популярный</div>
+          <div class="calc-pkg-name">Экспресс проект</div>
+          <div class="calc-pkg-rate">2 700 тг/м²</div>
+          <div class="calc-pkg-total" id="pkg1-total">— <small>тг</small></div>
+          <div class="calc-pkg-desc">Концепция + основные решения</div>
+        </div>
+        <div class="calc-pkg" onclick="selectPkg(2)">
+          <span class="calc-check">✓</span>
+          <div class="calc-pkg-badge">Рекомендуем</div>
+          <div class="calc-pkg-name">Рабочий проект</div>
+          <div class="calc-pkg-rate">3 700 тг/м²</div>
+          <div class="calc-pkg-total" id="pkg2-total">— <small>тг</small></div>
+          <div class="calc-pkg-desc">Полная документация для строителей</div>
+        </div>
+        <div class="calc-pkg" onclick="selectPkg(3)">
+          <span class="calc-check">✓</span>
+          <div class="calc-pkg-badge">Премиум</div>
+          <div class="calc-pkg-name">Полный проект</div>
+          <div class="calc-pkg-rate">6 900 тг/м²</div>
+          <div class="calc-pkg-total" id="pkg3-total">— <small>тг</small></div>
+          <div class="calc-pkg-desc">Максимальный комплект + авторская концепция</div>
+        </div>
+      </div>
+
+      <div id="visualBlock" style="display:none">
+        <p class="calc-extras-title">Визуальная подача <span style="color:var(--dim);font-weight:400;letter-spacing:0;text-transform:none;font-size:11px">(выберите один вариант)</span></p>
+        <div style="margin-bottom:28px">
+          <label class="calc-extra-item">
+            <input class="calc-visual-rb" type="radio" name="visual" data-price="2300" data-perm2="1">
+            <span class="calc-extra-name">3D Визуализация</span>
+            <span class="calc-extra-price">+2 300 тг/м²</span>
+          </label>
+          <label class="calc-extra-item">
+            <input class="calc-visual-rb" type="radio" name="visual" data-price="1500" data-perm2="1">
+            <span class="calc-extra-name">Moodboard / Коллаж</span>
+            <span class="calc-extra-price">+1 500 тг/м²</span>
+          </label>
+        </div>
+      </div>
+
+      <div id="visualIncluded" style="display:none;margin-bottom:28px">
+        <p class="calc-extras-title">Визуальная подача</p>
+        <div style="padding:14px 20px;border:1px solid rgba(212,160,23,.25);background:rgba(212,160,23,.06);display:flex;align-items:center;gap:12px">
+          <span style="color:var(--gold);font-size:18px">✓</span>
+          <span style="font-size:14px;color:var(--muted)">3D Визуализация уже включена в <strong style="color:var(--text)">Полный проект</strong></span>
+        </div>
+      </div>
+
+      <p class="calc-extras-title">Дополнительные услуги (опционально)</p>
+      <div style="margin-bottom:32px">
+        <label class="calc-extra-item">
+          <input class="calc-extra-cb" type="checkbox" data-price="150000" data-perm2="0">
+          <span class="calc-extra-name">Авторское сопровождение</span>
+          <span class="calc-extra-price">+150 000 тг/мес</span>
+        </label>
+        <label class="calc-extra-item">
+          <input class="calc-extra-cb" type="checkbox" data-price="100000" data-perm2="0">
+          <span class="calc-extra-name">Пакет визитов (6 выездов)</span>
+          <span class="calc-extra-price">+100 000 тг</span>
+        </label>
+        <label class="calc-extra-item">
+          <input class="calc-extra-cb" type="checkbox" data-price="20000" data-perm2="0">
+          <span class="calc-extra-name">Разовый выезд</span>
+          <span class="calc-extra-price">+20 000 тг</span>
+        </label>
+      </div>
+
+      <div class="calc-result-box">
+        <span class="calc-result-label">Итоговая стоимость</span>
+        <span class="calc-result-val" id="calcResult">Выберите пакет</span>
+      </div>
+
+      <div class="quiz-nav" style="margin-top:28px">
+        <button class="quiz-btn-back" onclick="goBackFromCalc()">← Назад</button>
+        <button class="quiz-btn" onclick="goToFinal()" id="btnCalc" disabled>Продолжить →</button>
+      </div>
+    </div>
+
+    <!-- Финал -->
+    <div class="quiz-step" id="stepFinal">
+      <div class="quiz-final">
+        <div class="quiz-final-icon">✨</div>
+        <h2>Спасибо! Анкета заполнена</h2>
+        <p>Отправьте ваши ответы в WhatsApp — мы свяжемся с вами в течение дня и предложим лучший вариант.</p>
+        <div class="quiz-final-btns">
+          <a id="quizWaBtn" href="#" class="cbtn wa" target="_blank">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            Отправить в WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -699,7 +1431,7 @@ footer{
       </div>
       <div class="ci">
         <span class="ci-label">Город</span>
-        <span class="ci-val">Алматы, Казахстан</span>
+        <span class="ci-val">Астана, Казахстан</span>
       </div>
     </div>
   </div>
@@ -708,7 +1440,7 @@ footer{
 <!-- FOOTER -->
 <footer>
   <a href="#home" class="footer-logo">Q<em>.</em>Art</a>
-  <p class="footer-copy">© 2026 Q.Art · Дизайн интерьера в Алматы</p>
+  <p class="footer-copy">© 2026 Q.Art · Дизайн интерьера в Астане</p>
   <div class="footer-links">
     <a href="#portfolio">Портфолио</a>
     <a href="#services">Услуги</a>
@@ -779,6 +1511,732 @@ const counterObs = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.5 });
 document.querySelectorAll('[data-count]').forEach(el => counterObs.observe(el));
+
+/* Quiz logic */
+const TOTAL = 5;
+const answers = {};
+
+const PKGS = [
+  { name: 'Планировочное решение', price: 1900 },
+  { name: 'Экспресс проект',        price: 2700 },
+  { name: 'Рабочий проект',         price: 3700 },
+  { name: 'Полный проект',          price: 6900 },
+];
+
+let selectedPkg = null;
+let calcArea = 0;
+const svcPreset = { pkg: null, visual: null, extras: [] };
+
+/* ── Шаг 0: Имя / телефон ── */
+const nameInput  = document.getElementById('quizName');
+const phoneInput = document.getElementById('quizPhone');
+const btnName    = document.getElementById('btnName');
+
+function checkNameStep() {
+  const nameOk  = nameInput.value.trim().length > 0;
+  const digits   = phoneInput.value.replace(/\D/g, '');
+  const phoneOk  = digits.length >= 10;
+
+  btnName.disabled = !(nameOk && phoneOk);
+
+  // Подсветка поля телефона
+  if (phoneInput.value.length > 0) {
+    phoneInput.style.borderColor = phoneOk ? 'var(--gold)' : '#f43f5e';
+  } else {
+    phoneInput.style.borderColor = '';
+  }
+}
+nameInput.addEventListener('input', checkNameStep);
+phoneInput.addEventListener('input', checkNameStep);
+
+function nextStepName() {
+  document.getElementById('stepName').classList.remove('active');
+  document.getElementById('step1').classList.add('active');
+  updateProgress(1);
+}
+function goToStepName() {
+  document.getElementById('step1').classList.remove('active');
+  document.getElementById('stepName').classList.add('active');
+  updateProgress(0);
+}
+
+/* ── Шаги 1-5: варианты ── */
+document.querySelectorAll('.quiz-step').forEach(step => {
+  step.querySelectorAll('.quiz-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const num = parseInt(step.id.replace('step', ''));
+      if (isNaN(num)) return;
+      step.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      answers['q' + num] = opt.innerText.replace(/\p{Emoji}/gu, '').trim();
+      const btn = document.getElementById('btn' + num);
+      if (btn) btn.disabled = false;
+    });
+  });
+});
+
+/* Поле площади */
+const areaInput = document.getElementById('areaInput');
+areaInput.addEventListener('input', () => {
+  const v = parseFloat(areaInput.value);
+  const ok = v > 0;
+  document.getElementById('btn2').disabled = !ok;
+  if (ok) answers['q2'] = v + ' м²';
+});
+
+function nextStep(current) {
+  document.getElementById('step' + current).classList.remove('active');
+  if (current < TOTAL) {
+    document.getElementById('step' + (current + 1)).classList.add('active');
+    updateProgress(current + 1);
+  } else {
+    /* Шаг 5 → комментарий */
+    document.getElementById('stepComment').classList.add('active');
+    updateProgress(TOTAL);
+  }
+}
+
+function prevStep(current) {
+  document.getElementById('step' + current).classList.remove('active');
+  document.getElementById('step' + (current - 1)).classList.add('active');
+  updateProgress(current - 1);
+}
+
+function prevToQuizArea() {
+  document.getElementById('stepCalc').classList.remove('active');
+  document.getElementById('step2').classList.add('active');
+  updateProgress(2);
+}
+/* После шага 5 → комментарий */
+function goToComment() {
+  document.getElementById('step5').classList.remove('active');
+  document.getElementById('stepComment').classList.add('active');
+  updateProgress(TOTAL);
+}
+function goBackToStep5() {
+  document.getElementById('stepComment').classList.remove('active');
+  document.getElementById('step5').classList.add('active');
+  updateProgress(5);
+}
+function goToCalc() {
+  document.getElementById('stepComment').classList.remove('active');
+  initCalc();
+  document.getElementById('stepCalc').classList.add('active');
+  updateProgress(TOTAL);
+}
+function goBackFromCalc() {
+  document.getElementById('stepCalc').classList.remove('active');
+  document.getElementById('stepComment').classList.add('active');
+  updateProgress(TOTAL);
+}
+async function goToFinal() {
+  document.getElementById('stepCalc').classList.remove('active');
+  document.getElementById('stepFinal').classList.add('active');
+  await sendToTelegram(buildLeadMessage());
+  // Отправляем файлы если есть
+  const files = document.getElementById('quizFiles').files;
+  if (files && files.length > 0) {
+    await sendFilesToTelegram(files);
+  }
+}
+
+/* Показывать выбранные файлы */
+document.getElementById('quizFiles').addEventListener('change', function() {
+  const list = document.getElementById('quizFileList');
+  list.innerHTML = '';
+  Array.from(this.files).forEach(f => {
+    const chip = document.createElement('div');
+    chip.className = 'quiz-file-chip';
+    chip.innerHTML = `<span>📎</span>${f.name}`;
+    list.appendChild(chip);
+  });
+});
+
+function updateProgress(step) {
+  document.getElementById('quizProgress').style.width = Math.round((step / TOTAL) * 100) + '%';
+}
+
+// Калькулятор
+function fmt(n) {
+  return Math.round(n).toLocaleString('ru-RU');
+}
+
+function initCalc() {
+  calcArea = parseFloat(areaInput.value) || 0;
+  document.getElementById('calcAreaDisplay').textContent = calcArea > 0 ? calcArea + ' м²' : 'не указана';
+
+  PKGS.forEach((pkg, i) => {
+    const el = document.getElementById('pkg' + i + '-total');
+    if (el) el.innerHTML = calcArea > 0
+      ? fmt(pkg.price * calcArea) + ' <small>тг</small>'
+      : '— <small>тг</small>';
+  });
+
+  const sp = new URLSearchParams(window.location.search);
+
+  /* 1. Пакет из URL (?pkg=N) */
+  const urlPkg = parseInt(sp.get('pkg'));
+  if (!isNaN(urlPkg) && urlPkg >= 0 && urlPkg < PKGS.length) {
+    selectPkg(urlPkg);
+  }
+
+  /* 2. Визуальная подача (?viz=3d | ?viz=mood) — после selectPkg */
+  const urlViz = sp.get('viz');
+  if (urlViz && selectedPkg !== 3) {
+    const vizIdx = { '3d': 0, 'mood': 1 }[urlViz];
+    if (vizIdx !== undefined) {
+      const vRbs = document.querySelectorAll('.calc-visual-rb');
+      if (vRbs[vizIdx]) vRbs[vizIdx].checked = true;
+    }
+  }
+
+  /* 3. Авторский надзор (?nadz=monthly | visits | single) */
+  const urlNadz = sp.get('nadz');
+  if (urlNadz) {
+    const nadzIdx = { monthly: 0, visits: 1, single: 2 }[urlNadz];
+    const extraCbs = document.querySelectorAll('.calc-extra-cb');
+    if (nadzIdx !== undefined && extraCbs[nadzIdx]) {
+      extraCbs[nadzIdx].checked = true;
+    }
+  }
+
+  updateCalcTotal();
+}
+
+function selectPkg(idx) {
+  selectedPkg = idx;
+  document.querySelectorAll('.calc-pkg').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('btnCalc').disabled = false;
+  answers['pkg'] = PKGS[idx].name;
+
+  const isFullPkg = idx === 3;
+  document.getElementById('visualBlock').style.display    = isFullPkg ? 'none' : 'block';
+  document.getElementById('visualIncluded').style.display = isFullPkg ? 'block' : 'none';
+
+  // Снимаем выбор визуальной подачи при смене пакета
+  document.querySelectorAll('.calc-visual-rb').forEach(r => r.checked = false);
+
+  updateCalcTotal();
+}
+
+function updateCalcTotal() {
+  if (selectedPkg === null) return;
+  let total = PKGS[selectedPkg].price * calcArea;
+
+  // Визуальная подача — только один радио
+  const chosenVisual = document.querySelector('.calc-visual-rb:checked');
+  if (chosenVisual && selectedPkg !== 3) {
+    const p = parseFloat(chosenVisual.dataset.price);
+    total += chosenVisual.dataset.perm2 === '1' ? p * calcArea : p;
+  }
+
+  // Доп. услуги — чекбоксы
+  document.querySelectorAll('.calc-extra-cb:checked').forEach(cb => {
+    const p = parseFloat(cb.dataset.price);
+    total += cb.dataset.perm2 === '1' ? p * calcArea : p;
+  });
+
+  const resultEl = document.getElementById('calcResult');
+  resultEl.textContent = calcArea > 0 ? fmt(total) + ' тг' : '— тг';
+  answers['total'] = resultEl.textContent;
+}
+
+document.querySelectorAll('.calc-visual-rb').forEach(r => {
+  r.addEventListener('change', updateCalcTotal);
+});
+document.querySelectorAll('.calc-extra-cb').forEach(cb => {
+  cb.addEventListener('change', updateCalcTotal);
+});
+
+/* ── SERVICE PRE-SELECT ── */
+document.querySelectorAll('.svc-mini-pkg-btn').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    document.querySelectorAll('.svc-mini-pkg-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    svcPreset.pkg = parseInt(btn.dataset.pkg);
+  });
+});
+
+const svcSelEl = document.getElementById('svcSelections');
+if (svcSelEl) svcSelEl.addEventListener('click', e => e.stopPropagation());
+
+const svcQuizBtn = document.querySelector('.svc-quiz-btn');
+if (svcQuizBtn) svcQuizBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  const vRb = document.querySelector('input[name="svc-visual"]:checked');
+  svcPreset.visual = vRb ? parseInt(vRb.value) : null;
+  svcPreset.extras = [];
+  document.querySelectorAll('.svc-extra-cb:checked').forEach(cb => {
+    svcPreset.extras.push(parseInt(cb.dataset.extra));
+  });
+  document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+});
+
+/* ── TELEGRAM BOT ── */
+const TG_TOKEN   = '8726934439:AAHpZZNq-zKvionUxbOQM1v4ZdV-4_YL7mo';
+const TG_CHAT_ID = '5470915959';
+
+async function sendToTelegram(text) {
+  try {
+    await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: TG_CHAT_ID,
+        text: text,
+        parse_mode: 'HTML'
+      })
+    });
+  } catch(e) { console.warn('Telegram error:', e); }
+}
+
+function buildLeadMessage() {
+  const name  = document.getElementById('quizName').value.trim()  || '—';
+  const phone = document.getElementById('quizPhone').value.trim() || '—';
+
+  const address = (document.getElementById('quizAddress').value || '').trim();
+  const addressLine = address ? `\n📍 <b>Адрес / ЖК:</b> ${address}` : '';
+
+  const labels = ['Тип объекта','Площадь','Срок','Город','Опыт с дизайнером'];
+  const qs = labels.map((l,i) => `• <b>${l}:</b> ${answers['q'+(i+1)] || '—'}`).join('\n') + addressLine;
+
+  const comment = (document.getElementById('quizComment').value || '').trim();
+  const commentLine = comment ? `\n\n💬 <b>Пожелания клиента:</b>\n${comment}` : '';
+
+  const pkg = answers['pkg'] ? `\n\n📦 <b>Пакет:</b> ${answers['pkg']}` : '';
+  const tot = answers['total'] ? `\n💰 <b>Стоимость:</b> ${answers['total']}` : '';
+
+  // Визуальная подача
+  const visualRb = document.querySelector('.calc-visual-rb:checked');
+  const visual = visualRb
+    ? `\n🎨 <b>Визуальная подача:</b> ${visualRb.closest('label').querySelector('.calc-extra-name').textContent.trim()}`
+    : '';
+
+  // Доп. услуги
+  const extras = [];
+  document.querySelectorAll('.calc-extra-cb:checked').forEach(cb => {
+    const label = cb.closest('label').querySelector('.calc-extra-name');
+    if (label) extras.push(label.textContent.trim());
+  });
+  const extraLine = extras.length
+    ? `\n➕ <b>Доп. услуги:</b> ${extras.join(', ')}`
+    : '';
+
+  const files = document.getElementById('quizFiles').files;
+  const filesLine = files && files.length > 0
+    ? `\n📁 <b>Файлы:</b> ${files.length} шт. (отправлены отдельно)`
+    : '';
+
+  return `🏠 <b>НОВАЯ ЗАЯВКА — Q.Art</b>\n\n👤 <b>Имя:</b> ${name}\n📱 <b>Телефон:</b> ${phone}\n\n${qs}${commentLine}${pkg}${visual}${extraLine}${tot}${filesLine}`;
+}
+
+async function sendFilesToTelegram(files) {
+  const name = document.getElementById('quizName').value.trim() || 'Клиент';
+  for (const file of Array.from(files)) {
+    try {
+      const fd = new FormData();
+      fd.append('chat_id', TG_CHAT_ID);
+      fd.append('caption', `📎 Файл от ${name}: ${file.name}`);
+      const isImg = file.type.startsWith('image/');
+      fd.append(isImg ? 'photo' : 'document', file);
+      await fetch(`https://api.telegram.org/bot${TG_TOKEN}/${isImg ? 'sendPhoto' : 'sendDocument'}`, {
+        method: 'POST', body: fd
+      });
+    } catch(e){ console.warn('file send error', e); }
+  }
+}
+
+
+document.getElementById('quizWaBtn').addEventListener('click', function(e) {
+  e.preventDefault();
+  const name  = document.getElementById('quizName').value.trim()  || 'Клиент';
+  const phone = document.getElementById('quizPhone').value.trim();
+  const labels = ['Тип объекта','Площадь','Срок','Город','Опыт с дизайнером'];
+  const lines  = labels.map((l,i) => `• ${l}: ${answers['q'+(i+1)] || '—'}`).join('\n');
+  const pkg    = answers['pkg']   ? `\n\n📦 Выбранный пакет: ${answers['pkg']}` : '';
+  const tot    = answers['total'] ? `\n💰 Стоимость: ${answers['total']}` : '';
+  const msg    = `Привет! Я заполнил(а) анкету на сайте Q.Art.\n\nИмя: ${name}${phone ? '\nТелефон: '+phone : ''}\n\n${lines}${pkg}${tot}\n\nЖду вашего ответа!`;
+  this.href = 'https://wa.me/77478016162?text=' + encodeURIComponent(msg);
+  window.open(this.href, '_blank');
+});
+
+/* ── MESH GRADIENT BACKGROUND (quiz section) ── */
+(function(){
+  const canvas = document.getElementById('quizCanvas');
+  if(!canvas) return;
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if(!gl) return;
+
+  const vs = `
+    attribute vec2 a_pos;
+    void main(){ gl_Position = vec4(a_pos,0.,1.); }
+  `;
+
+  const fs = `
+    precision mediump float;
+    uniform float u_t;
+    uniform vec2 u_res;
+
+    float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
+
+    float noise(vec2 p){
+      vec2 i=floor(p), f=fract(p);
+      f=f*f*(3.-2.*f);
+      return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),
+                 mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y);
+    }
+
+    float fbm(vec2 p){
+      float v=0.,a=.5;
+      for(int i=0;i<5;i++){ v+=a*noise(p); p=p*2.+vec2(3.1,7.4); a*=.5; }
+      return v;
+    }
+
+    void main(){
+      vec2 uv = gl_FragCoord.xy / u_res;
+      float t = u_t * 0.28;
+
+      /* distorted coordinates — stronger flow */
+      float q1 = fbm(uv + vec2(0., t*.4));
+      float q2 = fbm(uv + vec2(q1+1.7, t*.3));
+      vec2 d = uv + .45*vec2(
+        fbm(uv+2.*q1+vec2(1.7,9.2)+t*.18),
+        fbm(uv+2.*q2+vec2(8.3,2.8)+t*.14)
+      );
+
+      /* animated color centers */
+      float d1=length(d-vec2(.25+sin(t*.4)*.14, .3+cos(t*.3)*.16));
+      float d2=length(d-vec2(.75+cos(t*.35)*.12, .7+sin(t*.4)*.13));
+      float d3=length(d-vec2(.5+sin(t*.28)*.16, .5+cos(t*.22)*.12));
+      float d4=length(d-vec2(.2+cos(t*.3)*.12, .78+sin(t*.33)*.12));
+      float d5=length(d-vec2(.8+sin(t*.38)*.1, .22+cos(t*.28)*.14));
+
+      /* monochromatic: black → dark gray → light gray / white streaks */
+      vec3 c1=vec3(.42,.42,.42);
+      vec3 c2=vec3(.02,.02,.02);
+      vec3 c3=vec3(.70,.70,.70);
+      vec3 c4=vec3(.04,.04,.04);
+      vec3 c5=vec3(.20,.20,.20);
+
+      float w1=1./max(d1,.01), w2=1./max(d2,.01), w3=1./max(d3,.01),
+            w4=1./max(d4,.01), w5=1./max(d5,.01);
+      float wt=w1+w2+w3+w4+w5;
+      vec3 col=(c1*w1+c2*w2+c3*w3+c4*w4+c5*w5)/wt;
+
+      /* vignette */
+      float vig = 1.-length((uv-.5)*1.25);
+      col *= clamp(vig,.0,1.)*.35 + .65;
+
+      gl_FragColor = vec4(col, 1.);
+    }
+  `;
+
+  function compile(type, src){
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src); gl.compileShader(s); return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, compile(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog); gl.useProgram(prog);
+
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(prog,'a_pos');
+  gl.enableVertexAttribArray(loc);
+  gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+
+  const uT   = gl.getUniformLocation(prog,'u_t');
+  const uRes = gl.getUniformLocation(prog,'u_res');
+
+  function resize(){
+    const sec = canvas.parentElement;
+    canvas.width  = sec.offsetWidth  || window.innerWidth;
+    canvas.height = sec.offsetHeight || window.innerHeight;
+    gl.viewport(0,0,canvas.width,canvas.height);
+  }
+  resize();
+  window.addEventListener('resize', resize, {passive:true});
+  /* Обновляем при изменении высоты секции (квиз меняет высоту) */
+  if(window.ResizeObserver){
+    new ResizeObserver(resize).observe(canvas.parentElement);
+  }
+
+  let start = null, elapsed = 0, raf = null, visible = true;
+  function frame(ts){
+    if(!start) start = ts;
+    gl.uniform1f(uT, elapsed + (ts-start)/1000);
+    gl.uniform2f(uRes, canvas.width, canvas.height);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    raf = requestAnimationFrame(frame);
+  }
+  function play(){
+    if(raf) return;
+    start = null;
+    raf = requestAnimationFrame(frame);
+  }
+  function pause(){
+    if(!raf) return;
+    cancelAnimationFrame(raf);
+    raf = null;
+    if(start) elapsed += (performance.now()-start)/1000;
+  }
+  if(window.IntersectionObserver){
+    new IntersectionObserver(entries => {
+      entries.forEach(e => { visible = e.isIntersecting; e.isIntersecting ? play() : pause(); });
+    }, {threshold: 0}).observe(canvas.parentElement);
+  } else {
+    play();
+  }
+  document.addEventListener('visibilitychange', () => {
+    if(document.hidden) pause(); else if(visible) play();
+  });
+  play();
+})();
+
+/* ── DOT ORBIT ── */
+(function(){
+  const canvas = document.getElementById('quizDots');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  function resize(){
+    const sec = canvas.parentElement;
+    canvas.width  = sec.offsetWidth  || window.innerWidth;
+    canvas.height = sec.offsetHeight || 600;
+  }
+  resize();
+  if(window.ResizeObserver) new ResizeObserver(resize).observe(canvas.parentElement);
+  window.addEventListener('resize', resize, {passive:true});
+  const groups = [];
+  [{cx:.2,cy:.3,r:.12,n:10,sp:.4},{cx:.7,cy:.65,r:.10,n:8,sp:-.3},
+   {cx:.5,cy:.2,r:.15,n:12,sp:.25},{cx:.85,cy:.45,r:.09,n:7,sp:-.5},
+   {cx:.15,cy:.75,r:.11,n:9,sp:.35}].forEach(g=>{
+    for(let i=0;i<g.n;i++) groups.push({
+      cx:g.cx,cy:g.cy,r:g.r,
+      angle:(i/g.n)*Math.PI*2,
+      speed:g.sp*(0.8+Math.random()*.4),
+      size:0.6+Math.random()*1.4,
+      op:0.2+Math.random()*.5
+    });
+  });
+  let fr=0, raf=null;
+  function loop(){
+    raf = requestAnimationFrame(loop);
+    const w=canvas.width,h=canvas.height;
+    ctx.clearRect(0,0,w,h);
+    fr++;
+    groups.forEach(dot=>{
+      dot.angle+=dot.speed*0.008;
+      const x=(dot.cx+Math.cos(dot.angle)*dot.r)*w;
+      const y=(dot.cy+Math.sin(dot.angle)*dot.r)*h;
+      const p=dot.op*(0.7+0.3*Math.sin(fr*0.05+dot.angle));
+      ctx.beginPath();
+      ctx.arc(x,y,dot.size,0,Math.PI*2);
+      ctx.fillStyle=`rgba(200,200,200,${p})`;
+      ctx.fill();
+    });
+  }
+  function play(){ if(!raf) loop(); }
+  function pause(){ if(raf){ cancelAnimationFrame(raf); raf=null; } }
+  if(window.IntersectionObserver){
+    new IntersectionObserver(entries => {
+      entries.forEach(e => e.isIntersecting ? play() : pause());
+    }, {threshold: 0}).observe(canvas.parentElement);
+  } else {
+    play();
+  }
+  document.addEventListener('visibilitychange', () => {
+    document.hidden ? pause() : play();
+  });
+  play();
+})();
+
+/* ── SERVICES SLIDER ── */
+(function(){
+  // Анимация букв
+  document.querySelectorAll('.svc-title').forEach(el => {
+    const text = el.textContent.trim();
+    el.innerHTML = text.split('').map((char, i) => {
+      const d = (i * 0.018).toFixed(3);
+      if(char === ' ') return `<span style="display:inline-block;width:.3em"> </span>`;
+      return `<span class="lw"><span class="lo" style="transition-delay:${d}s">${char}</span><span class="li" style="transition-delay:${d}s">${char}</span></span>`;
+    }).join('');
+  });
+
+  // Добавляем иконку +/× к каждому заголовку (после цены, с авто-отступом если цены нет)
+  document.querySelectorAll('.svc-item-header').forEach(h => {
+    if(!h.querySelector('.svc-price')){
+      const sp = document.createElement('span');
+      sp.style.marginLeft = 'auto';
+      sp.style.display = 'inline-block';
+      sp.style.width = '1px';
+      h.appendChild(sp);
+    }
+    const icon = document.createElement('span');
+    icon.className = 'svc-toggle-icon';
+    icon.textContent = '+';
+    h.appendChild(icon);
+  });
+
+  const items = document.querySelectorAll('.svc-item');
+  const imgs  = document.querySelectorAll('.svc-img');
+
+  items.forEach((item, idx) => {
+    item.addEventListener('click', () => {
+      const wasActive = item.classList.contains('active');
+      // Сбрасываем всё
+      items.forEach(it => {
+        it.classList.remove('active');
+        const ico = it.querySelector('.svc-toggle-icon');
+        if(ico) ico.textContent = '+';
+      });
+      imgs.forEach(im => im.classList.remove('active'));
+      // Если не был активен — активируем
+      if(!wasActive){
+        item.classList.add('active');
+        const ico = item.querySelector('.svc-toggle-icon');
+        if(ico) ico.textContent = '×';
+        imgs[idx] && imgs[idx].classList.add('active');
+      }
+    });
+  });
+})();
+
+/* ── PORTFOLIO 3D CAROUSEL ── */
+(function(){
+  const cards = Array.from(document.querySelectorAll('.pf-card'));
+  const total = cards.length;
+  if(!total) return;
+  let cur = Math.floor(total/2);
+  let timer;
+
+  function render(){
+    cards.forEach((card, idx) => {
+      let pos = (idx - cur + total) % total;
+      if(pos > Math.floor(total/2)) pos -= total;
+
+      const isCenter   = pos === 0;
+      const isAdjacent = Math.abs(pos) === 1;
+      const isNear     = Math.abs(pos) === 2;
+
+      card.classList.toggle('center', isCenter);
+
+      const tx    = pos * 150;
+      const scale = isCenter ? 1 : isAdjacent ? 0.8 : isNear ? 0.62 : 0.5;
+      const rotY  = pos * -14;
+      const opacity = isCenter ? 1 : isAdjacent ? 0.55 : isNear ? 0.22 : 0;
+      const blur  = isCenter ? 0 : isAdjacent ? 2.5 : 6;
+      const z     = isCenter ? 10 : isAdjacent ? 5 : 1;
+
+      card.style.transform  = `translateX(${tx}px) scale(${scale}) rotateY(${rotY}deg)`;
+      card.style.opacity    = opacity;
+      card.style.filter     = `blur(${blur}px)`;
+      card.style.zIndex     = z;
+      card.style.visibility = Math.abs(pos) > 3 ? 'hidden' : 'visible';
+    });
+  }
+
+  function next(){ cur = (cur + 1) % total; render(); }
+  function prev(){ cur = (cur - 1 + total) % total; render(); }
+  window.pfNext = next;
+  window.pfPrev = prev;
+
+  function startAuto(){ timer = setInterval(next, 4000); }
+  function stopAuto(){ clearInterval(timer); }
+
+  const stage = document.getElementById('pfStage');
+  stage.addEventListener('mouseenter', stopAuto);
+  stage.addEventListener('mouseleave', startAuto);
+
+  cards.forEach((card, idx) => {
+    card.addEventListener('click', () => {
+      let pos = (idx - cur + total) % total;
+      if(pos > Math.floor(total/2)) pos -= total;
+      if(pos === 0){
+        if(window.openPortfolioLightbox) window.openPortfolioLightbox(idx);
+      } else {
+        stopAuto();
+        cur = idx;
+        render();
+        startAuto();
+      }
+    });
+  });
+
+  render();
+  startAuto();
+})();
+
+/* ── LIGHTBOX ── */
+(function() {
+  const lb      = document.createElement('div');
+  lb.className  = 'lightbox';
+  lb.id         = 'lightbox';
+  lb.innerHTML  = `
+    <button class="lb-close" id="lbClose">✕</button>
+    <button class="lb-nav lb-prev" id="lbPrev">&#8249;</button>
+    <div class="lb-img-wrap">
+      <img class="lb-img" id="lbImg" src="" alt="">
+      <p class="lb-caption" id="lbCaption"></p>
+    </div>
+    <button class="lb-nav lb-next" id="lbNext">&#8250;</button>
+    <div class="lb-counter" id="lbCounter"></div>
+  `;
+  document.body.appendChild(lb);
+
+  // Собираем все фото портфолио (карусель)
+  const items = Array.from(document.querySelectorAll('.pf-stage .pf-card'));
+  let current = 0;
+
+  function open(idx) {
+    current = idx;
+    const img     = items[idx].querySelector('img');
+    const caption = items[idx].querySelector('.pi-name');
+    document.getElementById('lbImg').src         = img.src;
+    document.getElementById('lbImg').alt         = img.alt;
+    document.getElementById('lbCaption').textContent = caption ? caption.textContent : '';
+    document.getElementById('lbCounter').textContent = (idx + 1) + ' / ' + items.length;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  window.openPortfolioLightbox = open;
+
+  function close() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function prev() { open((current - 1 + items.length) % items.length); }
+  function next() { open((current + 1) % items.length); }
+
+  // Кнопки
+  document.getElementById('lbClose').addEventListener('click', e => { e.stopPropagation(); close(); });
+  document.getElementById('lbPrev').addEventListener('click',  e => { e.stopPropagation(); prev(); });
+  document.getElementById('lbNext').addEventListener('click',  e => { e.stopPropagation(); next(); });
+
+  // Клик на фон — закрыть
+  lb.addEventListener('click', e => { if (e.target === lb) close(); });
+
+  // Клавиатура
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'ArrowLeft')  prev();
+    if (e.key === 'ArrowRight') next();
+    if (e.key === 'Escape')     close();
+  });
+
+  // Свайп на мобильном
+  let touchX = 0;
+  lb.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) dx < 0 ? next() : prev();
+  });
+})();
 </script>
 </body>
 </html>
