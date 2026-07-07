@@ -2364,9 +2364,13 @@ document.getElementById('quizWaBtn').addEventListener('click', function(e) {
   });
 })();
 
-/* ── BFCACHE FIX: перезагрузка при возврате назад ── */
+/* ── BACK/FORWARD CACHE FIX ── */
 window.addEventListener('pageshow', function(e) {
-  if (e.persisted) window.location.reload();
+  if (e.persisted) { window.location.reload(); return; }
+  if (window.performance) {
+    var nav = performance.getEntriesByType('navigation')[0];
+    if (nav && nav.type === 'back_forward') window.location.reload();
+  }
 });
 </script>
 </body>
