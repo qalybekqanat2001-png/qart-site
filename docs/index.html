@@ -2363,6 +2363,11 @@ document.getElementById('quizWaBtn').addEventListener('click', function(e) {
     if (Math.abs(dx) > 50) dx < 0 ? next() : prev();
   });
 })();
+
+/* ── BFCACHE FIX: перезагрузка при возврате назад ── */
+window.addEventListener('pageshow', function(e) {
+  if (e.persisted) window.location.reload();
+});
 </script>
 </body>
 </html>
