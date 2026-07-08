@@ -269,6 +269,11 @@ footer{background:#050505;border-top:1px solid var(--border);padding:28px 64px;d
 <!-- NAV -->
 <nav class="nav">
   <a href="index.html" class="nav-logo">QiAll <em>Design</em></a>
+  <div class="lang-switch">
+    <button class="lang-btn" data-lang="ru" onclick="window.setLang('ru')">RU</button>
+    <button class="lang-btn" data-lang="kz" onclick="window.setLang('kz')">ҚАЗ</button>
+    <button class="lang-btn" data-lang="en" onclick="window.setLang('en')">EN</button>
+  </div>
   <a href="index.html#services" class="nav-back">← Назад к услугам</a>
 </nav>
 
@@ -365,6 +370,7 @@ footer{background:#050505;border-top:1px solid var(--border);padding:28px 64px;d
   <p class="footer-copy">© 2026 QiAll Design · Дизайн интерьера в Астане</p>
 </footer>
 
+<script src="lang.js"></script>
 <script>
 /* ── SKETCH LIGHTBOX ── */
 let lbIdx = 0;
@@ -413,6 +419,8 @@ document.getElementById('lb').addEventListener('touchend',   e => {
   const dx = e.changedTouches[0].clientX - tx;
   if (Math.abs(dx) > 50) lbNav(dx < 0 ? 1 : -1);
 });
+
+if(window.applyLang) window.applyLang(window.currentLang||'ru');
 </script>
 </body>
 </html>

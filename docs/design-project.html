@@ -367,6 +367,11 @@ footer{background:#050505;border-top:1px solid var(--border);padding:28px 64px;d
 <!-- NAV -->
 <nav class="nav">
   <a href="index.html" class="nav-logo">QiAll <em>Design</em></a>
+  <div class="lang-switch">
+    <button class="lang-btn" data-lang="ru" onclick="window.setLang('ru')">RU</button>
+    <button class="lang-btn" data-lang="kz" onclick="window.setLang('kz')">ҚАЗ</button>
+    <button class="lang-btn" data-lang="en" onclick="window.setLang('en')">EN</button>
+  </div>
   <a href="index.html#services" class="nav-back">← Назад к услугам</a>
 </nav>
 
@@ -642,6 +647,7 @@ footer{background:#050505;border-top:1px solid var(--border);padding:28px 64px;d
   <p class="footer-copy">© 2026 QiAll Design · Дизайн интерьера в Астане</p>
 </footer>
 
+<script src="lang.js"></script>
 <script>
 /* Scroll animations */
 const obs = new IntersectionObserver(entries => {
@@ -676,6 +682,9 @@ nCards.forEach((c, i) => {
 const PKG_NAMES  = ['Полный проект','Рабочий проект','Экспресс проект','Планировочное решение'];
 const NADZ_NAMES = { single:'Разовый выезд', visits:'Пакет визитов', monthly:'Авторское сопровождение' };
 const VIZ_NAMES  = { '3d':'3D Визуализация', mood:'Moodboard / Коллаж' };
+window.PKG_NAMES  = PKG_NAMES;
+window.NADZ_NAMES = NADZ_NAMES;
+window.VIZ_NAMES  = VIZ_NAMES;
 
 let selPkg  = null;
 let selNadz = null;
@@ -697,12 +706,12 @@ function selectPkgCard(idx, btn) {
 function selectNadz(type, btn) {
   const same = selNadz === type;
   document.querySelectorAll('.nc').forEach(c => c.classList.remove('selected'));
-  document.querySelectorAll('.nc-btn').forEach(b => { b.textContent = 'Выбрать'; b.classList.remove('selected-btn'); });
+  document.querySelectorAll('.nc-btn').forEach(b => { b.textContent = (window.t&&window.t('dpChoose'))||'Выбрать'; b.classList.remove('selected-btn'); });
   selNadz = same ? null : type;
   if (selNadz) {
     btn.closest('.nc').classList.add('selected');
     btn.classList.add('selected-btn');
-    btn.textContent = '✓ Выбрано';
+    btn.textContent = (window.t&&window.t('dpChosen'))||'✓ Выбрано';
   }
   updateBar();
 }
@@ -728,7 +737,7 @@ function updateBar() {
     return;
   }
   bar.classList.add('show');
-  sum.innerHTML = '<strong>Выбрано:</strong> ' + tags.map(t => `<span class="bs-tag">${t}</span>`).join('');
+  sum.innerHTML = '<strong>' + ((window.t&&window.t('dpSelected'))||'Выбрано') + ':</strong> ' + tags.map(tag => `<span class="bs-tag">${tag}</span>`).join('');
 }
 
 function goToQuiz() {
@@ -745,6 +754,7 @@ const vizDescs = {
   '3d':   'Фотореалистичные рендеры интерьера — увидите финальный результат до начала ремонта. Никаких сюрпризов, полное совпадение ожидания и реальности.',
   'mood': 'Концептуальный коллаж из материалов, мебели и атмосферы. Быстро согласуем стиль и направление до старта проекта — без лишних слов.'
 };
+window.vizDescs = vizDescs;
 
 function switchViz(tab) {
   document.querySelectorAll('.viz-tab').forEach(t => t.classList.remove('active'));
@@ -759,6 +769,8 @@ function expandVacc(item) {
   item.parentElement.querySelectorAll('.vacc-item').forEach(i => i.classList.remove('expanded'));
   item.classList.add('expanded');
 }
+
+if(window.applyLang) window.applyLang(window.currentLang||'ru');
 </script>
 </body>
 </html>

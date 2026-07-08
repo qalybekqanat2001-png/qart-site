@@ -1015,6 +1015,11 @@ footer{
     <a href="#prices">Цены</a>
     <a href="#contact">Контакт</a>
   </div>
+  <div class="lang-switch">
+    <button class="lang-btn" data-lang="ru" onclick="window.setLang('ru')">RU</button>
+    <button class="lang-btn" data-lang="kz" onclick="window.setLang('kz')">ҚАЗ</button>
+    <button class="lang-btn" data-lang="en" onclick="window.setLang('en')">EN</button>
+  </div>
   <a href="https://wa.me/77478016162" class="nav-cta" target="_blank" rel="noopener">Написать нам</a>
   <button class="burger" id="burger" aria-label="Меню">
     <span></span><span></span><span></span>
@@ -1517,6 +1522,7 @@ footer{
   </div>
 </footer>
 
+<script src="lang.js"></script>
 <script>
 /* Nav scroll */
 const nav = document.getElementById('nav');
@@ -1567,38 +1573,7 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   const totalLabel= document.getElementById('processDotTotal');
   if(!descWrap || !track) return;
 
-  const STEPS = [
-    'Знакомство и обсуждение проекта',
-    'Заполнение брифа (анкеты)',
-    'Фиксация договорённостей — сроки и этапы работы, стоимость услуг, количество бесплатных правок',
-    'Внесение предоплаты 50%',
-    'Обсуждение концепции',
-    'Разработка дизайна',
-    'Презентация проекта',
-    'Внесение правок',
-    'Доплата',
-    'Передача файлов клиенту'
-  ];
-
-  totalLabel.textContent = String(STEPS.length).padStart(2,'0');
-
-  STEPS.forEach((text, i) => {
-    const p = document.createElement('p');
-    p.className = 'process-desc' + (i===0 ? ' active' : '');
-    p.dataset.i = i;
-    p.innerHTML = `<span class="process-desc-num">${i+1}.</span><span>${text}</span>`;
-    descWrap.appendChild(p);
-
-    const btn = document.createElement('button');
-    btn.className = 'process-dotbtn' + (i===0 ? ' active' : '');
-    btn.type = 'button';
-    btn.setAttribute('aria-label', 'Шаг ' + (i+1));
-    btn.addEventListener('click', () => goTo(i));
-    track.appendChild(btn);
-  });
-
-  const descs = descWrap.querySelectorAll('.process-desc');
-  const btns  = track.querySelectorAll('.process-dotbtn');
+  let activeIdx = 0;
 
   function positionLabels(){
     const activeBtn = track.querySelector('.process-dotbtn.active');
@@ -1609,14 +1584,40 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   }
 
   function goTo(i){
-    descs.forEach(d => d.classList.toggle('active', +d.dataset.i === i));
-    btns.forEach((b,bi) => b.classList.toggle('active', bi === i));
+    activeIdx = i;
+    descWrap.querySelectorAll('.process-desc').forEach(d => d.classList.toggle('active', +d.dataset.i === i));
+    track.querySelectorAll('.process-dotbtn').forEach((b,bi) => b.classList.toggle('active', bi === i));
     curLabel.textContent = String(i+1).padStart(2,'0');
     positionLabels();
   }
 
-  positionLabels();
+  function buildSteps(keepIdx){
+    const steps = (window.t && Array.isArray(window.t('processSteps')))
+      ? window.t('processSteps')
+      : ['Знакомство и обсуждение проекта','Заполнение брифа (анкеты)','Фиксация договорённостей — сроки и этапы работы, стоимость услуг, количество бесплатных правок','Внесение предоплаты 50%','Обсуждение концепции','Разработка дизайна','Презентация проекта','Внесение правок','Доплата','Передача файлов клиенту'];
+    descWrap.innerHTML = '';
+    track.innerHTML = '';
+    totalLabel.textContent = String(steps.length).padStart(2,'0');
+    steps.forEach((text, i) => {
+      const p = document.createElement('p');
+      p.className = 'process-desc' + (i===keepIdx ? ' active' : '');
+      p.dataset.i = i;
+      p.innerHTML = `<span class="process-desc-num">${i+1}.</span><span>${text}</span>`;
+      descWrap.appendChild(p);
+      const btn = document.createElement('button');
+      btn.className = 'process-dotbtn' + (i===keepIdx ? ' active' : '');
+      btn.type = 'button';
+      btn.setAttribute('aria-label', 'Шаг '+(i+1));
+      btn.addEventListener('click', () => goTo(i));
+      track.appendChild(btn);
+    });
+    curLabel.textContent = String(keepIdx+1).padStart(2,'0');
+    positionLabels();
+  }
+
+  buildSteps(0);
   window.addEventListener('resize', positionLabels, {passive:true});
+  window.rebuildProcessSteps = function(){ buildSteps(activeIdx); };
 })();
 
 /* Counter animation */
@@ -1650,6 +1651,7 @@ const PKGS = [
   { name: 'Экспресс проект',        price: 2700 },
   { name: 'Планировочное решение',  price: 1900 },
 ];
+window.PKGS = PKGS;
 
 let selectedPkg = null;
 let calcArea = 0;
@@ -2374,6 +2376,8 @@ window.addEventListener('pageshow', function(e) {
     if (nav && nav.type === 'back_forward') window.location.reload();
   }
 });
+
+if(window.applyLang) window.applyLang(window.currentLang||'ru');
 </script>
 </body>
 </html>
