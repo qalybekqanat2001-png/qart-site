@@ -1356,35 +1356,35 @@ footer{
       <div class="calc-pkg-grid">
         <div class="calc-pkg" onclick="selectPkg(0)">
           <span class="calc-check">✓</span>
-          <div class="calc-pkg-badge">Базовый</div>
-          <div class="calc-pkg-name">Планировочное решение</div>
-          <div class="calc-pkg-rate">1 900 тг/м²</div>
+          <div class="calc-pkg-badge">Премиум</div>
+          <div class="calc-pkg-name">Полный проект</div>
+          <div class="calc-pkg-rate">6 900 тг/м²</div>
           <div class="calc-pkg-total" id="pkg0-total">— <small>тг</small></div>
-          <div class="calc-pkg-desc">Варианты планировки с расстановкой мебели</div>
+          <div class="calc-pkg-desc">Максимальный комплект + авторская концепция</div>
         </div>
         <div class="calc-pkg" onclick="selectPkg(1)">
-          <span class="calc-check">✓</span>
-          <div class="calc-pkg-badge">Популярный</div>
-          <div class="calc-pkg-name">Экспресс проект</div>
-          <div class="calc-pkg-rate">2 700 тг/м²</div>
-          <div class="calc-pkg-total" id="pkg1-total">— <small>тг</small></div>
-          <div class="calc-pkg-desc">Концепция + основные решения</div>
-        </div>
-        <div class="calc-pkg" onclick="selectPkg(2)">
           <span class="calc-check">✓</span>
           <div class="calc-pkg-badge">Рекомендуем</div>
           <div class="calc-pkg-name">Рабочий проект</div>
           <div class="calc-pkg-rate">3 700 тг/м²</div>
-          <div class="calc-pkg-total" id="pkg2-total">— <small>тг</small></div>
+          <div class="calc-pkg-total" id="pkg1-total">— <small>тг</small></div>
           <div class="calc-pkg-desc">Полная документация для строителей</div>
+        </div>
+        <div class="calc-pkg" onclick="selectPkg(2)">
+          <span class="calc-check">✓</span>
+          <div class="calc-pkg-badge">Популярный</div>
+          <div class="calc-pkg-name">Экспресс проект</div>
+          <div class="calc-pkg-rate">2 700 тг/м²</div>
+          <div class="calc-pkg-total" id="pkg2-total">— <small>тг</small></div>
+          <div class="calc-pkg-desc">Концепция + основные решения</div>
         </div>
         <div class="calc-pkg" onclick="selectPkg(3)">
           <span class="calc-check">✓</span>
-          <div class="calc-pkg-badge">Премиум</div>
-          <div class="calc-pkg-name">Полный проект</div>
-          <div class="calc-pkg-rate">6 900 тг/м²</div>
+          <div class="calc-pkg-badge">Базовый</div>
+          <div class="calc-pkg-name">Планировочное решение</div>
+          <div class="calc-pkg-rate">1 900 тг/м²</div>
           <div class="calc-pkg-total" id="pkg3-total">— <small>тг</small></div>
-          <div class="calc-pkg-desc">Максимальный комплект + авторская концепция</div>
+          <div class="calc-pkg-desc">Варианты планировки с расстановкой мебели</div>
         </div>
       </div>
 
@@ -1643,10 +1643,10 @@ const TOTAL = 5;
 const answers = {};
 
 const PKGS = [
-  { name: 'Планировочное решение', price: 1900 },
-  { name: 'Экспресс проект',        price: 2700 },
-  { name: 'Рабочий проект',         price: 3700 },
   { name: 'Полный проект',          price: 6900 },
+  { name: 'Рабочий проект',         price: 3700 },
+  { name: 'Экспресс проект',        price: 2700 },
+  { name: 'Планировочное решение',  price: 1900 },
 ];
 
 let selectedPkg = null;
@@ -1808,7 +1808,7 @@ function initCalc() {
 
   /* 2. Визуальная подача (?viz=3d | ?viz=mood) — после selectPkg */
   const urlViz = sp.get('viz');
-  if (urlViz && selectedPkg !== 3) {
+  if (urlViz && selectedPkg !== 0) {
     const vizIdx = { '3d': 0, 'mood': 1 }[urlViz];
     if (vizIdx !== undefined) {
       const vRbs = document.querySelectorAll('.calc-visual-rb');
@@ -1837,7 +1837,7 @@ function selectPkg(idx) {
   document.getElementById('btnCalc').disabled = false;
   answers['pkg'] = PKGS[idx].name;
 
-  const isFullPkg = idx === 3;
+  const isFullPkg = idx === 0;
   document.getElementById('visualBlock').style.display    = isFullPkg ? 'none' : 'block';
   document.getElementById('visualIncluded').style.display = isFullPkg ? 'block' : 'none';
 
@@ -1853,7 +1853,7 @@ function updateCalcTotal() {
 
   // Визуальная подача — только один радио
   const chosenVisual = document.querySelector('.calc-visual-rb:checked');
-  if (chosenVisual && selectedPkg !== 3) {
+  if (chosenVisual && selectedPkg !== 0) {
     const p = parseFloat(chosenVisual.dataset.price);
     total += chosenVisual.dataset.perm2 === '1' ? p * calcArea : p;
   }
