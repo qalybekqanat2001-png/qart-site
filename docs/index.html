@@ -436,13 +436,16 @@ img{max-width:100%;display:block}
   background:var(--border);transform:translateY(-50%);z-index:0;
 }
 .process-dotbtn{
-  position:relative;z-index:1;width:8px;height:8px;border-radius:50%;
+  position:relative;z-index:1;width:10px;height:10px;border-radius:50%;
   background:var(--dim);border:none;cursor:pointer;padding:0;flex-shrink:0;
   transition:all .4s cubic-bezier(.25,.46,.45,.94);
 }
+.process-dotbtn::before{
+  content:'';position:absolute;inset:-17px;border-radius:50%;
+}
 .process-dotbtn:hover{background:var(--muted)}
 .process-dotbtn.active{
-  width:20px;height:20px;background:var(--bg3);
+  width:22px;height:22px;background:var(--bg3);
   border:2px solid var(--gold);
   box-shadow:0 0 0 5px rgba(212,160,23,.12),0 0 20px rgba(212,160,23,.35);
 }
@@ -663,9 +666,9 @@ footer{
   .process-desc{font-size:15px}
   .process-desc-wrap{min-height:84px}
   .process-dots-wrap{margin-top:48px;padding:36px 0}
-  .process-dotbtn{width:6px;height:6px}
-  .process-dotbtn.active{width:16px;height:16px}
-  .process-dotbtn.active::after{inset:3px}
+  .process-dotbtn{width:8px;height:8px}
+  .process-dotbtn.active{width:20px;height:20px}
+  .process-dotbtn.active::after{inset:4px}
   .process-dot-cur,.process-dot-total{font-size:12px}
 
   .contact{padding:80px 0}
