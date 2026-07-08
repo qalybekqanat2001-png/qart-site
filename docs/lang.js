@@ -29,6 +29,7 @@ ru:{
   piName1:'Интерьер · вид 1',piName2:'Интерьер · вид 2',piName3:'Интерьер · вид 3',
   piName4:'Интерьер · вид 4',piName5:'Интерьер · вид 5',piName6:'Интерьер · вид 6',
   svcEyebrow:'Чем мы занимаемся',svcTitle:'Услуги и цены',
+  svc1Title:'ДИЗАЙН-ПРОЕКТ',svc2Title:'ДИЗАЙН МЕБЕЛИ',
   svc1Price:'от 1 900 тг',svc1Inc:'Включает:',
   svc1li1:'Замерный план',svc1li2:'Демонтаж/монтаж стен',svc1li3:'Расстановка мебели',svc1more:'ПОДРОБНЕЕ →',
   svc2Inc:'Включает:',svc2li1:'Выезд на объект',svc2li2:'Консультация',svc2li3:'Замеры',svc2more:'ПОДРОБНЕЕ →',
@@ -83,6 +84,16 @@ ru:{
   dpViz3d:'3D Визуализация',dpVizMood:'Moodboard / Коллаж',
   vizDesc3d:'Фотореалистичные рендеры интерьера — увидите финальный результат до начала ремонта. Никаких сюрпризов, полное совпадение ожидания и реальности.',
   vizDescMood:'Концептуальный коллаж из материалов, мебели и атмосферы. Быстро согласуем стиль и направление до старта проекта — без лишних слов.',
+  vizEyebrow:'Дополнительно',
+  vizTitleViz:'Визуальная<br>подача',vizTitleNadz:'Авторский надзор',
+  vizTabCta:'Выбрать →',
+  nadzBadge:'⭐ Рекомендуем',
+  nc1Billing:'за один визит на объект',nc2Billing:'в месяц · полное сопровождение',nc3Billing:'6 плановых выездов',
+  nc1Footer:'Для разовых и срочных ситуаций',nc2Footer:'Полный контроль ремонта от старта до финала',nc3Footer:'Контроль без постоянного сопровождения',
+  nc1Features:['Выезд на объект','Проверка хода ремонта','Консультация на месте','Решение срочного вопроса','Фотоотчёт после визита'],
+  nc2Features:['Неограниченные выезды','Контроль качества работ','Согласование с подрядчиками','Решение всех вопросов','Контроль соответствия проекту','Сопровождение до сдачи объекта'],
+  nc3Features:['6 выездов на объект','Контроль ключевых этапов','Гибкое расписание визитов','Согласование на месте','Фиксированная стоимость'],
+  bottomGo:'Пройти анкету →',
   fcNum:'02. Дополнительная услуга',fcTitle:'Дизайн<br>мебели',
   fcPageDesc:'Работаем в Астане. Выезжаем на объект, замеряем, разрабатываем эскизы мебели под ваш проект.',
   fcPricePer:'тг / выезд',fcli1:'Выезд на объект',fcli2:'Замер мебели',fcli3:'Консультация на месте',
@@ -112,6 +123,7 @@ kz:{
   piName1:'Интерьер · 1-ші көрініс',piName2:'Интерьер · 2-ші көрініс',piName3:'Интерьер · 3-ші көрініс',
   piName4:'Интерьер · 4-ші көрініс',piName5:'Интерьер · 5-ші көрініс',piName6:'Интерьер · 6-шы көрініс',
   svcEyebrow:'Біз не істейміз',svcTitle:'Қызметтер мен бағалар',
+  svc1Title:'ДИЗАЙН-ЖОБА',svc2Title:'ЖИҺАЗ ДИЗАЙНЫ',
   svc1Price:'1 900 тг-дан',svc1Inc:'Кіреді:',
   svc1li1:'Өлшем жоспары',svc1li2:'Қабырғаларды бұзу/салу',svc1li3:'Жиһазды орналастыру',svc1more:'ТОЛЫҒЫРАҚ →',
   svc2Inc:'Кіреді:',svc2li1:'Объектіге шығу',svc2li2:'Кеңес беру',svc2li3:'Өлшеу',svc2more:'ТОЛЫҒЫРАҚ →',
@@ -166,6 +178,16 @@ kz:{
   dpViz3d:'3D Визуализация',dpVizMood:'Moodboard / Коллаж',
   vizDesc3d:'Интерьердің фотореалистік рендерлері — жөндеу басталмай тұрып соңғы нәтижені көресіз. Ешқандай тосын жағдай — күту мен шындық толық сәйкес келеді.',
   vizDescMood:'Материалдардан, жиһаздан және атмосферадан жасалған концептуалды коллаж. Жобаны бастамастан бұрын стиль мен бағытты жылдам келісеміз.',
+  vizEyebrow:'Қосымша',
+  vizTitleViz:'Визуалды<br>ұсыныс',vizTitleNadz:'Авторлық бақылау',
+  vizTabCta:'Таңдау →',
+  nadzBadge:'⭐ Ұсынамыз',
+  nc1Billing:'бір шығу үшін',nc2Billing:'айына · толық қадағалау',nc3Billing:'6 жоспарлы шығу',
+  nc1Footer:'Бір реттік және шұғыл жағдайлар үшін',nc2Footer:'Бастаудан аяқтауға дейін толық бақылау',nc3Footer:'Үздіксіз қадағалаусыз бақылау',
+  nc1Features:['Объектіге шығу','Жөндеу барысын тексеру','Орнында кеңес беру','Шұғыл мәселені шешу','Шығудан кейін фотоесеп'],
+  nc2Features:['Шексіз шығулар','Жұмыс сапасын бақылау','Мердігерлермен келісу','Барлық мәселелерді шешу','Жобаға сәйкестікті бақылау','Объектіні тапсырғанша қадағалау'],
+  nc3Features:['6 шығу объектіге','Негізгі кезеңдерді бақылау','Визиттердің икемді кестесі','Орнында келісу','Тіркелген құн'],
+  bottomGo:'Анкетаны толтыру →',
   fcNum:'02. Қосымша қызмет',fcTitle:'Жиһаз<br>дизайны',
   fcPageDesc:'Астанада жұмыс істейміз. Объектіге шығамыз, өлшейміз, жобаңызға арналған жиһаз эскиздерін жасаймыз.',
   fcPricePer:'тг / шығу',fcli1:'Объектіге шығу',fcli2:'Жиһазды өлшеу',fcli3:'Орнында кеңес беру',
@@ -195,6 +217,7 @@ en:{
   piName1:'Interior · view 1',piName2:'Interior · view 2',piName3:'Interior · view 3',
   piName4:'Interior · view 4',piName5:'Interior · view 5',piName6:'Interior · view 6',
   svcEyebrow:'What We Do',svcTitle:'Services & Pricing',
+  svc1Title:'DESIGN PROJECT',svc2Title:'FURNITURE DESIGN',
   svc1Price:'from 1 900 KZT',svc1Inc:'Includes:',
   svc1li1:'Measurement plan',svc1li2:'Wall demolition / construction',svc1li3:'Furniture layout',svc1more:'LEARN MORE →',
   svc2Inc:'Includes:',svc2li1:'Site visit',svc2li2:'Consultation',svc2li3:'Measurements',svc2more:'LEARN MORE →',
@@ -249,6 +272,16 @@ en:{
   dpViz3d:'3D Visualization',dpVizMood:'Moodboard / Collage',
   vizDesc3d:'Photorealistic interior renders — see the final result before renovation begins. No surprises, perfect match between expectation and reality.',
   vizDescMood:'A conceptual mood board of materials, furniture, and atmosphere. Quickly align on style and direction before the project starts.',
+  vizEyebrow:'Additional',
+  vizTitleViz:'Visual<br>Presentation',vizTitleNadz:"Author's Supervision",
+  vizTabCta:'Select →',
+  nadzBadge:'⭐ Recommended',
+  nc1Billing:'per site visit',nc2Billing:'per month · full supervision',nc3Billing:'6 planned site visits',
+  nc1Footer:'For one-time and urgent situations',nc2Footer:'Full renovation control from start to finish',nc3Footer:'Control without constant supervision',
+  nc1Features:['Site visit','Renovation progress check','On-site consultation','Urgent issue resolution','Photo report after visit'],
+  nc2Features:['Unlimited visits','Work quality control','Coordination with contractors','Resolution of all issues','Project compliance monitoring','Supervision until project delivery'],
+  nc3Features:['6 site visits','Key stage monitoring','Flexible visit schedule','On-site coordination','Fixed cost'],
+  bottomGo:'Fill out the form →',
   fcNum:'02. Additional Service',fcTitle:'Furniture<br>Design',
   fcPageDesc:'We work in Astana. We visit your site, take measurements, and develop furniture sketches for your project.',
   fcPricePer:'KZT / visit',fcli1:'Site visit',fcli2:'Furniture measurements',fcli3:'On-site consultation',
@@ -274,7 +307,18 @@ function sh(s,k){const e=$q(s);if(e)e.innerHTML=t(k);}
 function se(e,k){if(e)e.textContent=t(k);}
 function ph(s,k){const e=$q(s);if(e)e.placeholder=t(k);}
 
+/* Re-wrap svc-title letters for animation after language switch */
+function rewrapSvc(el,text){
+  if(!el)return;
+  el.innerHTML=text.split('').map((char,i)=>{
+    const d=(i*0.018).toFixed(3);
+    if(char===' ')return`<span style="display:inline-block;width:.3em"> </span>`;
+    return`<span class="lw"><span class="lo" style="transition-delay:${d}s">${char}</span><span class="li" style="transition-delay:${d}s">${char}</span></span>`;
+  }).join('');
+}
+
 function applyLang(lang){
+  window.currentLang=lang;
   document.documentElement.lang=lang==='kz'?'kk':lang;
 
   /* NAV */
@@ -313,6 +357,10 @@ function applyLang(lang){
   /* SERVICES */
   st('.services .section-eyebrow','svcEyebrow');
   st('.services .section-title','svcTitle');
+  /* Service titles with letter animation re-wrap */
+  const svct=$$q('.svc-title');
+  if(svct[0])rewrapSvc(svct[0],t('svc1Title'));
+  if(svct[1])rewrapSvc(svct[1],t('svc2Title'));
   const si=$$q('.svc-item');
   if(si[0]){
     se(si[0].querySelector('.svc-price'),'svc1Price');
@@ -381,11 +429,16 @@ function applyLang(lang){
     se(cp[i].querySelector('.calc-pkg-desc'),p+'desc');
   });
   if(window.PKGS){window.PKGS[0].name=t('p0name');window.PKGS[1].name=t('p1name');window.PKGS[2].name=t('p2name');window.PKGS[3].name=t('p3name');}
+  /* visual block in quiz */
   const vbt=$q('#visualBlock .calc-extras-title');
   if(vbt)vbt.innerHTML=t('visualTitle')+' <span style="color:var(--dim);font-weight:400;letter-spacing:0;text-transform:none;font-size:11px">'+t('visualNote')+'</span>';
+  /* visual radio option names */
+  const vrn=$$q('#visualBlock .calc-extra-name');
+  if(vrn[0])vrn[0].textContent=t('dpViz3d');
+  if(vrn[1])vrn[1].textContent=t('dpVizMood');
   const vit=$q('#visualIncluded .calc-extras-title');if(vit)vit.textContent=t('visualTitle');
   const vis=$q('#visualIncluded div span:nth-child(2)');if(vis)vis.innerHTML=t('visualIncl');
-  const ext=$q('#stepCalc > .calc-extras-title');if(ext)ext.textContent=t('extrasTitle');
+  const extH=$q('#stepCalc > .calc-extras-title');if(extH)extH.textContent=t('extrasTitle');
   const cbl=$$q('label:has(.calc-extra-cb)');
   if(cbl[0])cbl[0].querySelector('.calc-extra-name').textContent=t('ext1');
   if(cbl[1])cbl[1].querySelector('.calc-extra-name').textContent=t('ext2');
@@ -413,7 +466,7 @@ function applyLang(lang){
   if(fl2[0])fl2[0].textContent=t('navPortfolio');if(fl2[1])fl2[1].textContent=t('navServices');
   if(fl2[2])fl2[2].textContent=t('navPrices');if(fl2[3])fl2[3].textContent=t('navContact');
 
-  /* DESIGN-PROJECT page */
+  /* ── DESIGN-PROJECT page ── */
   st('.ph-label','dpLabel');sh('.ph-title','dpTitle');st('.ph-desc','dpDesc');st('.ph-cta','dpCta');
   st('.pricing-header .sec-label','dpSecLabel');st('.pricing-header .sec-title','dpSecTitle');st('.pricing-header .sec-sub','dpSecSub');
   const pc=$$q('.pkg-card');
@@ -431,8 +484,40 @@ function applyLang(lang){
     if(at&&vd)vd.textContent=window.vizDescs[at.dataset.tab];
   }
   window.dpBarLabel=t('dpSelected');
+  /* viz section headings */
+  $$q('.viz-eyebrow').forEach(e=>e.textContent=t('vizEyebrow'));
+  const vtt=$$q('.viz-title');
+  if(vtt[0])vtt[0].innerHTML=t('vizTitleViz');
+  if(vtt[1])vtt[1].textContent=t('vizTitleNadz');
+  /* viz tab names */
+  const vtbn=$$q('.viz-tab-name');
+  if(vtbn[0])vtbn[0].textContent=t('dpViz3d');
+  if(vtbn[1])vtbn[1].textContent=t('dpVizMood');
+  /* viz CTA button */
+  st('.viz-cta','vizTabCta');
+  /* надзор cards */
+  const nctier=$$q('.nc-tier');
+  if(nctier[0])nctier[0].textContent=t('dpNadzS');
+  if(nctier[1])nctier[1].textContent=t('dpNadzM');
+  if(nctier[2])nctier[2].textContent=t('dpNadzV');
+  const ncbadge=$q('.nc-badge');if(ncbadge)ncbadge.textContent=t('nadzBadge');
+  const ncbill=$$q('.nc-billing');
+  if(ncbill[0])ncbill[0].textContent=t('nc1Billing');
+  if(ncbill[1])ncbill[1].textContent=t('nc2Billing');
+  if(ncbill[2])ncbill[2].textContent=t('nc3Billing');
+  const ncfoot=$$q('.nc-footer');
+  if(ncfoot[0])ncfoot[0].textContent=t('nc1Footer');
+  if(ncfoot[1])ncfoot[1].textContent=t('nc2Footer');
+  if(ncfoot[2])ncfoot[2].textContent=t('nc3Footer');
+  [['nc1Features','.nc.nc-left'],['nc2Features','.nc.nc-popular'],['nc3Features','.nc.nc-right']].forEach(([key,sel])=>{
+    const arr=t(key);if(!Array.isArray(arr))return;
+    const lis=$$q(sel+' .nc-features li');
+    arr.forEach((txt,i)=>{if(lis[i])lis[i].textContent=txt;});
+  });
+  /* bottom bar CTA */
+  st('.bottom-go','bottomGo');
 
-  /* FURNITURE page */
+  /* ── FURNITURE page ── */
   st('.svc-num','fcNum');sh('.svc-center h2','fcTitle');st('.svc-price-per','fcPricePer');
   const fcl=$$q('.svc-center .svc-includes li');
   if(fcl[0])fcl[0].textContent=t('fcli1');if(fcl[1])fcl[1].textContent=t('fcli2');if(fcl[2])fcl[2].textContent=t('fcli3');
