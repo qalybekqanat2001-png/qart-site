@@ -94,6 +94,12 @@ ru:{
   nc2Features:['Неограниченные выезды','Контроль качества работ','Согласование с подрядчиками','Решение всех вопросов','Контроль соответствия проекту','Сопровождение до сдачи объекта'],
   nc3Features:['6 выездов на объект','Контроль ключевых этапов','Гибкое расписание визитов','Согласование на месте','Фиксированная стоимость'],
   bottomGo:'Пройти анкету →',
+  pkgFeatures:[
+    ['Замерный план','Демонтаж/монтаж стен','Расстановка мебели','Сантехника','Двери','Тёплый пол','Плинтус','Потолок','Освещение','Выключатели','Розетки','Развёртки стен','Ведомость материалов','3D-визуализация'],
+    ['Замерный план','Демонтаж/монтаж стен','Расстановка мебели','Сантехника','Потолок','Освещение','Ведомость материалов','Тёплый пол','Развёртки стен','3D-визуализация'],
+    ['Замерный план','Расстановка мебели','Сантехника','Потолок','Освещение','Развёртки стен','Ведомость материалов','3D-визуализация'],
+    ['Замерный план','Демонтаж/монтаж стен','Расстановка мебели','Сантехника','Потолок','Развёртки стен','3D-визуализация']
+  ],
   fcNum:'02. Дополнительная услуга',fcTitle:'Дизайн<br>мебели',
   fcPageDesc:'Работаем в Астане. Выезжаем на объект, замеряем, разрабатываем эскизы мебели под ваш проект.',
   fcPricePer:'тг / выезд',fcli1:'Выезд на объект',fcli2:'Замер мебели',fcli3:'Консультация на месте',
@@ -188,6 +194,12 @@ kz:{
   nc2Features:['Шексіз шығулар','Жұмыс сапасын бақылау','Мердігерлермен келісу','Барлық мәселелерді шешу','Жобаға сәйкестікті бақылау','Объектіні тапсырғанша қадағалау'],
   nc3Features:['6 шығу объектіге','Негізгі кезеңдерді бақылау','Визиттердің икемді кестесі','Орнында келісу','Тіркелген құн'],
   bottomGo:'Анкетаны толтыру →',
+  pkgFeatures:[
+    ['Өлшем жоспары','Қабырғаларды бұзу/салу','Жиһазды орналастыру','Сантехника','Есіктер','Жылы еден','Плинтус','Төбе','Жарықтандыру','Қосқыштар','Розеткалар','Қабырға жайылмалары','Материалдар тізімі','3D-визуализация'],
+    ['Өлшем жоспары','Қабырғаларды бұзу/салу','Жиһазды орналастыру','Сантехника','Төбе','Жарықтандыру','Материалдар тізімі','Жылы еден','Қабырға жайылмалары','3D-визуализация'],
+    ['Өлшем жоспары','Жиһазды орналастыру','Сантехника','Төбе','Жарықтандыру','Қабырға жайылмалары','Материалдар тізімі','3D-визуализация'],
+    ['Өлшем жоспары','Қабырғаларды бұзу/салу','Жиһазды орналастыру','Сантехника','Төбе','Қабырға жайылмалары','3D-визуализация']
+  ],
   fcNum:'02. Қосымша қызмет',fcTitle:'Жиһаз<br>дизайны',
   fcPageDesc:'Астанада жұмыс істейміз. Объектіге шығамыз, өлшейміз, жобаңызға арналған жиһаз эскиздерін жасаймыз.',
   fcPricePer:'тг / шығу',fcli1:'Объектіге шығу',fcli2:'Жиһазды өлшеу',fcli3:'Орнында кеңес беру',
@@ -282,6 +294,12 @@ en:{
   nc2Features:['Unlimited visits','Work quality control','Coordination with contractors','Resolution of all issues','Project compliance monitoring','Supervision until project delivery'],
   nc3Features:['6 site visits','Key stage monitoring','Flexible visit schedule','On-site coordination','Fixed cost'],
   bottomGo:'Fill out the form →',
+  pkgFeatures:[
+    ['Measurement plan','Wall demolition / construction','Furniture layout','Plumbing','Doors','Underfloor heating','Skirting boards','Ceiling','Lighting','Switches','Outlets','Wall elevations','Materials list','3D visualization'],
+    ['Measurement plan','Wall demolition / construction','Furniture layout','Plumbing','Ceiling','Lighting','Materials list','Underfloor heating','Wall elevations','3D visualization'],
+    ['Measurement plan','Furniture layout','Plumbing','Ceiling','Lighting','Wall elevations','Materials list','3D visualization'],
+    ['Measurement plan','Wall demolition / construction','Furniture layout','Plumbing','Ceiling','Wall elevations','3D visualization']
+  ],
   fcNum:'02. Additional Service',fcTitle:'Furniture<br>Design',
   fcPageDesc:'We work in Astana. We visit your site, take measurements, and develop furniture sketches for your project.',
   fcPricePer:'KZT / visit',fcli1:'Site visit',fcli2:'Furniture measurements',fcli3:'On-site consultation',
@@ -475,6 +493,16 @@ function applyLang(lang){
     se(pc[i].querySelector('.pkg-tier'),p+'tier');se(pc[i].querySelector('.pkg-sub'),p+'sub');
   });
   $$q('.pkg-btn').forEach(b=>b.textContent=t('dpBtn'));
+  /* Package feature lists */
+  const pfData=t('pkgFeatures');
+  if(Array.isArray(pfData)){
+    $$q('.pkg-card').forEach((card,ci)=>{
+      const feats=pfData[ci];if(!Array.isArray(feats))return;
+      card.querySelectorAll('.pf-text').forEach((el,fi)=>{if(feats[fi]!==undefined)el.textContent=feats[fi];});
+    });
+  }
+  /* Надзор select buttons (reset to default text when not selected) */
+  $$q('.nc-btn').forEach(b=>{if(!b.classList.contains('selected-btn'))b.textContent=t('dpChoose');});
   if(window.PKG_NAMES){window.PKG_NAMES[0]=t('dp0tier');window.PKG_NAMES[1]=t('dp1tier');window.PKG_NAMES[2]=t('dp2tier');window.PKG_NAMES[3]=t('dp3tier');}
   if(window.NADZ_NAMES){window.NADZ_NAMES.single=t('dpNadzS');window.NADZ_NAMES.visits=t('dpNadzV');window.NADZ_NAMES.monthly=t('dpNadzM');}
   if(window.VIZ_NAMES){window.VIZ_NAMES['3d']=t('dpViz3d');window.VIZ_NAMES['mood']=t('dpVizMood');}
