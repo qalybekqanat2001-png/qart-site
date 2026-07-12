@@ -4,7 +4,7 @@ from itertools import zip_longest
 
 from fpdf import FPDF
 
-from contract_content import BOLD_SPLIT, build_contract, build_requisites
+from contract_content import build_contract, build_requisites
 
 FONT_PATHS = [
     "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf",
@@ -42,23 +42,17 @@ class ContractPDF(FPDF):
         self.cell(0, 10, f"Стр. {self.page_no()}", align="C")
 
 
-def write_line(pdf: FPDF, x: float, y: float, text: str, size: int = 10):
-    """Одна строка с поддержкой **жирных** фрагментов в фиксированной позиции."""
-    pdf.set_xy(x, y)
-    for part in BOLD_SPLIT.split(text):
-        if not part:
-            continue
-        is_bold = part.startswith("**") and part.endswith("**")
-        pdf.set_font("DejaVu", "B" if is_bold else "", size)
-        pdf.write(6, part[2:-2] if is_bold else part)
+def cell_line_count(pdf: FPDF, width: float, line_height: float, text: str) -> int:
+    lines = pdf.multi_cell(width, line_height, text, markdown=True, dry_run=True, output="LINES")
+    return max(len(lines), 1)
 
 
 def render_requisites(pdf: FPDF, req: dict):
-    # Двухколоночную раскладку переносим на новую страницу вручную —
-    # автоматический перенос fpdf2 внутри write() не знает о второй
-    # колонке и рвёт строки между колонками, если попадает на границу страницы.
+    # Двухколоночную раскладку переносим на новую страницу вручную и
+    # переносим текст внутри ширины своей колонки — иначе длинный адрес
+    # или ФИО переносится на всю ширину страницы и наезжает на вторую колонку.
     pdf.set_auto_page_break(False)
-    row_height = 6
+    line_height = 6
 
     def ensure_space(height: float):
         if pdf.get_y() + height > pdf.page_break_trigger:
@@ -72,23 +66,29 @@ def render_requisites(pdf: FPDF, req: dict):
 
     left_x = pdf.l_margin
     usable_width = pdf.w - pdf.l_margin - pdf.r_margin
-    right_x = left_x + usable_width / 2 + 5
+    col_width = usable_width / 2 - 5
+    right_x = left_x + col_width + 10
+
+    def render_row(left: str, right: str):
+        pdf.set_font("DejaVu", "", 10)
+        left_lines = cell_line_count(pdf, col_width, line_height, left)
+        right_lines = cell_line_count(pdf, col_width, line_height, right)
+        row_height = max(left_lines, right_lines) * line_height
+        ensure_space(row_height)
+        y = pdf.get_y()
+        pdf.set_xy(left_x, y)
+        pdf.multi_cell(col_width, line_height, left, markdown=True, new_x="LMARGIN", new_y="TOP")
+        pdf.set_xy(right_x, y)
+        pdf.multi_cell(col_width, line_height, right, markdown=True, new_x="LMARGIN", new_y="TOP")
+        pdf.set_xy(left_x, y + row_height)
 
     rows = list(zip_longest(req["executor_rows"], req["client_rows"], fillvalue=""))
     for left, right in rows:
-        ensure_space(row_height)
-        y = pdf.get_y()
-        write_line(pdf, left_x, y, left)
-        write_line(pdf, right_x, y, right)
-        pdf.set_xy(left_x, y + row_height)
+        render_row(left, right)
 
     pdf.ln(6)
-    ensure_space(row_height)
     left_sig, right_sig = req["signature_row"]
-    y = pdf.get_y()
-    write_line(pdf, left_x, y, left_sig)
-    write_line(pdf, right_x, y, right_sig)
-    pdf.set_xy(left_x, y + row_height)
+    render_row(left_sig, right_sig)
 
 
 def generate_contract_pdf(data: dict) -> str:
