@@ -1,92 +1,100 @@
-import os
+import json
 import logging
-from telegram import Update
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
-from pdf_generator import generate_contract_pdf
+import os
+from datetime import date
+
 from dotenv import load_dotenv
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update, WebAppInfo
+from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
+
+from counter import confirm_number, get_next_number
+from docx_generator import generate_contract_docx
+from pdf_generator import generate_contract_pdf
 
 load_dotenv()
 
 logging.basicConfig(
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    level=logging.INFO
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    level=logging.INFO,
 )
 logger = logging.getLogger(__name__)
 
 TOKEN = os.getenv("BOT_TOKEN")
-
-TEMPLATE_MESSAGE = (
-    "📋 Заполните данные клиента и отправьте мне обратно:\n\n"
-    "ФИО клиента: \n"
-    "Адрес объекта: \n"
-    "Площадь (м²): \n"
-    "Пакет услуг: \n"
-    "Сумма (тг): \n"
-    "Дата договора: \n"
-    "Телефон клиента: \n"
-    "ИИН клиента: "
-)
+WEBAPP_URL = os.getenv("WEBAPP_URL", "https://qiall-design.kz/contract-app.html")
+OWNER_CHAT_ID = os.getenv("OWNER_CHAT_ID")  # опционально: ограничить бота одним пользователем
 
 
-def parse_fields(text: str) -> dict:
-    fields = {}
-    for line in text.strip().split('\n'):
-        if ':' in line:
-            key, _, value = line.partition(':')
-            key = key.strip()
-            value = value.strip()
-            if value:
-                fields[key] = value
-    return fields
+def is_authorized(update: Update) -> bool:
+    if not OWNER_CHAT_ID:
+        return True
+    return str(update.effective_chat.id) == str(OWNER_CHAT_ID)
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not is_authorized(update):
+        await update.message.reply_text("Этот бот доступен только владельцу.")
+        return
     await update.message.reply_text(
-        "Привет! Я помогу создать договор.\n\n"
-        "Отправьте /contract чтобы получить шаблон для заполнения."
+        "Привет! Я собираю договоры QiAll Design.\n\n"
+        "Отправьте /newcontract, чтобы заполнить форму нового договора."
     )
 
 
-async def contract_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(TEMPLATE_MESSAGE)
-
-
-async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    text = update.message.text
-
-    if "ФИО клиента" not in text:
-        await update.message.reply_text(
-            "Отправьте /contract чтобы получить шаблон для заполнения."
-        )
+async def newcontract_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not is_authorized(update):
+        await update.message.reply_text("Этот бот доступен только владельцу.")
         return
 
-    fields = parse_fields(text)
+    next_number = get_next_number()
+    today = date.today().isoformat()
+    url = f"{WEBAPP_URL}?number={next_number}&date={today}"
 
-    required_keys = ["ФИО клиента", "Адрес объекта", "Площадь (м²)"]
-    missing = [k for k in required_keys if k not in fields or not fields[k]]
+    keyboard = InlineKeyboardMarkup(
+        [[InlineKeyboardButton("📝 Заполнить договор", web_app=WebAppInfo(url=url))]]
+    )
+    await update.message.reply_text(
+        f"Предлагаемый номер договора: {next_number} (можно изменить в форме).",
+        reply_markup=keyboard,
+    )
 
-    if missing:
-        await update.message.reply_text(
-            "❌ Не заполнены обязательные поля:\n" +
-            "\n".join(f"• {k}" for k in missing) +
-            "\n\nОтправьте /contract для нового шаблона."
-        )
+
+async def handle_web_app_data(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not is_authorized(update):
         return
+
+    raw = update.message.web_app_data.data
+    try:
+        fields = json.loads(raw)
+    except json.JSONDecodeError:
+        await update.message.reply_text("❌ Не удалось прочитать данные формы.")
+        return
+
+    fields["composition"] = fields.get("composition") or []
 
     await update.message.reply_text("⏳ Генерирую договор...")
 
     try:
+        docx_path = generate_contract_docx(fields)
         pdf_path = generate_contract_pdf(fields)
 
-        with open(pdf_path, 'rb') as pdf_file:
-            client_name = fields.get('ФИО клиента', 'клиент').replace(' ', '_')
+        client_name = (fields.get("fio") or "клиент").replace(" ", "_")
+        number = fields.get("number", "")
+
+        with open(docx_path, "rb") as f:
             await update.message.reply_document(
-                document=pdf_file,
-                filename=f"Договор_{client_name}.pdf",
-                caption="✅ Договор готов!"
+                document=f,
+                filename=f"Договор_№{number}_{client_name}.docx",
+            )
+        with open(pdf_path, "rb") as f:
+            await update.message.reply_document(
+                document=f,
+                filename=f"Договор_№{number}_{client_name}.pdf",
+                caption="✅ Договор готов. Проверьте и отправьте клиенту сами.",
             )
 
+        os.remove(docx_path)
         os.remove(pdf_path)
+        confirm_number(number)
 
     except FileNotFoundError as e:
         logger.error(f"Font error: {e}")
@@ -95,8 +103,8 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "На сервере выполните: sudo apt-get install fonts-dejavu"
         )
     except Exception as e:
-        logger.error(f"Error generating PDF: {e}")
-        await update.message.reply_text(f"❌ Ошибка при создании договора: {str(e)}")
+        logger.error(f"Error generating contract: {e}")
+        await update.message.reply_text(f"❌ Ошибка при создании договора: {e}")
 
 
 def main():
@@ -105,8 +113,8 @@ def main():
 
     app = Application.builder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("contract", contract_command))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+    app.add_handler(CommandHandler("newcontract", newcontract_command))
+    app.add_handler(MessageHandler(filters.StatusUpdate.WEB_APP_DATA, handle_web_app_data))
 
     logger.info("Бот запущен...")
     app.run_polling(allowed_updates=Update.ALL_TYPES)

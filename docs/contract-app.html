@@ -1,0 +1,252 @@
+<title>QiAll Design — новый договор</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  :root {
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --hint: #7a7a7a;
+    --link: #d4a017;
+    --button: #1a1a1a;
+    --button-text: #ffffff;
+    --section-bg: #f7f7f7;
+    --border: #e3e3e3;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 16px 16px 96px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  h1 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 4px 0 20px;
+  }
+  .field {
+    margin-bottom: 14px;
+  }
+  label {
+    display: block;
+    font-size: 13px;
+    color: var(--hint);
+    margin-bottom: 4px;
+  }
+  input[type="text"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--section-bg);
+    color: var(--text);
+    font-size: 15px;
+    font-family: inherit;
+  }
+  input:focus {
+    outline: none;
+    border-color: var(--link);
+  }
+  .row2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  fieldset {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin: 0 0 14px;
+  }
+  legend {
+    font-size: 13px;
+    color: var(--hint);
+    padding: 0 4px;
+  }
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-item input {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    accent-color: var(--link);
+  }
+  .check-item label {
+    margin: 0;
+    color: var(--text);
+    font-size: 14px;
+  }
+  .hint {
+    font-size: 12px;
+    color: var(--hint);
+    margin-top: -8px;
+    margin-bottom: 14px;
+  }
+  .error {
+    color: #e0433d;
+    font-size: 13px;
+    margin-top: 6px;
+    display: none;
+  }
+</style>
+
+<h1>Новый договор — QiAll Design</h1>
+
+<div class="field">
+  <div class="row2">
+    <div>
+      <label for="number">№ договора</label>
+      <input type="text" id="number" inputmode="numeric">
+    </div>
+    <div>
+      <label for="date">Дата</label>
+      <input type="date" id="date">
+    </div>
+  </div>
+</div>
+
+<div class="field">
+  <label for="fio">ФИО Заказчика</label>
+  <input type="text" id="fio" placeholder="Иванов Иван Иванович">
+</div>
+
+<div class="field">
+  <label for="phone">Телефон Заказчика</label>
+  <input type="tel" id="phone" placeholder="+7 700 000 00 00">
+</div>
+
+<div class="field">
+  <label for="iin">ИИН Заказчика</label>
+  <input type="text" id="iin" inputmode="numeric" placeholder="12 цифр">
+</div>
+
+<div class="field">
+  <label for="address">Адрес объекта</label>
+  <input type="text" id="address" placeholder="г. Астана, ул. ...">
+</div>
+
+<div class="field">
+  <div class="row2">
+    <div>
+      <label for="area">Площадь, м²</label>
+      <input type="number" id="area" inputmode="decimal">
+    </div>
+    <div>
+      <label for="days">Срок, раб. дней</label>
+      <input type="number" id="days" inputmode="numeric">
+    </div>
+  </div>
+</div>
+
+<div class="field">
+  <label for="price">Стоимость, тенге</label>
+  <input type="number" id="price" inputmode="numeric" placeholder="500000">
+</div>
+
+<fieldset>
+  <legend>Состав дизайн-проекта</legend>
+  <div id="composition"></div>
+</fieldset>
+
+<div class="error" id="error"></div>
+
+<script>
+  const tg = window.Telegram && window.Telegram.WebApp;
+  if (tg) {
+    tg.ready();
+    tg.expand();
+    const theme = tg.themeParams || {};
+    const root = document.documentElement.style;
+    if (theme.bg_color) root.setProperty('--bg', theme.bg_color);
+    if (theme.text_color) root.setProperty('--text', theme.text_color);
+    if (theme.hint_color) root.setProperty('--hint', theme.hint_color);
+    if (theme.secondary_bg_color) root.setProperty('--section-bg', theme.secondary_bg_color);
+    if (theme.button_color) root.setProperty('--button', theme.button_color);
+    if (theme.button_text_color) root.setProperty('--button-text', theme.button_text_color);
+  }
+
+  const COMPOSITION_ITEMS = [
+    "планировочное решение",
+    "план расстановки мебели",
+    "3D-визуализации помещений",
+    "планы демонтажа и монтажа",
+    "планы напольных покрытий",
+    "планы потолков",
+    "планы освещения",
+    "планы размещения электрооборудования",
+    "планы сантехнического оборудования",
+    "развертки помещений",
+    "ведомость основных отделочных материалов",
+  ];
+
+  const compositionEl = document.getElementById('composition');
+  COMPOSITION_ITEMS.forEach((item, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'check-item';
+    wrap.innerHTML = `
+      <input type="checkbox" id="comp${i}" value="${item}" checked>
+      <label for="comp${i}">${item}</label>
+    `;
+    compositionEl.appendChild(wrap);
+  });
+
+  // Предзаполнение номера и даты из параметров ссылки (?number=1&date=2026-07-12)
+  const params = new URLSearchParams(window.location.search);
+  document.getElementById('number').value = params.get('number') || '';
+  document.getElementById('date').value = params.get('date') || new Date().toISOString().slice(0, 10);
+
+  function collectData() {
+    const composition = COMPOSITION_ITEMS.filter((_, i) => document.getElementById(`comp${i}`).checked);
+    return {
+      number: document.getElementById('number').value.trim(),
+      date: document.getElementById('date').value,
+      fio: document.getElementById('fio').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      iin: document.getElementById('iin').value.trim(),
+      address: document.getElementById('address').value.trim(),
+      area: document.getElementById('area').value.trim(),
+      days: document.getElementById('days').value.trim(),
+      price: document.getElementById('price').value.trim(),
+      composition,
+    };
+  }
+
+  function validate(data) {
+    const required = ['fio', 'phone', 'iin', 'address', 'area', 'days', 'price'];
+    return required.every((key) => data[key]);
+  }
+
+  function submit() {
+    const data = collectData();
+    const errorEl = document.getElementById('error');
+    if (!validate(data)) {
+      errorEl.textContent = 'Заполните все поля перед отправкой.';
+      errorEl.style.display = 'block';
+      return;
+    }
+    errorEl.style.display = 'none';
+    if (tg) {
+      tg.sendData(JSON.stringify(data));
+      tg.close();
+    } else {
+      alert('Открыть эту форму нужно через кнопку в Telegram-боте.');
+    }
+  }
+
+  if (tg) {
+    tg.MainButton.setText('Сгенерировать договор');
+    tg.MainButton.show();
+    tg.MainButton.onClick(submit);
+  }
+</script>
