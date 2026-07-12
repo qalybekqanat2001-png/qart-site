@@ -203,5 +203,5 @@ def build_requisites(data: dict) -> dict:
         "heading": "10. РЕКВИЗИТЫ И ПОДПИСИ СТОРОН",
         "executor_rows": executor_rows,
         "client_rows": client_rows,
-        "signature_row": ("Подпись Исполнителя ____________________", "Подпись Заказчика ____________________"),
+        "signature_row": ("Подпись: ____________________", "Подпись: ____________________"),
     }

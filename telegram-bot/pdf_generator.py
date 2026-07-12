@@ -53,15 +53,16 @@ def render_requisites(pdf: FPDF, req: dict):
     # или ФИО переносится на всю ширину страницы и наезжает на вторую колонку.
     pdf.set_auto_page_break(False)
     line_height = 6
+    footer_buffer = 6  # запас, чтобы контент не липнул к номеру страницы внизу
 
     def ensure_space(height: float):
-        if pdf.get_y() + height > pdf.page_break_trigger:
+        if pdf.get_y() + height > pdf.page_break_trigger - footer_buffer:
             pdf.add_page()
 
     pdf.ln(2)
-    ensure_space(7)
+    ensure_space(7 + line_height)  # место под заголовок и хотя бы одну строку следом
     pdf.set_font("DejaVu", "B", 11)
-    pdf.multi_cell(0, 7, req["heading"], new_x="LMARGIN", new_y="NEXT")
+    pdf.multi_cell(0, 7, req["heading"], align="L", new_x="LMARGIN", new_y="NEXT")
     pdf.ln(2)
 
     left_x = pdf.l_margin
@@ -108,7 +109,7 @@ def generate_contract_pdf(data: dict) -> str:
         elif kind == "heading":
             pdf.ln(2)
             pdf.set_font("DejaVu", "B", 11)
-            pdf.multi_cell(0, 7, text, new_x="LMARGIN", new_y="NEXT")
+            pdf.multi_cell(0, 7, text, align="L", new_x="LMARGIN", new_y="NEXT")
             pdf.ln(1)
         elif kind == "bullet":
             pdf.set_font("DejaVu", "", 10)
