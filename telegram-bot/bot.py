@@ -4,7 +4,7 @@ import os
 from datetime import date
 
 from dotenv import load_dotenv
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update, WebAppInfo
+from telegram import KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove, Update, WebAppInfo
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 
 from counter import confirm_number, get_next_number
@@ -49,8 +49,10 @@ async def newcontract_command(update: Update, context: ContextTypes.DEFAULT_TYPE
     today = date.today().isoformat()
     url = f"{WEBAPP_URL}?number={next_number}&date={today}"
 
-    keyboard = InlineKeyboardMarkup(
-        [[InlineKeyboardButton("📝 Заполнить договор", web_app=WebAppInfo(url=url))]]
+    keyboard = ReplyKeyboardMarkup(
+        [[KeyboardButton("📝 Заполнить договор", web_app=WebAppInfo(url=url))]],
+        resize_keyboard=True,
+        one_time_keyboard=True,
     )
     await update.message.reply_text(
         f"Предлагаемый номер договора: {next_number} (можно изменить в форме).",
@@ -71,7 +73,7 @@ async def handle_web_app_data(update: Update, context: ContextTypes.DEFAULT_TYPE
 
     fields["composition"] = fields.get("composition") or []
 
-    await update.message.reply_text("⏳ Генерирую договор...")
+    await update.message.reply_text("⏳ Генерирую договор...", reply_markup=ReplyKeyboardRemove())
 
     try:
         docx_path = generate_contract_docx(fields)
