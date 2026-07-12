@@ -6,17 +6,17 @@ from fpdf import FPDF
 from contract_content import build_contract
 
 FONT_PATHS = [
-    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
-    "/usr/share/fonts/dejavu/DejaVuSans.ttf",
-    os.path.join(os.path.dirname(__file__), "fonts", "DejaVuSans.ttf"),
-    "C:\\Windows\\Fonts\\arial.ttf",  # локальная разработка на Windows
+    "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf",
+    "/usr/share/fonts/dejavu/DejaVuSerif.ttf",
+    os.path.join(os.path.dirname(__file__), "fonts", "DejaVuSerif.ttf"),
+    "C:\\Windows\\Fonts\\times.ttf",  # локальная разработка на Windows
 ]
 
 FONT_BOLD_PATHS = [
-    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
-    "/usr/share/fonts/dejavu/DejaVuSans-Bold.ttf",
-    os.path.join(os.path.dirname(__file__), "fonts", "DejaVuSans-Bold.ttf"),
-    "C:\\Windows\\Fonts\\arialbd.ttf",  # локальная разработка на Windows
+    "/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf",
+    "/usr/share/fonts/dejavu/DejaVuSerif-Bold.ttf",
+    os.path.join(os.path.dirname(__file__), "fonts", "DejaVuSerif-Bold.ttf"),
+    "C:\\Windows\\Fonts\\timesbd.ttf",  # локальная разработка на Windows
 ]
 
 
