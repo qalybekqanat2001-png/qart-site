@@ -2189,11 +2189,15 @@ document.getElementById('quizWaBtn').addEventListener('click', function(e) {
 (function(){
   // Анимация букв
   document.querySelectorAll('.svc-title').forEach(el => {
-    const text = el.textContent.trim();
-    el.innerHTML = text.split('').map((char, i) => {
-      const d = (i * 0.018).toFixed(3);
-      if(char === ' ') return `<span style="display:inline-block;width:.3em"> </span>`;
-      return `<span class="lw"><span class="lo" style="transition-delay:${d}s">${char}</span><span class="li" style="transition-delay:${d}s">${char}</span></span>`;
+    const words = el.textContent.trim().split(' ');
+    let li = 0;
+    el.innerHTML = words.map((word, wi) => {
+      const letters = word.split('').map(char => {
+        const d = (li++ * 0.018).toFixed(3);
+        return `<span class="lw"><span class="lo" style="transition-delay:${d}s">${char}</span><span class="li" style="transition-delay:${d}s">${char}</span></span>`;
+      }).join('');
+      const space = wi < words.length - 1 ? `<span style="display:inline-block;width:.3em"> </span>` : '';
+      return `<span style="white-space:nowrap;display:inline-block">${letters}</span>${space}`;
     }).join('');
   });
 
