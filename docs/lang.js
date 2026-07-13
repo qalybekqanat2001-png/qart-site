@@ -100,7 +100,7 @@ ru:{
     ['Замерный план','Расстановка мебели','Сантехника','Потолок','Освещение','Развёртки стен','Ведомость материалов','3D-визуализация'],
     ['Замерный план','Демонтаж/монтаж стен','Расстановка мебели','Сантехника','Потолок','Развёртки стен','3D-визуализация']
   ],
-  fcNum:'02. Дополнительная услуга',fcTitle:'Дизайн<br>мебели',
+  fcNum:'02',fcTitle:'Дизайн<br>мебели',
   fcPageDesc:'Работаем в Астане. Выезжаем на объект, замеряем, разрабатываем эскизы мебели под ваш проект.',
   fcPricePer:'тг / выезд',fcli1:'Выезд на объект',fcli2:'Замер мебели',fcli3:'Консультация на месте',
   fcSketch:'Пример эскиза',
@@ -200,7 +200,7 @@ kz:{
     ['Өлшем жоспары','Жиһазды орналастыру','Сантехника','Төбе','Жарықтандыру','Қабырға жайылмалары','Материалдар тізімі','3D-визуализация'],
     ['Өлшем жоспары','Қабырғаларды бұзу/салу','Жиһазды орналастыру','Сантехника','Төбе','Қабырға жайылмалары','3D-визуализация']
   ],
-  fcNum:'02. Қосымша қызмет',fcTitle:'Жиһаз<br>дизайны',
+  fcNum:'02',fcTitle:'Жиһаз<br>дизайны',
   fcPageDesc:'Астанада жұмыс істейміз. Объектіге шығамыз, өлшейміз, жобаңызға арналған жиһаз эскиздерін жасаймыз.',
   fcPricePer:'тг / шығу',fcli1:'Объектіге шығу',fcli2:'Жиһазды өлшеу',fcli3:'Орнында кеңес беру',
   fcSketch:'Эскиз үлгісі',
@@ -300,7 +300,7 @@ en:{
     ['Measurement plan','Furniture layout','Plumbing','Ceiling','Lighting','Wall elevations','Materials list','3D visualization'],
     ['Measurement plan','Wall demolition / construction','Furniture layout','Plumbing','Ceiling','Wall elevations','3D visualization']
   ],
-  fcNum:'02. Additional Service',fcTitle:'Furniture<br>Design',
+  fcNum:'02',fcTitle:'Furniture<br>Design',
   fcPageDesc:'We work in Astana. We visit your site, take measurements, and develop furniture sketches for your project.',
   fcPricePer:'KZT / visit',fcli1:'Site visit',fcli2:'Furniture measurements',fcli3:'On-site consultation',
   fcSketch:'Sketch example',
@@ -328,10 +328,15 @@ function ph(s,k){const e=$q(s);if(e)e.placeholder=t(k);}
 /* Re-wrap svc-title letters for animation after language switch */
 function rewrapSvc(el,text){
   if(!el)return;
-  el.innerHTML=text.split('').map((char,i)=>{
-    const d=(i*0.018).toFixed(3);
-    if(char===' ')return`<span style="display:inline-block;width:.3em"> </span>`;
-    return`<span class="lw"><span class="lo" style="transition-delay:${d}s">${char}</span><span class="li" style="transition-delay:${d}s">${char}</span></span>`;
+  const words=text.split(' ');
+  let i=0;
+  el.innerHTML=words.map((word,wi)=>{
+    const letters=word.split('').map(char=>{
+      const d=(i++*0.018).toFixed(3);
+      return`<span class="lw"><span class="lo" style="transition-delay:${d}s">${char}</span><span class="li" style="transition-delay:${d}s">${char}</span></span>`;
+    }).join('');
+    const sp=wi<words.length-1?`<span style="display:inline-block;width:.3em"> </span>`:'';
+    return`<span style="white-space:nowrap;display:inline-block">${letters}</span>${sp}`;
   }).join('');
 }
 
