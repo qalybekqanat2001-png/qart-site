@@ -1,14 +1,11 @@
 const express = require('express');
 const cors = require('cors');
-const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 const TelegramBot = require('node-telegram-bot-api');
 
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 app.use(cors({ origin: '*' }));
-
-const upload = multer({ storage: multer.memoryStorage() });
 
 const BOT_TOKEN = process.env.BOT_TOKEN;
 const OWNER_ID  = process.env.OWNER_CHAT_ID;
@@ -62,21 +59,33 @@ app.get('/api/status/:id', (req, res) => {
 });
 
 // ── POST /api/submit-anketa ───────────────────────────────────────────────
-app.post('/api/submit-anketa', upload.single('pdf'), (req, res) => {
-  const name  = (req.body && req.body.name)  || 'Клиент';
-  const phone = (req.body && req.body.phone) || '—';
+app.post('/api/submit-anketa', (req, res) => {
+  const { name = 'Клиент', phone = '—', summary = '', pdf } = req.body || {};
+  const header = `📋 Анкета заполнена\n\n👤 Имя: ${name}\n📞 Телефон: ${phone}`;
 
-  if (!req.file) return res.status(400).json({ error: 'no pdf' });
-
-  bot.sendDocument(
-    OWNER_ID,
-    req.file.buffer,
-    {
-      caption: `📋 *Анкета заполнена*\n\n👤 *Имя:* ${name}\n📞 *Телефон:* ${phone}`,
-      parse_mode: 'Markdown'
-    },
-    { filename: 'Anketa-QiAll.pdf', contentType: 'application/pdf' }
-  ).catch(err => console.error('Telegram doc error:', err.message));
+  if (pdf) {
+    // Клиент прислал PDF в base64 — отправляем документом
+    const buf = Buffer.from(pdf, 'base64');
+    bot.sendDocument(
+      OWNER_ID,
+      buf,
+      { caption: header },
+      { filename: 'Anketa-QiAll.pdf', contentType: 'application/pdf' }
+    ).catch(err => {
+      console.error('Telegram doc error:', err.message);
+      // Фолбэк: отправить текстом
+      if (summary) {
+        bot.sendMessage(OWNER_ID, (header + '\n\n' + summary).slice(0, 4096)).catch(() => {});
+      }
+    });
+  } else if (summary) {
+    // PDF не пришёл — отправляем текстом
+    const full = header + '\n\n' + summary;
+    // Разбиваем на части по 4096 символов (лимит Telegram)
+    for (let i = 0; i < full.length; i += 4096) {
+      bot.sendMessage(OWNER_ID, full.slice(i, i + 4096)).catch(err => console.error('Telegram msg error:', err.message));
+    }
+  }
 
   res.json({ ok: true });
 });
