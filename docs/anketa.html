@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Анкета проектирования | QiAll Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0a;
+  --bg2:#111;
+  --bg3:#161616;
+  --gold:#d4a017;
+  --gold2:#e8b825;
+  --text:#f2f2f2;
+  --muted:#888;
+  --dim:#444;
+  --border:rgba(255,255,255,0.07);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;line-height:1.6}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+
+/* NAV */
+.nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 64px;
+  background:rgba(10,10,10,.95);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(212,160,23,.1);
+}
+.nav-logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;letter-spacing:3px;color:#fff;text-transform:uppercase}
+.nav-logo em{color:var(--gold);font-style:normal}
+.nav-back{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:color .3s}
+.nav-back:hover{color:var(--gold)}
+.lang-switch{display:flex;gap:3px;align-items:center}
+.lang-btn{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+  color:var(--muted);background:none;border:1px solid transparent;
+  padding:4px 7px;cursor:pointer;transition:all .2s;font-family:'Montserrat',sans-serif;line-height:1}
+.lang-btn:hover{color:var(--text)}
+.lang-btn.active{color:var(--gold);border-color:rgba(212,160,23,.3);background:rgba(212,160,23,.06)}
+
+/* SECTION COMMON */
+.section-inner{max-width:1280px;margin:0 auto;padding:0 64px}
+.section-eyebrow{
+  display:inline-block;
+  font-size:10px;font-weight:600;letter-spacing:4px;
+  text-transform:uppercase;color:var(--gold);
+  margin-bottom:16px;
+}
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(28px,4vw,46px);font-weight:400;
+  color:#fff;line-height:1.15;
+}
+
+/* ── QUIZ ── */
+.quiz{padding:72px 0 120px;background:var(--bg);position:relative;overflow:hidden}
+.quiz-glow{
+  position:absolute;z-index:0;pointer-events:none;
+  width:200px;height:200px;
+  background:rgba(255,255,255,.03);
+  border-radius:50%;filter:blur(60px);
+  animation:quizGlow 3s ease-in-out infinite alternate;
+}
+@keyframes quizGlow{
+  from{opacity:.3;transform:scale(1)}
+  to{opacity:.8;transform:scale(1.15)}
+}
+.quiz-inner{position:relative;z-index:2;max-width:860px;margin:0 auto;padding:0 64px}
+.quiz-hint{font-size:12px;font-weight:300;color:var(--muted);margin-top:16px;letter-spacing:.3px}
+.quiz-note{
+  display:flex;gap:12px;align-items:flex-start;
+  border:1px solid rgba(212,160,23,.3);
+  background:rgba(212,160,23,.06);
+  padding:16px 18px;margin-bottom:24px;
+}
+.quiz-note-icon{font-size:17px;flex-shrink:0;line-height:1.5}
+.quiz-note p{font-size:13px;font-weight:300;color:rgba(255,255,255,.8);line-height:1.7}
+.quiz-step{display:none}
+.quiz-step.active{display:block;animation:fadeUp .5s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.quiz-counter{
+  font-size:11px;font-weight:600;letter-spacing:3px;
+  text-transform:uppercase;color:var(--dim);margin-bottom:20px;
+}
+.quiz-counter span{color:var(--gold)}
+.quiz-q{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(22px,3vw,34px);font-weight:400;
+  color:#fff;margin-bottom:32px;line-height:1.25;
+}
+.quiz-subq{
+  font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);margin:28px 0 12px;
+}
+.quiz-subq:first-of-type{margin-top:0}
+
+/* ── STYLE CAROUSEL ── */
+.style-carousel{
+  display:grid;grid-template-columns:280px 1fr;gap:56px;
+  align-items:center;margin-bottom:40px;padding:8px 0;
+}
+.style-car-stage{position:relative;aspect-ratio:4/5}
+.style-car-stage::before,.style-car-stage::after{
+  content:'';position:absolute;inset:0;z-index:0;
+  border-radius:24px;background:var(--bg3);
+  border:1px solid rgba(255,255,255,.08);
+}
+.style-car-stage::before{transform:rotate(-6deg) translateY(6px)}
+.style-car-stage::after{transform:rotate(5deg) translateY(-4px)}
+.style-car-img-wrap{
+  position:absolute;inset:0;z-index:1;border-radius:24px;overflow:hidden;
+  background:var(--bg3);box-shadow:0 24px 48px rgba(0,0,0,.5);
+  opacity:1;transform:scale(1) rotate(0deg);
+  transition:opacity .4s ease,transform .4s ease;
+}
+.style-car-img-wrap.style-car-swap{opacity:0;transform:scale(.92) rotate(-4deg)}
+.style-car-img{width:100%;height:100%;object-fit:cover;display:block}
+.style-car-img-wrap.style-car-noimg .style-car-img{display:none}
+.style-car-placeholder{
+  display:none;position:absolute;inset:0;
+  align-items:center;justify-content:center;text-align:center;padding:20px;
+  font-family:'Playfair Display',serif;font-size:16px;color:rgba(255,255,255,.28);
+  background:linear-gradient(150deg,var(--bg3),var(--bg2));
+}
+.style-car-img-wrap.style-car-noimg .style-car-placeholder{display:flex}
+.style-car-info{min-height:170px;display:flex;flex-direction:column;justify-content:center}
+.style-car-name{
+  font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:#fff;
+  margin-bottom:16px;transition:opacity .3s ease,transform .3s ease;
+}
+.style-car-desc{
+  font-size:15px;font-weight:300;color:var(--muted);line-height:1.8;
+  margin-bottom:14px;max-width:440px;transition:opacity .3s ease,transform .3s ease;
+}
+.style-car-features{
+  font-size:12px;font-weight:400;color:rgba(212,160,23,.85);line-height:1.6;
+  max-width:440px;margin-bottom:24px;transition:opacity .3s ease,transform .3s ease;
+}
+.style-car-fading .style-car-name,.style-car-fading .style-car-desc,.style-car-fading .style-car-features{
+  opacity:0;transform:translateY(10px);
+}
+.style-car-nav{display:flex;align-items:center;gap:12px}
+.style-car-btn{
+  width:28px;height:28px;border-radius:50%;flex-shrink:0;
+  background:rgba(255,255,255,.08);border:none;
+  color:#fff;font-size:14px;cursor:pointer;transition:background .25s;
+  display:flex;align-items:center;justify-content:center;
+}
+.style-car-btn span{display:inline-block;transition:transform .25s}
+.style-car-btn:hover{background:rgba(212,160,23,.18);color:var(--gold)}
+.style-car-btn.prev:hover span{transform:rotate(12deg)}
+.style-car-btn.next:hover span{transform:rotate(-12deg)}
+.style-car-counter{font-size:11px;letter-spacing:2px;color:var(--dim)}
+@media(max-width:640px){
+  .style-carousel{grid-template-columns:1fr;gap:24px}
+  .style-car-stage{aspect-ratio:16/10}
+  .style-car-info{min-height:auto}
+  .style-car-name{font-size:22px}
+}
+
+.quiz-options{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:12px;margin-bottom:8px;
+}
+.quiz-options.cols3{grid-template-columns:repeat(3,1fr)}
+.quiz-options.chip-grid{display:flex;flex-wrap:wrap;grid-template-columns:none}
+.quiz-opt{
+  border:1px solid rgba(255,255,255,.15);
+  padding:16px 20px;cursor:pointer;
+  font-size:13px;font-weight:400;color:rgba(255,255,255,.75);
+  text-align:left;font-family:'Montserrat',sans-serif;
+  background:rgba(255,255,255,.05);
+  transition:all .25s;position:relative;
+}
+.chip-grid .quiz-opt{padding:11px 18px;flex:0 0 auto}
+.quiz-opt::before{
+  content:'';position:absolute;bottom:0;left:0;
+  width:0;height:2px;background:var(--gold);transition:width .3s;
+}
+.quiz-opt:hover{border-color:rgba(212,160,23,.5);color:#fff;background:rgba(255,255,255,.09)}
+.quiz-opt:hover::before{width:100%}
+.quiz-opt.selected{border-color:var(--gold);color:#fff;background:rgba(212,160,23,.12)}
+.quiz-opt.selected::before{width:100%}
+
+.qgroup{margin-bottom:8px}
+
+.quiz-name-input,.quiz-select{
+  width:100%;border:1px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.06);
+  color:var(--text);font-family:'Montserrat',sans-serif;
+  font-size:14px;padding:16px 20px;margin-bottom:14px;
+  transition:border .25s,background .25s;outline:none;
+}
+.quiz-name-input:focus{border-color:var(--gold);background:rgba(255,255,255,.09)}
+.quiz-name-input::placeholder{color:rgba(255,255,255,.38)}
+
+.quiz-textarea{
+  width:100%;min-height:110px;resize:vertical;
+  border:1px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.06);
+  color:#fff;font-family:'Montserrat',sans-serif;
+  font-size:14px;font-weight:300;line-height:1.7;
+  padding:16px 20px;margin-bottom:16px;
+  transition:border .25s,background .25s;outline:none;
+}
+.quiz-textarea:focus{border-color:var(--gold);background:rgba(255,255,255,.09)}
+.quiz-textarea::placeholder{color:rgba(255,255,255,.38)}
+
+.quiz-file-label{
+  display:inline-flex;align-items:center;gap:10px;
+  border:1px dashed rgba(212,160,23,.35);
+  padding:14px 24px;cursor:pointer;
+  font-size:12px;font-weight:600;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--muted);
+  transition:all .3s;width:100%;justify-content:center;
+  margin-bottom:14px;
+}
+.quiz-file-label:hover{border-color:var(--gold);color:var(--gold)}
+.quiz-file-input{display:none}
+.quiz-file-list{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.quiz-file-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--bg3);border:1px solid var(--border);
+  padding:6px 12px;font-size:11px;color:var(--muted);
+  max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.quiz-file-chip span{color:var(--gold);font-size:10px}
+
+.quiz-nav{display:flex;gap:14px;align-items:center;margin-top:32px}
+.quiz-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--gold);color:#000;
+  font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  padding:14px 32px;border:none;cursor:pointer;transition:all .3s;
+}
+.quiz-btn:hover{background:var(--gold2);transform:translateY(-2px)}
+.quiz-btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.quiz-btn-back{
+  background:none;border:1px solid var(--border);color:var(--muted);
+  font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  padding:14px 26px;cursor:pointer;transition:all .3s;
+}
+.quiz-btn-back:hover{border-color:var(--gold);color:var(--gold)}
+.quiz-progress{
+  height:2px;background:var(--border);margin-bottom:44px;position:relative;
+}
+.quiz-progress-fill{
+  height:100%;background:var(--gold);
+  transition:width .4s ease;width:0%;
+}
+
+/* Final */
+.quiz-final{text-align:center;padding:24px 0}
+.quiz-final-icon{font-size:52px;margin-bottom:22px}
+.quiz-final h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(24px,3.5vw,36px);color:#fff;
+  margin-bottom:14px;
+}
+.quiz-final p{
+  font-size:14px;font-weight:300;color:var(--muted);
+  max-width:460px;margin:0 auto 32px;line-height:1.75;
+}
+.quiz-final-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.cbtn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:16px 32px;font-size:12px;font-weight:600;
+  letter-spacing:1.5px;text-transform:uppercase;transition:all .3s;
+  border:none;cursor:pointer;font-family:'Montserrat',sans-serif;
+}
+.cbtn.wa{background:var(--gold);color:#000}
+.cbtn.wa:hover{background:var(--gold2);transform:translateY(-3px);box-shadow:0 12px 40px rgba(212,160,23,.28)}
+.cbtn.ghost{border:1px solid rgba(255,255,255,.2);color:#fff;background:none}
+.cbtn.ghost:hover{border-color:var(--gold);color:var(--gold)}
+
+footer{
+  background:#050505;border-top:1px solid var(--border);
+  padding:28px 64px;display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;
+}
+.footer-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;letter-spacing:3px;color:#fff;text-transform:uppercase}
+.footer-logo em{color:var(--gold);font-style:normal}
+.footer-copy{font-size:12px;color:var(--dim)}
+
+/* PRINT / PDF DOCUMENT */
+#printDoc{display:none}
+.pd-head{display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid #000;padding-bottom:14px;margin-bottom:18px}
+.pd-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
+.pd-date{font-size:11px;color:#555}
+.pd-client{display:flex;gap:32px;margin-bottom:22px;font-size:13px}
+.pd-client b{display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#555;font-weight:600;margin-bottom:3px}
+.pd-section{margin-bottom:16px;break-inside:avoid}
+.pd-section h3{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;margin-bottom:6px;border-bottom:1px solid #ccc;padding-bottom:4px}
+.pd-section ul{list-style:none}
+.pd-section li{font-size:12px;padding:3px 0;line-height:1.5}
+.pd-section li b{font-weight:600}
+.pd-foot{margin-top:24px;padding-top:12px;border-top:1px solid #ccc;font-size:10px;color:#777}
+@media print{
+  @page{margin:16mm}
+  body *{visibility:hidden}
+  #printDoc,#printDoc *{visibility:visible}
+  #printDoc{display:block;position:absolute;top:0;left:0;width:100%;color:#000;background:#fff}
+}
+
+/* LOCK SCREEN */
+.quiz-lock{
+  max-width:480px;margin:80px auto;padding:0 24px;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+}
+.quiz-lock-icon{font-size:52px;margin-bottom:20px}
+.quiz-lock-title{
+  font-family:'Playfair Display',serif;font-size:26px;color:#fff;
+  margin-bottom:12px;
+}
+.quiz-lock-desc{font-size:14px;font-weight:300;color:var(--muted);margin-bottom:28px;line-height:1.7}
+.quiz-lock-form{display:flex;flex-direction:column;gap:12px;width:100%}
+.quiz-lock-input{
+  width:100%;border:1px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.06);color:var(--text);
+  font-family:'Montserrat',sans-serif;font-size:14px;
+  padding:16px 20px;outline:none;transition:border .25s;
+}
+.quiz-lock-input:focus{border-color:var(--gold)}
+.quiz-lock-input::placeholder{color:rgba(255,255,255,.38)}
+.quiz-lock-btn{
+  background:var(--gold);color:#000;border:none;cursor:pointer;
+  font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  padding:16px 32px;transition:all .3s;font-family:'Montserrat',sans-serif;
+}
+.quiz-lock-btn:hover{background:var(--gold2);transform:translateY(-2px)}
+.quiz-lock-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.quiz-lock-wait{
+  display:none;flex-direction:column;align-items:center;gap:16px;margin-top:40px;
+  font-size:14px;color:var(--muted);
+}
+.quiz-lock-spinner{
+  width:40px;height:40px;border:3px solid rgba(255,255,255,.1);
+  border-top-color:var(--gold);border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.quiz-lock-denied{
+  display:none;flex-direction:column;align-items:center;gap:12px;margin-top:40px;
+  font-size:15px;color:#e55;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .nav{padding:16px 24px}
+  .quiz{padding:44px 0 72px}
+  .quiz-inner{padding:0 22px}
+  .quiz-q{font-size:20px;margin-bottom:24px}
+  .quiz-options{grid-template-columns:1fr}
+  .quiz-options.cols3{grid-template-columns:1fr 1fr}
+  .quiz-opt{padding:14px 16px;font-size:13px}
+  .quiz-name-input,.quiz-textarea{padding:14px 16px;font-size:13px}
+  .quiz-final-btns{flex-direction:column;align-items:stretch}
+  footer{padding:22px;justify-content:center;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">QiAll <em>Design</em></a>
+  <div class="lang-switch">
+    <button class="lang-btn active" data-lang="ru" type="button">RU</button>
+    <button class="lang-btn" data-lang="kz" type="button">ҚАЗ</button>
+    <button class="lang-btn" data-lang="en" type="button">EN</button>
+  </div>
+  <a href="index.html" class="nav-back" data-i18n="nav.back">← На главную</a>
+</nav>
+
+<!-- QUIZ -->
+<section class="quiz" id="quiz">
+  <div class="quiz-glow" style="top:15%;left:10%;animation-duration:3s"></div>
+  <div class="quiz-glow" style="top:60%;right:8%;animation-duration:4s;animation-delay:1s;width:150px;height:150px"></div>
+
+  <!-- Замок доступа -->
+  <div id="quizLock" class="quiz-lock">
+    <div id="qlForm">
+      <div class="quiz-lock-icon">🔒</div>
+      <p class="quiz-lock-title">Анкета доступна по запросу</p>
+      <p class="quiz-lock-desc">Введите имя и телефон — мы пришлём подтверждение и откроем анкету.</p>
+      <div class="quiz-lock-form">
+        <input id="qlName"  class="quiz-lock-input" type="text" placeholder="Ваше имя">
+        <input id="qlPhone" class="quiz-lock-input" type="tel"  placeholder="Номер телефона (WhatsApp)">
+        <button id="qlBtn" class="quiz-lock-btn" onclick="qlSubmit()">ЗАПРОСИТЬ ДОСТУП</button>
+      </div>
+    </div>
+    <div id="qlWait" class="quiz-lock-wait">
+      <div class="quiz-lock-spinner"></div>
+      <span>Ожидайте подтверждения…</span>
+    </div>
+    <div id="qlDenied" class="quiz-lock-denied">
+      <div>❌</div><span>Запрос отклонён</span>
+    </div>
+  </div>
+
+  <div id="quizContent" class="quiz-inner" style="display:none">
+    <div style="margin-bottom:36px">
+      <p class="section-eyebrow" data-i18n="hero.eyebrow">Бриф на дизайн-проект</p>
+      <h1 class="section-title" data-i18n="hero.title">Анкета проектирования</h1>
+      <p class="quiz-hint" data-i18n="hero.hint">Все вопросы, кроме имени и телефона, необязательны — заполните то, что знаете, остальное уточним на встрече. Анкета не публикуется — ответы видит только дизайнер проекта.</p>
+    </div>
+
+    <div class="quiz-progress"><div class="quiz-progress-fill" id="quizProgress"></div></div>
+
+    <!-- Шаг 0: Имя и телефон -->
+    <div class="quiz-step active" id="stepName">
+      <p class="quiz-q" style="margin-bottom:20px" data-i18n="name.q">Давайте познакомимся 👋</p>
+      <div class="quiz-note">
+        <span class="quiz-note-icon">✍️</span>
+        <p data-i18n="name.fillnote">Пожалуйста, заполните анкету максимально подробно — чем больше информации вы дадите, тем точнее мы поймём, каким должен получиться ваш интерьер, и тем меньше правок понадобится в дизайн-проекте.</p>
+      </div>
+      <input class="quiz-name-input" type="text" id="quizName" placeholder="Ваше имя" data-i18n-ph="name.namePh">
+      <input class="quiz-name-input" type="tel" id="quizPhone" placeholder="Номер телефона (WhatsApp)" data-i18n-ph="name.phonePh">
+      <p class="quiz-hint" data-i18n="name.hint">Мы свяжемся с вами после заполнения анкеты</p>
+      <div class="quiz-nav">
+        <button class="quiz-btn" id="btnName" disabled data-i18n="name.start">Начать →</button>
+      </div>
+    </div>
+
+    <!-- Шаг 1: Объект и локация -->
+    <div class="quiz-step" id="step1" data-step="1" data-section="1. Объект и локация">
+      <p class="quiz-counter"><span data-i18n="common.question">Вопрос</span> <span>1</span> <span data-i18n="common.of">из</span> <span class="totalQ"></span></p>
+      <p class="quiz-q" data-i18n="s1.q">Расскажите об объекте</p>
+
+      <p class="quiz-subq" data-i18n="s1.sub1">Тип объекта</p>
+      <div class="qgroup quiz-options cols3" data-label="Тип объекта">
+        <button class="quiz-opt" data-single="objtype" data-val="Квартира">🏢<br><strong data-i18n="s1.opt.apartment">Квартира</strong></button>
+        <button class="quiz-opt" data-single="objtype" data-val="Дом">🏠<br><strong data-i18n="s1.opt.house">Дом</strong></button>
+        <button class="quiz-opt" data-single="objtype" data-val="Коммерция">🏪<br><strong data-i18n="s1.opt.commercial">Коммерция</strong></button>
+      </div>
+
+      <p class="quiz-subq" data-i18n="s1.sub2">Тип недвижимости</p>
+      <div class="qgroup quiz-options cols3" data-label="Тип недвижимости">
+        <button class="quiz-opt" data-single="propnew" data-val="Новостройка" data-i18n="s1.opt.newbuild">Новостройка</button>
+        <button class="quiz-opt" data-single="propnew" data-val="Вторичка" data-i18n="s1.opt.resale">Вторичка</button>
+        <button class="quiz-opt" data-single="propnew" data-val="Частный дом" data-i18n="s1.opt.privatehouse">Частный дом</button>
+      </div>
+
+      <p class="quiz-subq" data-i18n="s1.sub3">Город</p>
+      <div class="qgroup quiz-options cols3" data-label="Город">
+        <button class="quiz-opt" data-single="city" data-val="Астана">🏙<br><strong>Астана</strong></button>
+        <button class="quiz-opt" data-single="city" data-val="Алматы">🌆<br><strong>Алматы</strong></button>
+        <button class="quiz-opt" data-single="city" data-val="Другой город">📍<br><strong data-i18n="s1.opt.othercity">Другой город</strong></button>
+      </div>
+
+      <p class="quiz-subq" data-i18n="s1.sub4">Детали</p>
+      <input class="quiz-name-input" type="text" data-label="Адрес объекта / название ЖК" placeholder="Адрес объекта / название ЖК" data-i18n-ph="s1.ph.address">
+      <input class="quiz-name-input" type="number" min="1" data-label="Площадь объекта (м²)" placeholder="Площадь объекта, м²" data-i18n-ph="s1.ph.area">
+      <input class="quiz-name-input" type="text" data-label="Количество этажей" placeholder="Количество этажей (для дома)" data-i18n-ph="s1.ph.floors">
+
+      <div class="quiz-nav">
+        <button class="quiz-btn-back" data-prev data-i18n="common.back">← Назад</button>
+        <button class="quiz-btn" data-next data-i18n="common.next">Далее →</button>
+      </div>
+    </div>
+
+    <!-- Шаг 2: Параметры здания -->
+    <div class="quiz-step" id="step2" data-step="2" data-section="2. Параметры здания">
+      <p class="quiz-counter"><span data-i18n="common.question">Вопрос</span> <span>2</span> <span data-i18n="common.of">из</span> <span class="totalQ"></span></p>
+      <p class="quiz-q" data-i18n="s2.q">Параметры здания и планировки</p>
+
+      <input class="quiz-name-input" type="text" data-label="Год постройки здания" placeholder="Год постройки здания" data-i18n-ph="s2.ph.year">
+      <input class="quiz-name-input" type="text" data-label="Материалы стен и перегородок" placeholder="Материалы стен и перегородок" data-i18n-ph="s2.ph.walls">
+      <input class="quiz-name-input" type="text" data-label="Высота потолков" placeholder="Высота потолков" data-i18n-ph="s2.ph.ceiling">
+      <input class="quiz-name-input" type="text" data-label="Количество балконов/лоджий" placeholder="Количество балконов/лоджий" data-i18n-ph="s2.ph.balconies">
+      <input class="quiz-name-input" type="text" data-label="Количество санузлов" placeholder="Количество санузлов" data-i18n-ph="s2.ph.bathrooms">
+
+      <p class="quiz-subq" data-i18n="s2.sub1">Нужна перепланировка (согласование в БТИ)?</p>
+      <div class="qgroup quiz-options cols3" data-label="Перепланировка (БТИ)">
+        <button class="quiz-opt" data-single="bti" data-val="Да" data-i18n="common.yes">Да</button>
+        <button class="quiz-opt" data-single="bti" data-val="Нет" data-i18n="common.no">Нет</button>
+        <button class="quiz-opt" data-single="bti" data-val="Не уверен(а)" data-i18n="common.notsure">Не уверен(а)</button>
+      </div>
+
+      <div class="quiz-nav">
+        <button class="quiz-btn-back" data-prev data-i18n="common.back">← Назад</button>
+        <button class="quiz-btn" data-next data-i18n="common.next">Далее →</button>
+      </div>
+    </div>
+
+    <!-- Шаг 3: Семья и образ жизни -->
+    <div class="quiz-step" id="step3" data-step="3" data-section="3. Семья и образ жизни">
+      <p class="quiz-counter"><span data-i18n="common.question">Вопрос</span> <span>3</span> <span data-i18n="common.of">из</span> <span class="totalQ"></span></p>
+      <p class="quiz-q" data-i18n="s3.q">Семья и образ жизни</p>
+
+      <textarea class="quiz-textarea" data-label="Состав семьи (кол-во, возраст, родство, пол)" placeholder="Состав семьи: кол-во, возраст, степень родства, пол всех проживающих" data-i18n-ph="s3.ph.family"></textarea>
+
+      <p class="quiz-subq" data-i18n="s3.sub1">Планируется пополнение в семье?</p>
+      <div class="qgroup quiz-options cols3" data-label="Планируется пополнение в семье">
+        <button class="quiz-opt" data-single="addkid" data-val="Да" data-i18n="common.yes">Да</button>
+        <button class="quiz-opt" data-single="addkid" data-val="Возможно" data-i18n="s3.opt.maybe">Возможно</button>
+        <button class="quiz-opt" data-single="addkid" data-val="Нет" data-i18n="common.no">Нет</button>
+      </div>
+
+      <p class="quiz-subq" data-i18n="s3.sub2">Домашние животные</p>
+      <div class="qgroup quiz-options cols3" data-label="Домашние животные">
+        <button class="quiz-opt" data-single="pets" data-val="Есть" data-i18n="s3.opt.have">Есть</button>
+        <button class="quiz-opt" data-single="pets" data-val="Планируем" data-i18n="s3.opt.planning">Планируем</button>
+        <button class="quiz-opt" data-single="pets" data-val="Нет" data-i18n="common.no">Нет</button>
+      </div>
+
+      <p class="quiz-subq" data-i18n="s3.sub3">Работаете из дома?</p>
+      <div class="qgroup quiz-options cols3" data-label="Работа из дома">
+        <button class="quiz-opt" data-single="wfh" data-val="Да, регулярно" data-i18n="s3.opt.regularly">Да, регулярно</button>
+        <button class="quiz-opt" data-single="wfh" data-val="Иногда" data-i18n="s3.opt.sometimes">Иногда</button>
+        <button class="quiz-opt" data-single="wfh" data-val="Нет" data-i18n="common.no">Нет</button>
+      </div>
+
+      <p class="quiz-subq" data-i18n="s3.sub4">Особые потребности жильцов</p>
+      <div class="qgroup quiz-options chip-grid" data-label="Особые потребности жильцов" style="margin-bottom:20px">
+        <button class="quiz-opt" data-val="Маленькие дети" data-i18n="s3.opt.kids">Маленькие дети</button>
+        <button class="quiz-opt" data-val="Пожилые родственники" data-i18n="s3.opt.elderly">Пожилые родственники</button>
+        <button class="quiz-opt" data-val="Ограниченная мобильность" data-i18n="s3.opt.mobility">Ограниченная мобильность</button>
+        <button class="quiz-opt" data-val="Особых потребностей нет" data-i18n="s3.opt.none">Особых потребностей нет</button>
+      </div>
+
+      <textarea class="quiz-textarea" data-label="Хобби членов семьи" placeholder="Хобби всех членов семьи (музыка, спорт и т.п.)" data-i18n-ph="s3.ph.hobby"></textarea>
+      <textarea class="quiz-textarea" data-label="Приём гостей (частота, формат, доп. места)" placeholder="Как часто принимаются гости, в каком количестве, нужны ли доп. посадочные/спальные места" data-i18n-ph="s3.ph.guests"></textarea>
+
+      <div class="quiz-nav">
+        <button class="quiz-btn-back" data-prev data-i18n="common.back">← Назад</button>
+        <button class="quiz-btn" data-next data-i18n="common.next">Далее →</button>
+      </div>
+    </div>
+
+    <!-- Шаг 4: Существующие вещи и декор -->
+    <div class="quiz-step" id="step4" data-step="4" data-section="4. Существующие вещи и декор">
+      <p class="quiz-counter"><span data-i18n="common.question">Вопрос</span> <span>4</span> <span data-i18n="common.of">из</span> <span class="totalQ"></span></p>
+      <p class="quiz-q" data-i18n="s4.q">Что уже есть и должно остаться</p>
+
+      <textarea class="quiz-textarea" data-label="Мебель и техника, которые нужно сохранить и вписать в проект" placeholder="Например: диван, обеденный стол, холодильник — что уже куплено или жалко менять" data-i18n-ph="s4.ph.furniture"></textarea>
+      <textarea class="quiz-textarea" data-label="Декор и личные вещи, которые обязательно нужно сохранить" placeholder="Картины, сувениры, коллекции, семейные вещи — то, что должно остаться в интерьере" data-i18n-ph="s4.ph.decor"></textarea>
+
+      <div class="quiz-nav">
+        <button class="quiz-btn-back" data-prev data-i18n="common.back">← Назад</button>
+        <button class="quiz-btn" data-next data-i18n="common.next">Далее →</button>
+      </div>
+    </div>
+
+    <!-- Шаг 5: Помещения и зонирование -->
+    <div class="quiz-step" id="step5" data-step="5" data-section="5. Помещения и зонирование">
+      <p class="quiz-counter"><span data-i18n="common.question">Вопрос</span> <span>5</span> <span data-i18n="common.of">из</span> <span class="totalQ"></span></p>
+      <p class="quiz-q" data-i18n="s5.q">Помещения и зонирование</p>
+
+      <p class="quiz-subq" data-i18n="s5.sub1">Какие помещения нужно предусмотреть</p>
+      <div class="qgroup quiz-options chip-grid" data-label="Помещения" style="margin-bottom:20px">
+        <button class="quiz-opt" data-val="Прихожая" data-i18n="s5.opt.hall">Прихожая</button>
+        <button class="quiz-opt" data-val="Гостиная" data-i18n="s5.opt.living">Гостиная</button>
+        <button class="quiz-opt" data-val="Кухня" data-i18n="s5.opt.kitchen">Кухня</button>
+        <button class="quiz-opt" data-val="Спальня" data-i18n="s5.opt.bedroom">Спальня</button>
+        <button class="quiz-opt" data-val="Детская" data-i18n="s5.opt.kids">Детская</button>
+        <button class="quiz-opt" data-val="Гостевая" data-i18n="s5.opt.guest">Гостевая</button>
+        <button class="quiz-opt" data-val="Кабинет" data-i18n="s5.opt.office">Кабинет</button>
+        <button class="quiz-opt" data-val="Гардеробная" data-i18n="s5.opt.wardrobe">Гардеробная</button>
+        <button class="quiz-opt" data-val="Санузел" data-i18n="s5.opt.bathroom">Санузел</button>
+        <button class="quiz-opt" data-val="Постирочная" data-i18n="s5.opt.laundry">Постирочная</button>
+        <button class="quiz-opt" data-val="Кладовая" data-i18n="s5.opt.storage">Кладовая</button>
+        <button class="quiz-opt" data-val="Балкон/лоджия" data-i18n="s5.opt.balcony">Балкон/лоджия</button>
+      </div>
+
+      <input class="quiz-name-input" type="text" data-label="Общее количество помещений" placeholder="Общее количество помещений" data-i18n-ph="s5.ph.roomcount">
+      <textarea class="quiz-textarea" data-label="Пожелания по перепланировке/объединению пространств" placeholder="Например: объединить кухню с гостиной, добавить гардеробную в спальню и т.п." data-i18n-ph="s5.ph.replanning"></textarea>
+      <textarea class="quiz-textarea" data-label="Функциональные пожелания по каждому помещению" placeholder="Кратко опишите пожелания по каждой из выбранных комнат: мебель, материалы, техника, особенности" data-i18n-ph="s5.ph.roomwishes"></textarea>
+
+      <div class="quiz-nav">
+        <button class="quiz-btn-back" data-prev data-i18n="common.back">← Назад</button>
+        <button class="quiz-btn" data-next data-i18n="common.next">Далее →</button>
+      </div>
+    </div>
+
+    <!-- Шаг 6: Стиль и эстетика -->
+    <div class="quiz-step" id="step6" data-step="6" data-section="6. Стиль и эстетика">
+      <p class="quiz-counter"><span data-i18n="common.question">Вопрос</span> <span>6</span> <span data-i18n="common.of">из</span> <span class="totalQ"></span></p>
+      <p class="quiz-q" data-i18n="s6.q">Стиль и эстетика</p>
+
+      <div class="style-carousel" id="styleCarousel">
+        <div class="style-car-stage">
+          <div class="style-car-img-wrap" id="styleCarImgWrap">
+            <img class="style-car-img" id="styleCarImg" alt="" onerror="document.getElementById('styleCarImgWrap').classList.add('style-car-noimg')">
+            <div class="style-car-placeholder" id="styleCarPlaceholder"></div>
+          </div>
+        </div>
+        <div class="style-car-info">
+          <div id="styleCarText">
+            <h3 class="style-car-name" id="styleCarName"></h3>
+            <p class="style-car-desc" id="styleCarDesc"></p>
+            <p class="style-car-features" id="styleCarFeatures"></p>
+          </div>
+          <div class="style-car-nav">
+            <button class="style-car-btn prev" id="styleCarPrev" type="button" aria-label="Назад"><span>←</span></button>
+            <button class="style-car-btn next" id="styleCarNext" type="button" aria-label="Вперёд"><span>→</span></button>
+            <span class="style-car-counter" id="styleCarCounter"></span>
+          </div>
+        </div>
+      </div>
+
+      <p class="quiz-subq" data-i18n="s6.sub1">Предпочтительный стиль</p>
+      <div class="qgroup quiz-options chip-grid" data-label="Предпочтительный стиль" style="margin-bottom:20px">
+        <button class="quiz-opt" data-val="Минимализм" data-i18n="s6.opt.minimal">Минимализм</button>
+        <button class="quiz-opt" data-val="Современная классика" data-i18n="s6.opt.modclassic">Современная классика</button>
+        <button class="quiz-opt" data-val="Неоклассика" data-i18n="s6.opt.neoclassic">Неоклассика</button>
+        <button class="quiz-opt" data-val="Лофт" data-i18n="s6.opt.loft">Лофт</button>
+        <button class="quiz-opt" data-val="Скандинавский" data-i18n="s6.opt.scandi">Скандинавский</button>
+        <button class="quiz-opt" data-val="Ар-деко" data-i18n="s6.opt.artdeco">Ар-деко</button>
+        <button class="quiz-opt" data-val="Джапанди" data-i18n="s6.opt.japandi">Джапанди</button>
+        <button class="quiz-opt" data-val="Эклектика" data-i18n="s6.opt.eclectic">Эклектика</button>
+        <button class="quiz-opt" data-val="Хай-тек" data-i18n="s6.opt.hitech">Хай-тек</button>
+        <button class="quiz-opt" data-val="Эко-стиль" data-i18n="s6.opt.eco">Эко-стиль</button>
+        <button class="quiz-opt" data-val="Поп-арт" data-i18n="s6.opt.popart">Поп-арт</button>
+        <button class="quiz-opt" data-val="Бохо" data-i18n="s6.opt.boho">Бохо</button>
+      </div>
+
+      <input class="quiz-name-input" type="text" data-label="Цветовая палитра" placeholder="Цветовая палитра: базовые/акцентные, тёплые/холодные тона" data-i18n-ph="s6.ph.palette">
+      <input class="quiz-name-input" type="text" data-label="Материалы стен" placeholder="Предпочитаемые материалы стен" data-i18n-ph="s6.ph.wallmat">
+      <input class="quiz-name-input" type="text" data-label="Материалы пола" placeholder="Предпочитаемые материалы пола" data-i18n-ph="s6.ph.floormat">
+
+      <p class="quiz-subq" data-i18n="s6.sub2">Предпочитаемые типы освещения</p>
+      <div class="qgroup quiz-options chip-grid" data-label="Типы освещения" style="margin-bottom:20px">
+        <button class="quiz-opt" data-val="Люстра" data-i18n="s6.opt.chandelier">Люстра</button>
+        <button class="quiz-opt" data-val="Бра" data-i18n="s6.opt.sconce">Бра</button>
+        <button class="quiz-opt" data-val="Торшеры" data-i18n="s6.opt.floorlamp">Торшеры</button>
+        <button class="quiz-opt" data-val="Треки" data-i18n="s6.opt.tracklight">Треки</button>
+        <button class="quiz-opt" data-val="Споты" data-i18n="s6.opt.spotlight">Споты</button>
+        <button class="quiz-opt" data-val="Подвесы" data-i18n="s6.opt.pendant">Подвесы</button>
+        <button class="quiz-opt" data-val="LED-лента" data-i18n="s6.opt.ledstrip">LED-лента</button>
+        <button class="quiz-opt" data-val="Настольная лампа" data-i18n="s6.opt.tablelamp">Настольная лампа</button>
+      </div>
+
+      <textarea class="quiz-textarea" data-label="Предпочтительная мебель" placeholder="Предпочтительная мебель" data-i18n-ph="s6.ph.furniture"></textarea>
+      <textarea class="quiz-textarea" data-label="Антипатии (что точно не нравится)" placeholder="Что точно не нравится — стили, цвета, материалы" data-i18n-ph="s6.ph.dislikes"></textarea>
+
+      <div class="quiz-nav">
+        <button class="quiz-btn-back" data-prev data-i18n="common.back">← Назад</button>
+        <button class="quiz-btn" data-next data-i18n="common.next">Далее →</button>
+      </div>
+    </div>
+
+    <!-- Шаг 7: Инженерия и сети -->
+    <div class="quiz-step" id="step7" data-step="7" data-section="7. Инженерия и сети">
+      <p class="quiz-counter"><span data-i18n="common.question">Вопрос</span> <span>7</span> <span data-i18n="common.of">из</span> <span class="totalQ"></span></p>
+      <p class="quiz-q" data-i18n="s7.q">Инженерия и сети</p>
+
+      <input class="quiz-name-input" type="text" data-label="Система отопления" placeholder="Система отопления" data-i18n-ph="s7.ph.heating">
+      <input class="quiz-name-input" type="text" data-label="Вентиляция / кондиционирование" placeholder="Система вентиляции и кондиционирования" data-i18n-ph="s7.ph.ventilation">
+
+      <p class="quiz-subq" data-i18n="s7.sub1">Тёплый пол</p>
+      <div class="qgroup quiz-options cols3" data-label="Тёплый пол">
+        <button class="quiz-opt" data-single="warmfloor" data-val="Нужен везде" data-i18n="s7.opt.everywhere">Нужен везде</button>
+        <button class="quiz-opt" data-single="warmfloor" data-val="Частично" data-i18n="common.partially">Частично</button>
+        <button class="quiz-opt" data-single="warmfloor" data-val="Не нужен" data-i18n="common.notneeded">Не нужен</button>
+      </div>
+
+      <p class="quiz-subq" data-i18n="s7.sub2">Звукоизоляция</p>
+      <div class="qgroup quiz-options cols3" data-label="Звукоизоляция">
+        <button class="quiz-opt" data-single="soundproof" data-val="Нужна" data-i18n="common.needed">Нужна</button>
+        <button class="quiz-opt" data-single="soundproof" data-val="Не нужна" data-i18n="common.notneeded">Не нужна</button>
+        <button class="quiz-opt" data-single="soundproof" data-val="Не уверен(а)" data-i18n="common.notsure">Не уверен(а)</button>
+      </div>
+
+      <p class="quiz-subq" data-i18n="s7.sub3">Умный дом</p>
+      <div class="qgroup quiz-options cols3" data-label="Умный дом">
+        <button class="quiz-opt" data-single="smarthome" data-val="Да, полностью" data-i18n="s7.opt.fully">Да, полностью</button>
+        <button class="quiz-opt" data-single="smarthome" data-val="Частично (свет и т.п.)" data-i18n="common.partially">Частично</button>
+        <button class="quiz-opt" data-single="smarthome" data-val="Не нужен" data-i18n="common.notneeded">Не нужен</button>
+      </div>
+
+      <p class="quiz-subq" data-i18n="s7.sub4">Сети и коммуникации</p>
+      <div class="qgroup quiz-options chip-grid" data-label="Сети и коммуникации">
+        <button class="quiz-opt" data-val="Телефония" data-i18n="s7.opt.telephony">Телефония</button>
+        <button class="quiz-opt" data-val="Домофон" data-i18n="s7.opt.intercom">Домофон</button>
+        <button class="quiz-opt" data-val="Телевидение" data-i18n="s7.opt.tv">Телевидение</button>
+        <button class="quiz-opt" data-val="Спутниковое ТВ" data-i18n="s7.opt.sattv">Спутниковое ТВ</button>
+        <button class="quiz-opt" data-val="Wi-Fi">Wi-Fi</button>
+        <button class="quiz-opt" data-val="LAN">LAN</button>
+        <button class="quiz-opt" data-val="Рекуператор" data-i18n="s7.opt.recuperator">Рекуператор</button>
+      </div>
+
+      <div class="quiz-nav">
+        <button class="quiz-btn-back" data-prev data-i18n="common.back">← Назад</button>
+        <button class="quiz-btn" data-next data-i18n="common.next">Далее →</button>
+      </div>
+    </div>
+
+    <!-- Шаг 8: Кухня и техника -->
+    <div class="quiz-step" id="step8" data-step="8" data-section="8. Кухня и техника">
+      <p class="quiz-counter"><span data-i18n="common.question">Вопрос</span> <span>8</span> <span data-i18n="common.of">из</span> <span class="totalQ"></span></p>
+      <p class="quiz-q" data-i18n="s8.q">Кухня и техника</p>
+
+      <p class="quiz-subq" data-i18n="s8.sub1">Частота готовки</p>
+      <div class="qgroup quiz-options cols3" data-label="Частота готовки">
+        <button class="quiz-opt" data-single="cookfreq" data-val="Каждый день" data-i18n="s8.opt.daily">Каждый день</button>
+        <button class="quiz-opt" data-single="cookfreq" data-val="Несколько раз в неделю" data-i18n="s8.opt.fewweek">Несколько раз в неделю</button>
+        <button class="quiz-opt" data-single="cookfreq" data-val="Редко" data-i18n="s8.opt.rarely">Редко</button>
+      </div>
+
+      <p class="quiz-subq" data-i18n="s8.sub2">Остров / барная стойка</p>
+      <div class="qgroup quiz-options cols3" data-label="Остров / барная стойка">
+        <button class="quiz-opt" data-single="island" data-val="Остров" data-i18n="s8.opt.island">Остров</button>
+        <button class="quiz-opt" data-single="island" data-val="Барная стойка" data-i18n="s8.opt.bar">Барная стойка</button>
+        <button class="quiz-opt" data-single="island" data-val="Не нужно" data-i18n="common.notneeded">Не нужно</button>
+      </div>
+
+      <input class="quiz-name-input" type="text" data-label="Количество посадочных мест" placeholder="Количество посадочных мест за столом" data-i18n-ph="s8.ph.seats">
+
+      <p class="quiz-subq" data-i18n="s8.sub3">Встроенная и отдельностоящая техника</p>
+      <div class="qgroup quiz-options chip-grid" data-label="Кухонная техника" style="margin-bottom:20px">
+        <button class="quiz-opt" data-val="Холодильник встроенный" data-i18n="s8.opt.fridgebuiltin">Холодильник встроенный</button>
+        <button class="quiz-opt" data-val="Холодильник отдельностоящий" data-i18n="s8.opt.fridgefree">Холодильник отдельностоящий</button>
+        <button class="quiz-opt" data-val="Винный холодильник" data-i18n="s8.opt.winefridge">Винный холодильник</button>
+        <button class="quiz-opt" data-val="Морозильная камера" data-i18n="s8.opt.freezer">Морозильная камера</button>
+        <button class="quiz-opt" data-val="Плита газовая" data-i18n="s8.opt.gasstove">Плита газовая</button>
+        <button class="quiz-opt" data-val="Плита электрическая" data-i18n="s8.opt.elecstove">Плита электрическая</button>
+        <button class="quiz-opt" data-val="Плита индукционная" data-i18n="s8.opt.inductionstove">Плита индукционная</button>
+        <button class="quiz-opt" data-val="Вытяжка" data-i18n="s8.opt.hood">Вытяжка</button>
+        <button class="quiz-opt" data-val="Очиститель воздуха" data-i18n="s8.opt.airpurifier">Очиститель воздуха</button>
+        <button class="quiz-opt" data-val="Духовой шкаф" data-i18n="s8.opt.oven">Духовой шкаф</button>
+        <button class="quiz-opt" data-val="Гриль" data-i18n="s8.opt.grill">Гриль</button>
+        <button class="quiz-opt" data-val="Пароварка" data-i18n="s8.opt.steamer">Пароварка</button>
+        <button class="quiz-opt" data-val="Микроволновая печь" data-i18n="s8.opt.microwave">Микроволновая печь</button>
+        <button class="quiz-opt" data-val="Кофемашина" data-i18n="s8.opt.coffeemachine">Кофемашина</button>
+        <button class="quiz-opt" data-val="Посудомоечная машина" data-i18n="s8.opt.dishwasher">Посудомоечная машина</button>
+        <button class="quiz-opt" data-val="Фильтр для воды" data-i18n="s8.opt.waterfilter">Фильтр для воды</button>
+        <button class="quiz-opt" data-val="Диспоузер" data-i18n="s8.opt.disposer">Диспоузер</button>
+        <button class="quiz-opt" data-val="Робот-пылесос" data-i18n="s8.opt.robotvac">Робот-пылесос</button>
+        <button class="quiz-opt" data-val="Пылесос" data-i18n="s8.opt.vacuum">Пылесос</button>
+      </div>
+
+      <input class="quiz-name-input" type="text" data-label="Материалы и цвет фасадов" placeholder="Материалы и цвет фасадов кухни" data-i18n-ph="s8.ph.facades">
+      <input class="quiz-name-input" type="text" data-label="Предпочитаемые бренды техники" placeholder="Предпочитаемые бренды техники" data-i18n-ph="s8.ph.brands">
+
+      <div class="quiz-nav">
+        <button class="quiz-btn-back" data-prev data-i18n="common.back">← Назад</button>
+        <button class="quiz-btn" data-next data-i18n="common.next">Далее →</button>
+      </div>
+    </div>
+
+    <!-- Шаг 9: Гостиная и мультимедиа -->
+    <div class="quiz-step" id="step9" data-step="9" data-section="9. Гостиная и мультимедиа">
+      <p class="quiz-counter"><span data-i18n="common.question">Вопрос</span> <span>9</span> <span data-i18n="common.of">из</span> <span class="totalQ"></span></p>
+      <p class="quiz-q" data-i18n="s9.q">Гостиная и мультимедиа</p>
+
+      <p class="quiz-subq" data-i18n="s9.sub1">Оборудование гостиной</p>
+      <div class="qgroup quiz-options chip-grid" data-label="Оборудование гостиной" style="margin-bottom:20px">
+        <button class="quiz-opt" data-val="Телевизор" data-i18n="s9.opt.tv">Телевизор</button>
+        <button class="quiz-opt" data-val="Видеопроектор" data-i18n="s9.opt.projector">Видеопроектор</button>
+        <button class="quiz-opt" data-val="Домашний кинотеатр" data-i18n="s9.opt.hometheater">Домашний кинотеатр</button>
+        <button class="quiz-opt" data-val="Акустическая система" data-i18n="s9.opt.audio">Акустическая система</button>
+        <button class="quiz-opt" data-val="Игровая приставка" data-i18n="s9.opt.console">Игровая приставка</button>
+        <button class="quiz-opt" data-val="Камин" data-i18n="s9.opt.fireplace">Камин</button>
+      </div>
+
+      <textarea class="quiz-textarea" data-label="Гостевая зона" placeholder="Что должно быть в гостевой зоне: диван, стол-трансформер, ТВ-зона и т.д." data-i18n-ph="s9.ph.guestzone"></textarea>
+
+      <div class="quiz-nav">
+        <button class="quiz-btn-back" data-prev data-i18n="common.back">← Назад</button>
+        <button class="quiz-btn" data-next data-i18n="common.next">Далее →</button>
+      </div>
+    </div>
+
+    <!-- Шаг 10: Хранение и гардеробные -->
+    <div class="quiz-step" id="step10" data-step="10" data-section="10. Хранение и гардеробные">
+      <p class="quiz-counter"><span data-i18n="common.question">Вопрос</span> <span>10</span> <span data-i18n="common.of">из</span> <span class="totalQ"></span></p>
+      <p class="quiz-q" data-i18n="s10.q">Хранение и гардеробные</p>
+
+      <p class="quiz-subq" data-i18n="s10.sub1">Тип хранения</p>
+      <div class="qgroup quiz-options cols3" data-label="Тип хранения">
+        <button class="quiz-opt" data-single="storagetype" data-val="Закрытый" data-i18n="s10.opt.closed">Закрытый</button>
+        <button class="quiz-opt" data-single="storagetype" data-val="Открытый" data-i18n="s10.opt.open">Открытый</button>
+        <button class="quiz-opt" data-single="storagetype" data-val="Комбинированный" data-i18n="s10.opt.combined">Комбинированный</button>
+      </div>
+
+      <textarea class="quiz-textarea" data-label="Размер и зонирование гардеробной" placeholder="Размер и внутреннее зонирование гардеробной: вешалки/полки/ящики" data-i18n-ph="s10.ph.wardrobe"></textarea>
+      <textarea class="quiz-textarea" data-label="Хозяйственные шкафы" placeholder="Хозяйственные шкафы: пылесос, гладильная доска, утюг и т.п." data-i18n-ph="s10.ph.utility"></textarea>
+      <input class="quiz-name-input" type="text" data-label="Комнаты с дополнительным хранением" placeholder="В каких комнатах нужно доп. хранение (кухня, санузел, коридор...)" data-i18n-ph="s10.ph.extrastorage">
+
+      <div class="quiz-nav">
+        <button class="quiz-btn-back" data-prev data-i18n="common.back">← Назад</button>
+        <button class="quiz-btn" data-next data-i18n="common.next">Далее →</button>
+      </div>
+    </div>
+
+    <!-- Шаг 11: Санузлы и сантехника -->
+    <div class="quiz-step" id="step11" data-step="11" data-section="11. Санузлы и сантехника">
+      <p class="quiz-counter"><span data-i18n="common.question">Вопрос</span> <span>11</span> <span data-i18n="common.of">из</span> <span class="totalQ"></span></p>
+      <p class="quiz-q" data-i18n="s11.q">Санузлы и сантехника</p>
+
+      <p class="quiz-subq" data-i18n="s11.sub1">Сантехническое оборудование</p>
+      <div class="qgroup quiz-options chip-grid" data-label="Сантехническое оборудование" style="margin-bottom:20px">
+        <button class="quiz-opt" data-val="Ванна" data-i18n="s11.opt.bath">Ванна</button>
+        <button class="quiz-opt" data-val="Душевая кабина" data-i18n="s11.opt.shower">Душевая кабина</button>
+        <button class="quiz-opt" data-val="Раковина" data-i18n="s11.opt.sink">Раковина</button>
+        <button class="quiz-opt" data-val="Унитаз" data-i18n="s11.opt.toilet">Унитаз</button>
+        <button class="quiz-opt" data-val="Биде" data-i18n="s11.opt.bidet">Биде</button>
+        <button class="quiz-opt" data-val="Гигиенический душ" data-i18n="s11.opt.hygshower">Гигиенический душ</button>
+        <button class="quiz-opt" data-val="Полотенцесушитель" data-i18n="s11.opt.towelwarmer">Полотенцесушитель</button>
+        <button class="quiz-opt" data-val="Стиральная машина" data-i18n="s11.opt.washer">Стиральная машина</button>
+        <button class="quiz-opt" data-val="Сушильная машина" data-i18n="s11.opt.dryer">Сушильная машина</button>
+        <button class="quiz-opt" data-val="Бойлер" data-i18n="s11.opt.boiler">Бойлер</button>
+      </div>
+
+      <p class="quiz-subq" data-i18n="s11.sub2">Второй санузел</p>
+      <div class="qgroup quiz-options cols3" data-label="Второй санузел">
+        <button class="quiz-opt" data-single="secondbath" data-val="Нужен" data-i18n="common.needed">Нужен</button>
+        <button class="quiz-opt" data-single="secondbath" data-val="Не нужен" data-i18n="common.notneeded">Не нужен</button>
+      </div>
+
+      <p class="quiz-subq" data-i18n="s11.sub3">Смесители</p>
+      <div class="qgroup quiz-options cols3" data-label="Смесители">
+        <button class="quiz-opt" data-single="mixers" data-val="Скрытая установка" data-i18n="s11.opt.hiddenmix">Скрытая установка</button>
+        <button class="quiz-opt" data-single="mixers" data-val="Обычные" data-i18n="s11.opt.regularmix">Обычные</button>
+      </div>
+
+      <input class="quiz-name-input" type="text" data-label="Плитка и цвет (пол/стены)" placeholder="Плитка и цвет (пол/стены)" data-i18n-ph="s11.ph.tiles">
+      <input class="quiz-name-input" type="text" data-label="Предпочитаемые бренды сантехники" placeholder="Предпочитаемые бренды сантехники" data-i18n-ph="s11.ph.brands">
+
+      <div class="quiz-nav">
+        <button class="quiz-btn-back" data-prev data-i18n="common.back">← Назад</button>
+        <button class="quiz-btn" data-next data-i18n="common.next">Далее →</button>
+      </div>
+    </div>
+
+    <!-- Шаг 12: Бюджет и сроки -->
+    <div class="quiz-step" id="step12" data-step="12" data-section="12. Бюджет и сроки">
+      <p class="quiz-counter"><span data-i18n="common.question">Вопрос</span> <span>12</span> <span data-i18n="common.of">из</span> <span class="totalQ"></span></p>
+      <p class="quiz-q" data-i18n="s12.q">Бюджет и сроки</p>
+
+      <p class="quiz-subq" data-i18n="s12.sub1">Бюджет на ремонт под ключ</p>
+      <div class="qgroup quiz-options" data-label="Бюджет на ремонт под ключ" style="grid-template-columns:1fr">
+        <button class="quiz-opt" data-single="budget" data-val="До 10 млн ₸" data-i18n="s12.opt.budget1">До 10 млн ₸</button>
+        <button class="quiz-opt" data-single="budget" data-val="10–20 млн ₸" data-i18n="s12.opt.budget2">10–20 млн ₸</button>
+        <button class="quiz-opt" data-single="budget" data-val="20–40 млн ₸" data-i18n="s12.opt.budget3">20–40 млн ₸</button>
+        <button class="quiz-opt" data-single="budget" data-val="40 млн ₸ и выше" data-i18n="s12.opt.budget4">40 млн ₸ и выше</button>
+        <button class="quiz-opt" data-single="budget" data-val="Пока не определились" data-i18n="s12.opt.budgetunsure">Пока не определились</button>
+      </div>
+
+      <p class="quiz-subq" data-i18n="s12.sub2">Приоритет бюджета</p>
+      <div class="qgroup quiz-options chip-grid" data-label="Приоритет бюджета" style="margin-bottom:20px">
+        <button class="quiz-opt" data-val="Материалы" data-i18n="s12.opt.materials">Материалы</button>
+        <button class="quiz-opt" data-val="Мебель" data-i18n="s12.opt.furniture2">Мебель</button>
+        <button class="quiz-opt" data-val="Техника" data-i18n="s12.opt.appliances">Техника</button>
+        <button class="quiz-opt" data-val="Дизайн и визуализация" data-i18n="s12.opt.visualization">Дизайн и визуализация</button>
+      </div>
+
+      <p class="quiz-subq" data-i18n="s12.sub3">Сроки реализации</p>
+      <div class="qgroup quiz-options" data-label="Сроки реализации" style="grid-template-columns:1fr">
+        <button class="quiz-opt" data-single="timeline" data-val="Как можно скорее" data-i18n="s12.opt.asap">Как можно скорее</button>
+        <button class="quiz-opt" data-single="timeline" data-val="3–6 месяцев" data-i18n="s12.opt.t36">3–6 месяцев</button>
+        <button class="quiz-opt" data-single="timeline" data-val="6–12 месяцев" data-i18n="s12.opt.t612">6–12 месяцев</button>
+        <button class="quiz-opt" data-single="timeline" data-val="Без спешки" data-i18n="s12.opt.norush">Без спешки</button>
+      </div>
+
+      <p class="quiz-subq" data-i18n="s12.sub4">Строительная бригада</p>
+      <div class="qgroup quiz-options" data-label="Строительная бригада" style="grid-template-columns:1fr">
+        <button class="quiz-opt" data-single="crew" data-val="Есть своя" data-i18n="s12.opt.owncrew">Есть своя</button>
+        <button class="quiz-opt" data-single="crew" data-val="Ищем по рекомендации" data-i18n="s12.opt.lookingcrew">Ищем по рекомендации</button>
+        <button class="quiz-opt" data-single="crew" data-val="Нужна помощь дизайнера" data-i18n="s12.opt.needhelpcrew">Нужна помощь дизайнера</button>
+      </div>
+
+      <p class="quiz-subq" data-i18n="s12.sub5">Готовность к компромиссам по материалам</p>
+      <div class="qgroup quiz-options" data-label="Готовность к компромиссам по материалам" style="grid-template-columns:1fr">
+        <button class="quiz-opt" data-single="compromise" data-val="Да, выберем аналог" data-i18n="s12.opt.analog">Да, выберем аналог</button>
+        <button class="quiz-opt" data-single="compromise" data-val="Нет, ждём оригинал" data-i18n="s12.opt.waitorig">Нет, ждём оригинал</button>
+        <button class="quiz-opt" data-single="compromise" data-val="По ситуации" data-i18n="s12.opt.depends">По ситуации</button>
+      </div>
+
+      <div class="quiz-nav">
+        <button class="quiz-btn-back" data-prev data-i18n="common.back">← Назад</button>
+        <button class="quiz-btn" data-next data-i18n="common.next">Далее →</button>
+      </div>
+    </div>
+
+    <!-- Шаг 13: Организация работы -->
+    <div class="quiz-step" id="step13" data-step="13" data-section="13. Организация работы">
+      <p class="quiz-counter"><span data-i18n="common.question">Вопрос</span> <span>13</span> <span data-i18n="common.of">из</span> <span class="totalQ"></span></p>
+      <p class="quiz-q" data-i18n="s13.q">Организация работы</p>
+
+      <input class="quiz-name-input" type="text" data-label="Кто принимает финальные решения по проекту" placeholder="Кто принимает финальные решения по проекту" data-i18n-ph="s13.ph.decisionmaker">
+      <input class="quiz-name-input" type="text" data-label="Удобный мессенджер и время для связи" placeholder="Удобный мессенджер и время для связи" data-i18n-ph="s13.ph.contact">
+
+      <p class="quiz-subq" data-i18n="s13.sub1">Удобный формат отчётов</p>
+      <div class="qgroup quiz-options chip-grid" data-label="Удобный формат отчётов" style="margin-bottom:20px">
+        <button class="quiz-opt" data-val="Фото" data-i18n="s13.opt.photo">Фото</button>
+        <button class="quiz-opt" data-val="Видео" data-i18n="s13.opt.video">Видео</button>
+        <button class="quiz-opt" data-val="Личные встречи" data-i18n="s13.opt.meetings">Личные встречи</button>
+      </div>
+
+      <textarea class="quiz-textarea" data-label="Комментарий по организации (закупки, логистика и т.п.)" placeholder="Например: нужна помощь в закупке и логистике мебели / хотим сами контролировать закупки" data-i18n-ph="s13.ph.comment"></textarea>
+
+      <div class="quiz-nav">
+        <button class="quiz-btn-back" data-prev data-i18n="common.back">← Назад</button>
+        <button class="quiz-btn" data-next data-i18n="common.next">Далее →</button>
+      </div>
+    </div>
+
+    <!-- Шаг 14: Комментарий и референсы -->
+    <div class="quiz-step" id="step14" data-step="14" data-section="14. Комментарий и референсы">
+      <p class="quiz-counter"><span data-i18n="common.question">Вопрос</span> <span>14</span> <span data-i18n="common.of">из</span> <span class="totalQ"></span></p>
+      <p class="quiz-q" data-i18n="s14.q">Комментарий и референсы</p>
+
+      <textarea class="quiz-textarea" data-label="Дополнительно" placeholder="Что ещё важно рассказать о проекте" data-i18n-ph="s14.ph.extra"></textarea>
+      <textarea class="quiz-textarea" data-label="Референсы (ссылки / понравившиеся интерьеры)" placeholder="Ссылки на референсы, понравившиеся и не понравившиеся интерьеры" data-i18n-ph="s14.ph.references"></textarea>
+
+      <label class="quiz-file-label" for="quizFiles">
+        <span data-i18n="s14.filelabel">📎 Прикрепить фото или документ</span>
+        <input type="file" id="quizFiles" class="quiz-file-input" multiple accept="image/*,.pdf,.doc,.docx">
+      </label>
+      <div class="quiz-file-list" id="quizFileList"></div>
+      <p class="quiz-hint" style="margin-bottom:8px" data-i18n="s14.filehint">Файлы прикладываются к сообщению вручную при отправке — этот шаг помогает не забыть про них.</p>
+
+      <div class="quiz-nav">
+        <button class="quiz-btn-back" data-prev data-i18n="common.back">← Назад</button>
+        <button class="quiz-btn" id="btnSubmit" data-i18n="s14.submit">Отправить анкету →</button>
+      </div>
+    </div>
+
+    <!-- Финал -->
+    <div class="quiz-step" id="stepFinal">
+      <div class="quiz-final">
+        <div class="quiz-final-icon">✨</div>
+        <h2 data-i18n="final.title">Спасибо! Анкета заполнена</h2>
+        <p data-i18n="final.desc">Отправьте ответы в WhatsApp, скопируйте текст или скачайте файл — мы свяжемся с вами в течение дня.</p>
+        <div class="quiz-final-btns">
+          <a id="quizWaBtn" href="#" class="cbtn wa" target="_blank">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <span data-i18n="final.wa">Перейти в WhatsApp</span>
+          </a>
+          <button id="quizPdfBtn" class="cbtn ghost" type="button" data-i18n="final.pdf">📄 Сохранить как PDF</button>
+        </div>
+        <p class="quiz-hint" style="margin-top:20px" data-i18n="final.pdfhint">При нажатии «Сохранить как PDF» откроется окно печати браузера — выберите в нём принтер «Сохранить как PDF»</p>
+      </div>
+    </div>
+
+  </div><!-- /quizContent -->
+</section>
+
+<!-- Печатный документ (только для PDF/печати) -->
+<div id="printDoc"></div>
+
+<footer>
+  <a href="index.html" class="footer-logo">QiAll <em>Design</em></a>
+  <p class="footer-copy" data-i18n="footer.copy">© 2026 QiAll Design · Дизайн интерьера в Астане</p>
+</footer>
+
+<script>
+const I18N = {
+ru:{
+'nav.back':'← На главную',
+'hero.eyebrow':'Бриф на дизайн-проект','hero.title':'Анкета проектирования',
+'hero.hint':'Все вопросы, кроме имени и телефона, необязательны — заполните то, что знаете, остальное уточним на встрече. Анкета не публикуется — ответы видит только дизайнер проекта.',
+'name.q':'Давайте познакомимся 👋','name.namePh':'Ваше имя','name.phonePh':'Номер телефона (WhatsApp)',
+'name.hint':'Мы свяжемся с вами после заполнения анкеты','name.start':'Начать →',
+'name.fillnote':'Пожалуйста, заполните анкету максимально подробно — чем больше информации вы дадите, тем точнее мы поймём, каким должен получиться ваш интерьер, и тем меньше правок понадобится в дизайн-проекте.',
+'common.question':'Вопрос','common.of':'из','common.back':'← Назад','common.next':'Далее →',
+'common.yes':'Да','common.no':'Нет','common.notsure':'Не уверен(а)','common.partially':'Частично',
+'common.notneeded':'Не нужен','common.needed':'Нужен',
+'s1.q':'Расскажите об объекте','s1.sub1':'Тип объекта',
+'s1.opt.apartment':'Квартира','s1.opt.house':'Дом','s1.opt.commercial':'Коммерция',
+'s1.sub2':'Тип недвижимости','s1.opt.newbuild':'Новостройка','s1.opt.resale':'Вторичка','s1.opt.privatehouse':'Частный дом',
+'s1.sub3':'Город','s1.opt.othercity':'Другой город',
+'s1.sub4':'Детали','s1.ph.address':'Адрес объекта / название ЖК','s1.ph.area':'Площадь объекта, м²','s1.ph.floors':'Количество этажей (для дома)',
+'s2.q':'Параметры здания и планировки','s2.ph.year':'Год постройки здания','s2.ph.walls':'Материалы стен и перегородок',
+'s2.ph.ceiling':'Высота потолков','s2.ph.balconies':'Количество балконов/лоджий','s2.ph.bathrooms':'Количество санузлов',
+'s2.sub1':'Нужна перепланировка (согласование в БТИ)?',
+'s3.q':'Семья и образ жизни','s3.ph.family':'Состав семьи: кол-во, возраст, степень родства, пол всех проживающих',
+'s3.sub1':'Планируется пополнение в семье?','s3.opt.maybe':'Возможно',
+'s3.sub2':'Домашние животные','s3.opt.have':'Есть','s3.opt.planning':'Планируем',
+'s3.sub3':'Работаете из дома?','s3.opt.regularly':'Да, регулярно','s3.opt.sometimes':'Иногда',
+'s3.sub4':'Особые потребности жильцов','s3.opt.kids':'Маленькие дети','s3.opt.elderly':'Пожилые родственники',
+'s3.opt.mobility':'Ограниченная мобильность','s3.opt.none':'Особых потребностей нет',
+'s3.ph.hobby':'Хобби всех членов семьи (музыка, спорт и т.п.)',
+'s3.ph.guests':'Как часто принимаются гости, в каком количестве, нужны ли доп. посадочные/спальные места',
+'s4.q':'Что уже есть и должно остаться',
+'s4.ph.furniture':'Например: диван, обеденный стол, холодильник — что уже куплено или жалко менять',
+'s4.ph.decor':'Картины, сувениры, коллекции, семейные вещи — то, что должно остаться в интерьере',
+'s5.q':'Помещения и зонирование','s5.sub1':'Какие помещения нужно предусмотреть',
+'s5.opt.hall':'Прихожая','s5.opt.living':'Гостиная','s5.opt.kitchen':'Кухня','s5.opt.bedroom':'Спальня',
+'s5.opt.kids':'Детская','s5.opt.guest':'Гостевая','s5.opt.office':'Кабинет','s5.opt.wardrobe':'Гардеробная',
+'s5.opt.bathroom':'Санузел','s5.opt.laundry':'Постирочная','s5.opt.storage':'Кладовая','s5.opt.balcony':'Балкон/лоджия',
+'s5.ph.roomcount':'Общее количество помещений',
+'s5.ph.replanning':'Например: объединить кухню с гостиной, добавить гардеробную в спальню и т.п.',
+'s5.ph.roomwishes':'Кратко опишите пожелания по каждой из выбранных комнат: мебель, материалы, техника, особенности',
+'s6.q':'Стиль и эстетика','s6.sub1':'Предпочтительный стиль',
+'s6.opt.minimal':'Минимализм','s6.opt.modclassic':'Современная классика','s6.opt.neoclassic':'Неоклассика',
+'s6.opt.loft':'Лофт','s6.opt.scandi':'Скандинавский','s6.opt.artdeco':'Ар-деко','s6.opt.japandi':'Джапанди','s6.opt.eclectic':'Эклектика',
+'s6.styledesc.minimal':'Главная идея — ничего лишнего. Простые формы, минимум мебели и декора, максимум свободного пространства. Используются спокойные цвета, натуральные материалы и скрытые системы хранения. Интерьер выглядит чистым, лёгким и функциональным.',
+'s6.stylefeat.minimal':'Основные черты: простота, порядок, светлые оттенки, лаконичность.',
+'s6.styledesc.modclassic':'Сочетает элегантность классики и удобство современного интерьера. Здесь нет излишней роскоши, но присутствуют молдинги, симметрия, качественные материалы и спокойные благородные цвета. Интерьер выглядит дорого, но остаётся актуальным.',
+'s6.stylefeat.modclassic':'Основные черты: сдержанная роскошь, симметрия, светлые тона, изящные детали.',
+'s6.styledesc.neoclassic':'Более современная версия классического стиля. Сохраняет классические элементы (молдинги, карнизы, пропорции), но использует современную мебель, освещение и материалы. Интерьер получается лёгким, элегантным и функциональным.',
+'s6.stylefeat.neoclassic':'Основные черты: классическая архитектура + современная мебель и технологии.',
+'s6.styledesc.loft':'Стиль, вдохновлённый промышленными зданиями и фабриками. Открытые пространства, высокие потолки, бетон, кирпич, металл и дерево. Коммуникации часто остаются на виду и становятся частью дизайна.',
+'s6.stylefeat.loft':'Основные черты: кирпич, бетон, металл, открытые конструкции, индустриальная атмосфера.',
+'s6.styledesc.scandi':'Основан на уюте, естественном свете и функциональности. Используются светлые оттенки, натуральное дерево, простая мебель и минимум декора. Интерьер кажется тёплым, спокойным и комфортным.',
+'s6.stylefeat.scandi':'Основные черты: белые стены, дерево, натуральные материалы, много света и уюта.',
+'s6.styledesc.artdeco':'Стиль роскоши и выразительности. Используются дорогие материалы, геометрические узоры, золото, мрамор, стекло и бархат. Интерьер выглядит эффектно, статусно и элегантно.',
+'s6.stylefeat.artdeco':'Основные черты: роскошь, геометрия, дорогие материалы, контрастные сочетания.',
+'s6.styledesc.japandi':'Сочетание японского минимализма и скандинавского уюта. Простые формы, натуральные материалы, спокойные природные оттенки и функциональность. Интерьер создаёт ощущение гармонии, спокойствия и тепла.',
+'s6.stylefeat.japandi':'Основные черты: минимализм, дерево, природные цвета, натуральные фактуры, уют.',
+'s6.styledesc.eclectic':'Грамотное сочетание элементов разных стилей в одном интерьере. Главное правило — сохранить баланс и общую концепцию. При правильном подходе интерьер получается индивидуальным, интересным и живым.',
+'s6.stylefeat.eclectic':'Основные черты: смешение стилей, акцентные детали, индивидуальность, гармония через контраст.',
+'s6.opt.hitech':'Хай-тек',
+'s6.styledesc.hitech':'Технологичный минимализм, где на первый план выходят сложная техника, умные системы и продуманное освещение. Отделка либо строгая минималистичная, либо футуристичная — с плавными линиями и почти без острых углов. Материалы — стекло, металл, глянцевые поверхности.',
+'s6.stylefeat.hitech':'Основные черты: техника и гаджеты, сложное освещение, металл и стекло, футуристичные формы.',
+'s6.opt.eco':'Эко-стиль',
+'s6.styledesc.eco':'Название говорит само за себя: в основе — природные материалы, живые растения и натуральные цвета. Мебель простых, правильных форм без лишней декоративности. Для украшения используют камни, дерево, текстиль из натуральных волокон.',
+'s6.stylefeat.eco':'Основные черты: дерево и камень, живые растения, натуральные цвета, простые формы.',
+'s6.opt.popart':'Поп-арт',
+'s6.styledesc.popart':'Яркий, вызывающий стиль, построенный на отсылках к массовой культуре — постеры, комиксы, музыкальные атрибуты. Обилие насыщенных, порой кислотных цветов и контрастных сочетаний. Много аксессуаров, принтов и графичного декора на стенах.',
+'s6.stylefeat.popart':'Основные черты: яркие и кислотные цвета, постеры и принты, контрастный декор, отсылки к массовой культуре.',
+'s6.opt.boho':'Бохо',
+'s6.styledesc.boho':'Свободный, тёплый стиль, где пространство обживают не дорогой отделкой, а вещами с историей — текстилем, макраме, предметами с блошиных рынков. Много натуральных материалов, ярких акцентов и разнофактурного текстиля, создающих уютную, немного богемную атмосферу.',
+'s6.stylefeat.boho':'Основные черты: текстиль и макраме, вещи с историей, натуральные материалы, тёплая эклектичная атмосфера.',
+'s6.ph.palette':'Цветовая палитра: базовые/акцентные, тёплые/холодные тона',
+'s6.ph.wallmat':'Предпочитаемые материалы стен','s6.ph.floormat':'Предпочитаемые материалы пола',
+'s6.sub2':'Предпочитаемые типы освещения',
+'s6.opt.chandelier':'Люстра','s6.opt.sconce':'Бра','s6.opt.floorlamp':'Торшеры','s6.opt.tracklight':'Треки',
+'s6.opt.spotlight':'Споты','s6.opt.pendant':'Подвесы','s6.opt.ledstrip':'LED-лента','s6.opt.tablelamp':'Настольная лампа',
+'s6.ph.furniture':'Предпочтительная мебель','s6.ph.dislikes':'Что точно не нравится — стили, цвета, материалы',
+'s7.q':'Инженерия и сети','s7.ph.heating':'Система отопления','s7.ph.ventilation':'Система вентиляции и кондиционирования',
+'s7.sub1':'Тёплый пол','s7.opt.everywhere':'Нужен везде',
+'s7.sub2':'Звукоизоляция','s7.sub3':'Умный дом','s7.opt.fully':'Да, полностью',
+'s7.sub4':'Сети и коммуникации','s7.opt.telephony':'Телефония','s7.opt.intercom':'Домофон','s7.opt.tv':'Телевидение',
+'s7.opt.sattv':'Спутниковое ТВ','s7.opt.recuperator':'Рекуператор',
+'s8.q':'Кухня и техника','s8.sub1':'Частота готовки','s8.opt.daily':'Каждый день','s8.opt.fewweek':'Несколько раз в неделю','s8.opt.rarely':'Редко',
+'s8.sub2':'Остров / барная стойка','s8.opt.island':'Остров','s8.opt.bar':'Барная стойка',
+'s8.ph.seats':'Количество посадочных мест за столом',
+'s8.sub3':'Встроенная и отдельностоящая техника',
+'s8.opt.fridgebuiltin':'Холодильник встроенный','s8.opt.fridgefree':'Холодильник отдельностоящий','s8.opt.winefridge':'Винный холодильник',
+'s8.opt.freezer':'Морозильная камера','s8.opt.gasstove':'Плита газовая','s8.opt.elecstove':'Плита электрическая','s8.opt.inductionstove':'Плита индукционная',
+'s8.opt.hood':'Вытяжка','s8.opt.airpurifier':'Очиститель воздуха','s8.opt.oven':'Духовой шкаф','s8.opt.grill':'Гриль','s8.opt.steamer':'Пароварка',
+'s8.opt.microwave':'Микроволновая печь','s8.opt.coffeemachine':'Кофемашина','s8.opt.dishwasher':'Посудомоечная машина',
+'s8.opt.waterfilter':'Фильтр для воды','s8.opt.disposer':'Диспоузер','s8.opt.robotvac':'Робот-пылесос','s8.opt.vacuum':'Пылесос',
+'s8.ph.facades':'Материалы и цвет фасадов кухни','s8.ph.brands':'Предпочитаемые бренды техники',
+'s9.q':'Гостиная и мультимедиа','s9.sub1':'Оборудование гостиной',
+'s9.opt.tv':'Телевизор','s9.opt.projector':'Видеопроектор','s9.opt.hometheater':'Домашний кинотеатр',
+'s9.opt.audio':'Акустическая система','s9.opt.console':'Игровая приставка','s9.opt.fireplace':'Камин',
+'s9.ph.guestzone':'Что должно быть в гостевой зоне: диван, стол-трансформер, ТВ-зона и т.д.',
+'s10.q':'Хранение и гардеробные','s10.sub1':'Тип хранения','s10.opt.closed':'Закрытый','s10.opt.open':'Открытый','s10.opt.combined':'Комбинированный',
+'s10.ph.wardrobe':'Размер и внутреннее зонирование гардеробной: вешалки/полки/ящики',
+'s10.ph.utility':'Хозяйственные шкафы: пылесос, гладильная доска, утюг и т.п.',
+'s10.ph.extrastorage':'В каких комнатах нужно доп. хранение (кухня, санузел, коридор...)',
+'s11.q':'Санузлы и сантехника','s11.sub1':'Сантехническое оборудование',
+'s11.opt.bath':'Ванна','s11.opt.shower':'Душевая кабина','s11.opt.sink':'Раковина','s11.opt.toilet':'Унитаз','s11.opt.bidet':'Биде',
+'s11.opt.hygshower':'Гигиенический душ','s11.opt.towelwarmer':'Полотенцесушитель','s11.opt.washer':'Стиральная машина',
+'s11.opt.dryer':'Сушильная машина','s11.opt.boiler':'Бойлер',
+'s11.sub2':'Второй санузел','s11.sub3':'Смесители','s11.opt.hiddenmix':'Скрытая установка','s11.opt.regularmix':'Обычные',
+'s11.ph.tiles':'Плитка и цвет (пол/стены)','s11.ph.brands':'Предпочитаемые бренды сантехники',
+'s12.q':'Бюджет и сроки','s12.sub1':'Бюджет на ремонт под ключ',
+'s12.opt.budget1':'До 10 млн ₸','s12.opt.budget2':'10–20 млн ₸','s12.opt.budget3':'20–40 млн ₸',
+'s12.opt.budget4':'40 млн ₸ и выше','s12.opt.budgetunsure':'Пока не определились',
+'s12.sub2':'Приоритет бюджета','s12.opt.materials':'Материалы','s12.opt.furniture2':'Мебель','s12.opt.appliances':'Техника','s12.opt.visualization':'Дизайн и визуализация',
+'s12.sub3':'Сроки реализации','s12.opt.asap':'Как можно скорее','s12.opt.t36':'3–6 месяцев','s12.opt.t612':'6–12 месяцев','s12.opt.norush':'Без спешки',
+'s12.sub4':'Строительная бригада','s12.opt.owncrew':'Есть своя','s12.opt.lookingcrew':'Ищем по рекомендации','s12.opt.needhelpcrew':'Нужна помощь дизайнера',
+'s12.sub5':'Готовность к компромиссам по материалам','s12.opt.analog':'Да, выберем аналог','s12.opt.waitorig':'Нет, ждём оригинал','s12.opt.depends':'По ситуации',
+'s13.q':'Организация работы','s13.ph.decisionmaker':'Кто принимает финальные решения по проекту',
+'s13.ph.contact':'Удобный мессенджер и время для связи','s13.sub1':'Удобный формат отчётов',
+'s13.opt.photo':'Фото','s13.opt.video':'Видео','s13.opt.meetings':'Личные встречи',
+'s13.ph.comment':'Например: нужна помощь в закупке и логистике мебели / хотим сами контролировать закупки',
+'s14.q':'Комментарий и референсы','s14.ph.extra':'Что ещё важно рассказать о проекте',
+'s14.ph.references':'Ссылки на референсы, понравившиеся и не понравившиеся интерьеры',
+'s14.filelabel':'📎 Прикрепить фото или документ',
+'s14.filehint':'Файлы прикладываются к сообщению вручную при отправке — этот шаг помогает не забыть про них.',
+'s14.submit':'Отправить анкету →',
+'final.title':'Спасибо! Анкета заполнена',
+'final.desc':'Отправьте ответы в WhatsApp, скопируйте текст или скачайте файл — мы свяжемся с вами в течение дня.',
+'final.wa':'Перейти в WhatsApp','final.pdf':'📄 Сохранить как PDF',
+'final.pdfhint':'При нажатии «Сохранить как PDF» можете просмотреть результат и сохранить его у себя',
+'footer.copy':'© 2026 QiAll Design · Дизайн интерьера в Астане',
+},
+kz:{
+'nav.back':'← Басты бетке',
+'hero.eyebrow':'Дизайн-жобаға бриф','hero.title':'Жобалау анкетасы',
+'hero.hint':'Аты-жөні мен телефоннан басқа барлық сұрақтар міндетті емес — білетініңізді толтырыңыз, қалғанын кездесуде нақтылаймыз. Анкета жария етілмейді — жауаптарды тек жоба дизайнері көреді.',
+'name.q':'Танысайық 👋','name.namePh':'Атыңыз','name.phonePh':'Телефон нөмірі (WhatsApp)',
+'name.hint':'Анкетаны толтырғаннан кейін сізбен байланысамыз','name.start':'Бастау →',
+'name.fillnote':'Өтінеміз, анкетаны барынша толық толтырыңыз — қаншалықты көп ақпарат берсеңіз, соғұрлым біз сіздің интерьеріңіздің қандай болу керектігін дәл түсінеміз және дизайн-жобада түзетулер аз қажет болады.',
+'common.question':'Сұрақ','common.of':'/','common.back':'← Артқа','common.next':'Әрі қарай →',
+'common.yes':'Иә','common.no':'Жоқ','common.notsure':'Сенімді емеспін','common.partially':'Ішінара',
+'common.notneeded':'Қажет емес','common.needed':'Керек',
+'s1.q':'Объект туралы айтыңыз','s1.sub1':'Объект түрі',
+'s1.opt.apartment':'Пәтер','s1.opt.house':'Үй','s1.opt.commercial':'Коммерция',
+'s1.sub2':'Жылжымайтын мүлік түрі','s1.opt.newbuild':'Жаңа құрылыс','s1.opt.resale':'Екінші нарық','s1.opt.privatehouse':'Жеке үй',
+'s1.sub3':'Қала','s1.opt.othercity':'Басқа қала',
+'s1.sub4':'Толығырақ','s1.ph.address':'Объект мекенжайы / ТҮК атауы','s1.ph.area':'Объект ауданы, м²','s1.ph.floors':'Қабат саны (үй үшін)',
+'s2.q':'Ғимарат және жоспарлау параметрлері','s2.ph.year':'Ғимарат салынған жыл','s2.ph.walls':'Қабырға және қалқа материалдары',
+'s2.ph.ceiling':'Төбе биіктігі','s2.ph.balconies':'Балкон/лоджия саны','s2.ph.bathrooms':'Санузел саны',
+'s2.sub1':'Қайта жоспарлау керек пе (ЖИБ-де келісу)?',
+'s3.q':'Отбасы және өмір салты','s3.ph.family':'Отбасы құрамы: саны, жасы, туыстық дәрежесі, барлық тұрғындардың жынысы',
+'s3.sub1':'Отбасында толығу жоспарлануда ма?','s3.opt.maybe':'Мүмкін',
+'s3.sub2':'Үй жануарлары','s3.opt.have':'Бар','s3.opt.planning':'Жоспарлап отырмыз',
+'s3.sub3':'Үйден жұмыс істейсіз бе?','s3.opt.regularly':'Иә, тұрақты түрде','s3.opt.sometimes':'Кейде',
+'s3.sub4':'Тұрғындардың ерекше қажеттіліктері','s3.opt.kids':'Кіші жастағы балалар','s3.opt.elderly':'Қарт туыстар',
+'s3.opt.mobility':'Мүмкіндігі шектеулі','s3.opt.none':'Ерекше қажеттілік жоқ',
+'s3.ph.hobby':'Барлық отбасы мүшелерінің хоббиі (музыка, спорт және т.б.)',
+'s3.ph.guests':'Қонақтар қаншалықты жиі, қанша адам қабылданады, қосымша отыратын/жататын орын керек пе',
+'s4.q':'Не бар және не сақталуы керек',
+'s4.ph.furniture':'Мысалы: диван, ас үстелі, тоңазытқыш — қазірдің өзінде сатып алынған немесе алмастыруға өкінетін заттар',
+'s4.ph.decor':'Суреттер, сувенирлер, коллекциялар, отбасылық заттар — интерьерде қалуы тиіс заттар',
+'s5.q':'Бөлмелер және аймақтарға бөлу','s5.sub1':'Қандай бөлмелер қарастырылуы керек',
+'s5.opt.hall':'Дәліз','s5.opt.living':'Қонақ бөлме','s5.opt.kitchen':'Ас үй','s5.opt.bedroom':'Жатын бөлме',
+'s5.opt.kids':'Балалар бөлмесі','s5.opt.guest':'Қонақтарға арналған бөлме','s5.opt.office':'Кабинет','s5.opt.wardrobe':'Гардеробтық бөлме',
+'s5.opt.bathroom':'Санузел','s5.opt.laundry':'Кір жуу бөлмесі','s5.opt.storage':'Қойма','s5.opt.balcony':'Балкон/лоджия',
+'s5.ph.roomcount':'Жалпы бөлме саны',
+'s5.ph.replanning':'Мысалы: ас үйді қонақ бөлмемен біріктіру, жатын бөлмеге гардеробтық қосу және т.б.',
+'s5.ph.roomwishes':'Таңдалған әр бөлме бойынша қысқаша тілектеріңізді жазыңыз: жиһаз, материалдар, техника, ерекшеліктер',
+'s6.q':'Стиль және эстетика','s6.sub1':'Қалаған стиль',
+'s6.opt.minimal':'Минимализм','s6.opt.modclassic':'Заманауи классика','s6.opt.neoclassic':'Неоклассика',
+'s6.opt.loft':'Лофт','s6.opt.scandi':'Скандинавиялық','s6.opt.artdeco':'Ар-деко','s6.opt.japandi':'Джапанди','s6.opt.eclectic':'Эклектика',
+'s6.styledesc.minimal':'Басты идея — артық ештеңе жоқ. Қарапайым пішіндер, минималды жиһаз бен декор, барынша бос кеңістік. Тыныш түстер, табиғи материалдар және жасырын сақтау жүйелері қолданылады. Интерьер таза, жеңіл және функционалды көрінеді.',
+'s6.stylefeat.minimal':'Негізгі белгілері: қарапайымдылық, тәртіп, ашық реңктер, ықшамдылық.',
+'s6.styledesc.modclassic':'Классиканың сәнділігі мен заманауи интерьердің ыңғайлылығын біріктіреді. Артық сән жоқ, бірақ молдингтер, симметрия, сапалы материалдар және сабырлы асыл түстер бар. Интерьер қымбат көрінеді, бірақ өзектілігін жоғалтпайды.',
+'s6.stylefeat.modclassic':'Негізгі белгілері: ұстамды сән, симметрия, ашық реңктер, нәзік детальдар.',
+'s6.styledesc.neoclassic':'Классикалық стильдің заманауи нұсқасы. Классикалық элементтерді (молдингтер, карниздер, пропорциялар) сақтай отырып, заманауи жиһаз, жарықтандыру және материалдар қолданылады. Интерьер жеңіл, талғампаз және функционалды болып шығады.',
+'s6.stylefeat.neoclassic':'Негізгі белгілері: классикалық сәулет + заманауи жиһаз бен технологиялар.',
+'s6.styledesc.loft':'Өнеркәсіптік ғимараттар мен фабрикалардан шабыт алған стиль. Ашық кеңістіктер, биік төбелер, бетон, кірпіш, металл және ағаш. Коммуникациялар көбіне ашық қалып, дизайн бөлігіне айналады.',
+'s6.stylefeat.loft':'Негізгі белгілері: кірпіш, бетон, металл, ашық құрылымдар, индустриалды атмосфера.',
+'s6.styledesc.scandi':'Жайлылыққа, табиғи жарыққа және функционалдыққа негізделген. Ашық реңктер, табиғи ағаш, қарапайым жиһаз және минималды декор қолданылады. Интерьер жылы, сабырлы және ыңғайлы болып көрінеді.',
+'s6.stylefeat.scandi':'Негізгі белгілері: ақ қабырғалар, ағаш, табиғи материалдар, көп жарық пен жайлылық.',
+'s6.styledesc.artdeco':'Сән мен әсерлілік стилі. Қымбат материалдар, геометриялық өрнектер, алтын, мәрмәр, шыны және барқыт қолданылады. Интерьер әсерлі, мәртебелі және талғампаз көрінеді.',
+'s6.stylefeat.artdeco':'Негізгі белгілері: сән, геометрия, қымбат материалдар, контрастты үйлесімдер.',
+'s6.styledesc.japandi':'Жапон минимализмі мен скандинавиялық жайлылықтың үйлесімі. Қарапайым пішіндер, табиғи материалдар, сабырлы табиғи реңктер және функционалдылық. Интерьер үйлесімділік, тыныштық және жылылық сезімін тудырады.',
+'s6.stylefeat.japandi':'Негізгі белгілері: минимализм, ағаш, табиғи түстер, табиғи фактуралар, жайлылық.',
+'s6.styledesc.eclectic':'Бір интерьерде әртүрлі стильдердің элементтерін ұтымды үйлестіру. Басты ереже — тепе-теңдік пен жалпы тұжырымдаманы сақтау. Дұрыс тәсілмен интерьер дара, қызықты және жанды болып шығады.',
+'s6.stylefeat.eclectic':'Негізгі белгілері: стильдерді араластыру, акцентті детальдар, даралық, қарама-қайшылық арқылы үйлесім.',
+'s6.opt.hitech':'Хай-тек',
+'s6.styledesc.hitech':'Алдыңғы қатарда күрделі техника, ақылды жүйелер және ойластырылған жарықтандыру тұратын технологиялық минимализм. Әрлеу не қатаң минималистік, не футуристік — жұмсақ сызықтармен және өткір бұрыштарсыз дерлік. Материалдар — шыны, металл, жылтыр беттер.',
+'s6.stylefeat.hitech':'Негізгі белгілері: техника мен гаджеттер, күрделі жарықтандыру, металл мен шыны, футуристік пішіндер.',
+'s6.opt.eco':'Эко-стиль',
+'s6.styledesc.eco':'Атауы өзі үшін сөйлейді: негізінде — табиғи материалдар, тірі өсімдіктер және табиғи түстер. Жиһаз артық сәнсіз, қарапайым және дұрыс пішінді. Әшекейлеу үшін тас, ағаш, табиғи талшықтан тоқыма қолданылады.',
+'s6.stylefeat.eco':'Негізгі белгілері: ағаш пен тас, тірі өсімдіктер, табиғи түстер, қарапайым пішіндер.',
+'s6.opt.popart':'Поп-арт',
+'s6.styledesc.popart':'Бұқаралық мәдениетке сілтемелерге негізделген жарқын, батыл стиль — постерлер, комикстер, музыкалық атрибуттар. Қанық, кейде қышқыл түстер мен контрастты үйлесімдер басым. Қабырғаларда көп аксессуар, принт және графикалық декор бар.',
+'s6.stylefeat.popart':'Негізгі белгілері: қанық және қышқыл түстер, постерлер мен принттер, контрастты декор, бұқаралық мәдениетке сілтемелер.',
+'s6.opt.boho':'Бохо',
+'s6.styledesc.boho':'Кеңістік қымбат әрлеумен емес, тарихы бар заттармен — тоқыма, макраме, барахолкадан алынған бұйымдармен жайғасатын еркін, жылы стиль. Табиғи материалдар, жарқын акценттер және әртүрлі фактуралы тоқыма көп — жайлы, сәл богемалық атмосфера жасайды.',
+'s6.stylefeat.boho':'Негізгі белгілері: тоқыма мен макраме, тарихы бар заттар, табиғи материалдар, жылы эклектикалық атмосфера.',
+'s6.ph.palette':'Түс палитрасы: негізгі/акценттік, жылы/суық реңктер',
+'s6.ph.wallmat':'Қалаған қабырға материалдары','s6.ph.floormat':'Қалаған еден материалдары',
+'s6.sub2':'Қалаған жарықтандыру түрлері',
+'s6.opt.chandelier':'Люстра','s6.opt.sconce':'Бра','s6.opt.floorlamp':'Торшерлер','s6.opt.tracklight':'Трек жүйесі',
+'s6.opt.spotlight':'Споттар','s6.opt.pendant':'Аспалы шамдар','s6.opt.ledstrip':'LED-таспа','s6.opt.tablelamp':'Үстел шамы',
+'s6.ph.furniture':'Қалаған жиһаз','s6.ph.dislikes':'Нақты ұнамайтын нәрселер — стильдер, түстер, материалдар',
+'s7.q':'Инженерлік жүйелер мен желілер','s7.ph.heating':'Жылыту жүйесі','s7.ph.ventilation':'Желдету және баптау жүйесі',
+'s7.sub1':'Жылы еден','s7.opt.everywhere':'Барлық жерде керек',
+'s7.sub2':'Дыбыс оқшаулау','s7.sub3':'Ақылды үй','s7.opt.fully':'Иә, толығымен',
+'s7.sub4':'Желілер мен коммуникациялар','s7.opt.telephony':'Телефония','s7.opt.intercom':'Домофон','s7.opt.tv':'Теледидар',
+'s7.opt.sattv':'Спутниктік теледидар','s7.opt.recuperator':'Рекуператор',
+'s8.q':'Ас үй және техника','s8.sub1':'Тамақ дайындау жиілігі','s8.opt.daily':'Күн сайын','s8.opt.fewweek':'Аптасына бірнеше рет','s8.opt.rarely':'Сирек',
+'s8.sub2':'Аралшық / бар үстел','s8.opt.island':'Аралшық','s8.opt.bar':'Бар үстел',
+'s8.ph.seats':'Үстелдегі отыратын орын саны',
+'s8.sub3':'Кіріктірілген және бөлек тұрған техника',
+'s8.opt.fridgebuiltin':'Кіріктірілген тоңазытқыш','s8.opt.fridgefree':'Бөлек тұрған тоңазытқыш','s8.opt.winefridge':'Шарап шкафы',
+'s8.opt.freezer':'Мұздатқыш камера','s8.opt.gasstove':'Газ плитасы','s8.opt.elecstove':'Электр плитасы','s8.opt.inductionstove':'Индукциялық плита',
+'s8.opt.hood':'Сорғыш','s8.opt.airpurifier':'Ауа тазартқыш','s8.opt.oven':'Духовка','s8.opt.grill':'Гриль','s8.opt.steamer':'Бумен пісіргіш',
+'s8.opt.microwave':'Микротолқынды пеш','s8.opt.coffeemachine':'Кофе машинасы','s8.opt.dishwasher':'Ыдыс жуу машинасы',
+'s8.opt.waterfilter':'Су сүзгісі','s8.opt.disposer':'Диспоузер','s8.opt.robotvac':'Робот-шаңсорғыш','s8.opt.vacuum':'Шаңсорғыш',
+'s8.ph.facades':'Ас үй фасадының материалы мен түсі','s8.ph.brands':'Қалаған техника брендтері',
+'s9.q':'Қонақ бөлме және мультимедиа','s9.sub1':'Қонақ бөлме жабдығы',
+'s9.opt.tv':'Теледидар','s9.opt.projector':'Бейнепроектор','s9.opt.hometheater':'Үй кинотеатры',
+'s9.opt.audio':'Акустикалық жүйе','s9.opt.console':'Ойын консолі','s9.opt.fireplace':'Камин',
+'s9.ph.guestzone':'Қонақ аймағында не болу керек: диван, трансформер үстел, ТВ аймағы және т.б.',
+'s10.q':'Сақтау орындары және гардеробтық','s10.sub1':'Сақтау түрі','s10.opt.closed':'Жабық','s10.opt.open':'Ашық','s10.opt.combined':'Аралас',
+'s10.ph.wardrobe':'Гардеробтықтың өлшемі және ішкі аймақтары: ілгіштер/сөрелер/жәшіктер',
+'s10.ph.utility':'Шаруашылық шкафтары: шаңсорғыш, үтіктеу тақтасы, үтік және т.б.',
+'s10.ph.extrastorage':'Қосымша сақтау орны қай бөлмелерде керек (ас үй, санузел, дәліз...)',
+'s11.q':'Санузелдер және сантехника','s11.sub1':'Сантехникалық жабдық',
+'s11.opt.bath':'Ванна','s11.opt.shower':'Душ кабинасы','s11.opt.sink':'Раковина','s11.opt.toilet':'Унитаз','s11.opt.bidet':'Биде',
+'s11.opt.hygshower':'Гигиеналық душ','s11.opt.towelwarmer':'Сүлгі құрғатқыш','s11.opt.washer':'Кір жуғыш машина',
+'s11.opt.dryer':'Кептіргіш машина','s11.opt.boiler':'Бойлер',
+'s11.sub2':'Екінші санузел','s11.sub3':'Араластырғыштар','s11.opt.hiddenmix':'Жасырын орнату','s11.opt.regularmix':'Әдеттегі',
+'s11.ph.tiles':'Плитка және түсі (еден/қабырға)','s11.ph.brands':'Қалаған сантехника брендтері',
+'s12.q':'Бюджет және мерзімдер','s12.sub1':'Кілт тапсыру жөндеуіне бюджет',
+'s12.opt.budget1':'10 млн ₸ дейін','s12.opt.budget2':'10–20 млн ₸','s12.opt.budget3':'20–40 млн ₸',
+'s12.opt.budget4':'40 млн ₸ және жоғары','s12.opt.budgetunsure':'Әлі шешім қабылдамадық',
+'s12.sub2':'Бюджет басымдығы','s12.opt.materials':'Материалдар','s12.opt.furniture2':'Жиһаз','s12.opt.appliances':'Техника','s12.opt.visualization':'Дизайн және визуализация',
+'s12.sub3':'Іске асыру мерзімдері','s12.opt.asap':'Мүмкіндігінше тезірек','s12.opt.t36':'3–6 ай','s12.opt.t612':'6–12 ай','s12.opt.norush':'Асықпай',
+'s12.sub4':'Құрылыс бригадасы','s12.opt.owncrew':'Өз бригадамыз бар','s12.opt.lookingcrew':'Ұсыныс бойынша іздеп жатырмыз','s12.opt.needhelpcrew':'Дизайнердің көмегі керек',
+'s12.sub5':'Материалдар бойынша ымыраға дайындық','s12.opt.analog':'Иә, аналогын таңдаймыз','s12.opt.waitorig':'Жоқ, түпнұсқаны күтеміз','s12.opt.depends':'Жағдайға байланысты',
+'s13.q':'Жұмысты ұйымдастыру','s13.ph.decisionmaker':'Жоба бойынша түпкілікті шешімді кім қабылдайды',
+'s13.ph.contact':'Ыңғайлы мессенджер және байланысу уақыты','s13.sub1':'Ыңғайлы есеп беру форматы',
+'s13.opt.photo':'Фото','s13.opt.video':'Видео','s13.opt.meetings':'Жеке кездесулер',
+'s13.ph.comment':'Мысалы: жиһазды сатып алу мен логистикада көмек керек / сатып алуды өзіміз бақылағымыз келеді',
+'s14.q':'Пікір және референстар','s14.ph.extra':'Жоба туралы тағы не айту маңызды',
+'s14.ph.references':'Референстарға сілтемелер, ұнаған және ұнамаған интерьерлер',
+'s14.filelabel':'📎 Фото немесе құжат тіркеу',
+'s14.filehint':'Файлдар хабарламаға жіберу кезінде қолмен тіркеледі — бұл қадам оларды ұмытпауға көмектеседі.',
+'s14.submit':'Анкетаны жіберу →',
+'final.title':'Рахмет! Анкета толтырылды',
+'final.desc':'Жауаптарды WhatsApp-қа жіберіңіз, мәтінді көшіріңіз немесе файлды жүктеп алыңыз — біз сізбен күн ішінде байланысамыз.',
+'final.wa':'WhatsApp-қа өту','final.pdf':'📄 PDF ретінде сақтау',
+'final.pdfhint':'«PDF ретінде сақтау» түймесін бассаңыз, нәтижені алдын ала көріп, өзіңізге сақтай аласыз',
+'footer.copy':'© 2026 QiAll Design · Астанадағы интерьер дизайны',
+},
+en:{
+'nav.back':'← Home',
+'hero.eyebrow':'Design project brief','hero.title':'Design Questionnaire',
+'hero.hint':"All questions except your name and phone are optional — fill in what you know, we'll clarify the rest in person. The form is private — only the project designer sees your answers.",
+'name.q':"Let's get acquainted 👋",'name.namePh':'Your name','name.phonePh':'Phone number (WhatsApp)',
+'name.hint':"We'll contact you after you complete the form",'name.start':'Start →',
+'name.fillnote':"Please fill out the form as thoroughly as possible — the more information you share, the more precisely we'll understand what you want your interior to look like, and the fewer revisions the design project will need.",
+'common.question':'Question','common.of':'of','common.back':'← Back','common.next':'Next →',
+'common.yes':'Yes','common.no':'No','common.notsure':'Not sure','common.partially':'Partially',
+'common.notneeded':'Not needed','common.needed':'Needed',
+'s1.q':'Tell us about the property','s1.sub1':'Property type',
+'s1.opt.apartment':'Apartment','s1.opt.house':'House','s1.opt.commercial':'Commercial',
+'s1.sub2':'Property status','s1.opt.newbuild':'New building','s1.opt.resale':'Resale','s1.opt.privatehouse':'Private house',
+'s1.sub3':'City','s1.opt.othercity':'Other city',
+'s1.sub4':'Details','s1.ph.address':'Property address / complex name','s1.ph.area':'Property area, m²','s1.ph.floors':'Number of floors (for a house)',
+'s2.q':'Building and layout parameters','s2.ph.year':'Year the building was constructed','s2.ph.walls':'Wall and partition materials',
+'s2.ph.ceiling':'Ceiling height','s2.ph.balconies':'Number of balconies/loggias','s2.ph.bathrooms':'Number of bathrooms',
+'s2.sub1':'Do you need re-planning (approval with the housing registry)?',
+'s3.q':'Family and lifestyle','s3.ph.family':'Family composition: number, age, relationship, gender of all residents',
+'s3.sub1':'Are you expecting an addition to the family?','s3.opt.maybe':'Maybe',
+'s3.sub2':'Pets','s3.opt.have':'Yes, we have','s3.opt.planning':'Planning to get one',
+'s3.sub3':'Do you work from home?','s3.opt.regularly':'Yes, regularly','s3.opt.sometimes':'Sometimes',
+'s3.sub4':'Special needs of residents','s3.opt.kids':'Young children','s3.opt.elderly':'Elderly relatives',
+'s3.opt.mobility':'Limited mobility','s3.opt.none':'No special needs',
+'s3.ph.hobby':'Hobbies of all family members (music, sports, etc.)',
+'s3.ph.guests':'How often you host guests, how many, and whether you need extra seating/sleeping places',
+'s4.q':'What already exists and should stay',
+'s4.ph.furniture':"E.g.: sofa, dining table, fridge — items already bought or too precious to replace",
+'s4.ph.decor':'Paintings, souvenirs, collections, family items — things that must stay in the interior',
+'s5.q':'Rooms and zoning','s5.sub1':'Which rooms should be included',
+'s5.opt.hall':'Entryway','s5.opt.living':'Living room','s5.opt.kitchen':'Kitchen','s5.opt.bedroom':'Bedroom',
+'s5.opt.kids':"Kids' room",'s5.opt.guest':'Guest room','s5.opt.office':'Home office','s5.opt.wardrobe':'Walk-in closet',
+'s5.opt.bathroom':'Bathroom','s5.opt.laundry':'Laundry room','s5.opt.storage':'Storage room','s5.opt.balcony':'Balcony/loggia',
+'s5.ph.roomcount':'Total number of rooms',
+'s5.ph.replanning':'E.g.: merge the kitchen with the living room, add a walk-in closet to the bedroom, etc.',
+'s5.ph.roomwishes':'Briefly describe your wishes for each selected room: furniture, materials, appliances, special features',
+'s6.q':'Style and aesthetics','s6.sub1':'Preferred style',
+'s6.opt.minimal':'Minimalism','s6.opt.modclassic':'Modern classic','s6.opt.neoclassic':'Neoclassical',
+'s6.opt.loft':'Loft','s6.opt.scandi':'Scandinavian','s6.opt.artdeco':'Art deco','s6.opt.japandi':'Japandi','s6.opt.eclectic':'Eclectic',
+'s6.styledesc.minimal':"The core idea is nothing extra. Simple forms, minimal furniture and decor, and as much open space as possible. Calm colors, natural materials, and hidden storage systems are used. The interior looks clean, light, and functional.",
+'s6.stylefeat.minimal':'Key traits: simplicity, order, light tones, restraint.',
+'s6.styledesc.modclassic':"Combines the elegance of classic style with the comfort of a modern interior. There's no excess luxury, but moldings, symmetry, quality materials, and calm noble colors are present. The interior looks expensive yet stays relevant.",
+'s6.stylefeat.modclassic':'Key traits: restrained luxury, symmetry, light tones, refined details.',
+'s6.styledesc.neoclassic':'A more contemporary take on the classic style. It keeps classic elements (moldings, cornices, proportions) but uses modern furniture, lighting, and materials. The result is a light, elegant, and functional interior.',
+'s6.stylefeat.neoclassic':'Key traits: classic architecture + modern furniture and technology.',
+'s6.styledesc.loft':'A style inspired by industrial buildings and factories. Open spaces, high ceilings, concrete, brick, metal, and wood. Utilities are often left exposed and become part of the design.',
+'s6.stylefeat.loft':'Key traits: brick, concrete, metal, exposed structures, industrial atmosphere.',
+'s6.styledesc.scandi':'Built on comfort, natural light, and functionality. Light tones, natural wood, simple furniture, and minimal decor are used. The interior feels warm, calm, and comfortable.',
+'s6.stylefeat.scandi':'Key traits: white walls, wood, natural materials, plenty of light and coziness.',
+'s6.styledesc.artdeco':'A style of luxury and expression. Expensive materials, geometric patterns, gold, marble, glass, and velvet are used. The interior looks striking, prestigious, and elegant.',
+'s6.stylefeat.artdeco':'Key traits: luxury, geometry, expensive materials, contrasting combinations.',
+'s6.styledesc.japandi':'A combination of Japanese minimalism and Scandinavian coziness. Simple forms, natural materials, calm natural tones, and functionality. The interior creates a feeling of harmony, calm, and warmth.',
+'s6.stylefeat.japandi':'Key traits: minimalism, wood, natural colors, natural textures, coziness.',
+'s6.styledesc.eclectic':'A thoughtful combination of elements from different styles in one interior. The main rule is keeping balance and an overall concept. Done right, the interior becomes individual, interesting, and alive.',
+'s6.stylefeat.eclectic':'Key traits: mixing styles, accent details, individuality, harmony through contrast.',
+'s6.opt.hitech':'Hi-tech',
+'s6.styledesc.hitech':'A technology-driven take on minimalism, where advanced appliances, smart systems, and elaborate lighting take center stage. Finishes are either strictly minimalist or futuristic — with flowing lines and almost no sharp corners. Materials include glass, metal, and glossy surfaces.',
+'s6.stylefeat.hitech':'Key traits: tech and gadgets, elaborate lighting, metal and glass, futuristic forms.',
+'s6.opt.eco':'Eco style',
+'s6.styledesc.eco':'The name speaks for itself: natural materials, living plants, and organic colors form the foundation. Furniture keeps to simple, honest shapes without excess decoration. Stone, wood, and natural-fiber textiles are used for decor.',
+'s6.stylefeat.eco':'Key traits: wood and stone, live plants, natural colors, simple forms.',
+'s6.opt.popart':'Pop art',
+'s6.styledesc.popart':'A bold, attention-grabbing style built on references to pop culture — posters, comics, music memorabilia. Saturated, sometimes acid-bright colors and contrasting combinations dominate. Walls carry plenty of accessories, prints, and graphic decor.',
+'s6.stylefeat.popart':'Key traits: bright and acid colors, posters and prints, contrasting decor, pop-culture references.',
+'s6.opt.boho':'Boho',
+'s6.styledesc.boho':'A free-spirited, warm style where the space is furnished with storied objects rather than expensive finishes — textiles, macrame, flea-market finds. Natural materials, bright accents, and mixed-texture textiles create a cozy, slightly bohemian atmosphere.',
+'s6.stylefeat.boho':'Key traits: textiles and macrame, storied objects, natural materials, warm eclectic atmosphere.',
+'s6.ph.palette':'Color palette: base/accent, warm/cool tones',
+'s6.ph.wallmat':'Preferred wall materials','s6.ph.floormat':'Preferred floor materials',
+'s6.sub2':'Preferred lighting types',
+'s6.opt.chandelier':'Chandelier','s6.opt.sconce':'Wall sconce','s6.opt.floorlamp':'Floor lamps','s6.opt.tracklight':'Track lighting',
+'s6.opt.spotlight':'Spotlights','s6.opt.pendant':'Pendant lights','s6.opt.ledstrip':'LED strip','s6.opt.tablelamp':'Table lamp',
+'s6.ph.furniture':'Preferred furniture','s6.ph.dislikes':'What you definitely dislike — styles, colors, materials',
+'s7.q':'Engineering and utilities','s7.ph.heating':'Heating system','s7.ph.ventilation':'Ventilation and air conditioning system',
+'s7.sub1':'Underfloor heating','s7.opt.everywhere':'Needed everywhere',
+'s7.sub2':'Soundproofing','s7.sub3':'Smart home','s7.opt.fully':'Yes, fully',
+'s7.sub4':'Networks and utilities','s7.opt.telephony':'Telephony','s7.opt.intercom':'Intercom','s7.opt.tv':'Cable TV',
+'s7.opt.sattv':'Satellite TV','s7.opt.recuperator':'Heat recovery unit',
+'s8.q':'Kitchen and appliances','s8.sub1':'Cooking frequency','s8.opt.daily':'Every day','s8.opt.fewweek':'A few times a week','s8.opt.rarely':'Rarely',
+'s8.sub2':'Island / bar counter','s8.opt.island':'Island','s8.opt.bar':'Bar counter',
+'s8.ph.seats':'Number of seats at the table',
+'s8.sub3':'Built-in and freestanding appliances',
+'s8.opt.fridgebuiltin':'Built-in fridge','s8.opt.fridgefree':'Freestanding fridge','s8.opt.winefridge':'Wine fridge',
+'s8.opt.freezer':'Freezer','s8.opt.gasstove':'Gas stove','s8.opt.elecstove':'Electric stove','s8.opt.inductionstove':'Induction stove',
+'s8.opt.hood':'Range hood','s8.opt.airpurifier':'Air purifier','s8.opt.oven':'Oven','s8.opt.grill':'Grill','s8.opt.steamer':'Steamer',
+'s8.opt.microwave':'Microwave','s8.opt.coffeemachine':'Coffee machine','s8.opt.dishwasher':'Dishwasher',
+'s8.opt.waterfilter':'Water filter','s8.opt.disposer':'Garbage disposal','s8.opt.robotvac':'Robot vacuum','s8.opt.vacuum':'Vacuum cleaner',
+'s8.ph.facades':'Kitchen facade materials and color','s8.ph.brands':'Preferred appliance brands',
+'s9.q':'Living room and multimedia','s9.sub1':'Living room equipment',
+'s9.opt.tv':'TV','s9.opt.projector':'Projector','s9.opt.hometheater':'Home theater',
+'s9.opt.audio':'Sound system','s9.opt.console':'Game console','s9.opt.fireplace':'Fireplace',
+'s9.ph.guestzone':'What the living area should include: sofa, transforming table, TV zone, etc.',
+'s10.q':'Storage and closets','s10.sub1':'Storage type','s10.opt.closed':'Closed','s10.opt.open':'Open','s10.opt.combined':'Combined',
+'s10.ph.wardrobe':'Walk-in closet size and internal zoning: hangers/shelves/drawers',
+'s10.ph.utility':'Utility cabinets: vacuum cleaner, ironing board, iron, etc.',
+'s10.ph.extrastorage':'Which rooms need extra storage (kitchen, bathroom, hallway...)',
+'s11.q':'Bathrooms and plumbing','s11.sub1':'Plumbing fixtures',
+'s11.opt.bath':'Bathtub','s11.opt.shower':'Shower cabin','s11.opt.sink':'Sink','s11.opt.toilet':'Toilet','s11.opt.bidet':'Bidet',
+'s11.opt.hygshower':'Hygienic shower','s11.opt.towelwarmer':'Towel warmer','s11.opt.washer':'Washing machine',
+'s11.opt.dryer':'Dryer','s11.opt.boiler':'Water heater',
+'s11.sub2':'Second bathroom','s11.sub3':'Mixer taps','s11.opt.hiddenmix':'Concealed installation','s11.opt.regularmix':'Standard',
+'s11.ph.tiles':'Tile and color (floor/walls)','s11.ph.brands':'Preferred plumbing brands',
+'s12.q':'Budget and timeline','s12.sub1':'Turnkey renovation budget',
+'s12.opt.budget1':'Up to 10M ₸','s12.opt.budget2':'10–20M ₸','s12.opt.budget3':'20–40M ₸',
+'s12.opt.budget4':'40M ₸ and above','s12.opt.budgetunsure':'Not decided yet',
+'s12.sub2':'Budget priority','s12.opt.materials':'Materials','s12.opt.furniture2':'Furniture','s12.opt.appliances':'Appliances','s12.opt.visualization':'Design and visualization',
+'s12.sub3':'Implementation timeline','s12.opt.asap':'As soon as possible','s12.opt.t36':'3–6 months','s12.opt.t612':'6–12 months','s12.opt.norush':'No rush',
+'s12.sub4':'Construction crew','s12.opt.owncrew':'We have our own','s12.opt.lookingcrew':'Looking via recommendation','s12.opt.needhelpcrew':"Need designer's help",
+'s12.sub5':'Willingness to compromise on materials','s12.opt.analog':"Yes, we'll choose an alternative",'s12.opt.waitorig':"No, we'll wait for the original",'s12.opt.depends':'Depends on the situation',
+'s13.q':'Work organization','s13.ph.decisionmaker':'Who makes final decisions on the project',
+'s13.ph.contact':'Preferred messenger and time to contact','s13.sub1':'Preferred reporting format',
+'s13.opt.photo':'Photos','s13.opt.video':'Videos','s13.opt.meetings':'In-person meetings',
+'s13.ph.comment':'E.g.: need help with furniture procurement and logistics / want to control purchasing ourselves',
+'s14.q':'Comment and references','s14.ph.extra':'What else is important to share about the project',
+'s14.ph.references':'Links to references, interiors you like and dislike',
+'s14.filelabel':'📎 Attach photo or document',
+'s14.filehint':'Files are attached to the message manually when sending — this step just helps you remember them.',
+'s14.submit':'Submit the form →',
+'final.title':'Thank you! Form completed',
+'final.desc':"Send your answers via WhatsApp, copy the text, or download the file — we'll contact you within the day.",
+'final.wa':'Go to WhatsApp','final.pdf':'📄 Save as PDF',
+'final.pdfhint':'Clicking "Save as PDF" lets you preview the result and save it for yourself',
+'footer.copy':'© 2026 QiAll Design · Interior Design in Astana',
+}
+};
+
+(function(){
+  const LANG_KEY = 'qiallAnketaLang';
+  let currentLang = localStorage.getItem(LANG_KEY) || 'ru';
+
+  const TOTAL_Q = 14;
+  document.querySelectorAll('.totalQ').forEach(el => el.textContent = TOTAL_Q);
+
+  const STEPS = ['stepName','step1','step2','step3','step4','step5','step6','step7','step8','step9','step10','step11','step12','step13','step14','stepFinal'];
+  let idx = 0;
+
+  const progressFill = document.getElementById('quizProgress');
+  const quizSection = document.getElementById('quiz');
+
+  function show(newIdx){
+    if(newIdx < 0 || newIdx >= STEPS.length) return;
+    document.getElementById(STEPS[idx]).classList.remove('active');
+    idx = newIdx;
+    document.getElementById(STEPS[idx]).classList.add('active');
+    const pct = (idx / (STEPS.length - 1)) * 100;
+    progressFill.style.width = pct + '%';
+    quizSection.scrollIntoView({behavior:'smooth', block:'start'});
+    if(STEPS[idx] === 'stepFinal') finalize();
+  }
+
+  document.querySelectorAll('[data-next]').forEach(b => b.addEventListener('click', () => show(idx + 1)));
+  document.querySelectorAll('[data-prev]').forEach(b => b.addEventListener('click', () => show(idx - 1)));
+
+  /* Имя/телефон */
+  const nameInput = document.getElementById('quizName');
+  const phoneInput = document.getElementById('quizPhone');
+  const btnName = document.getElementById('btnName');
+  function checkName(){
+    btnName.disabled = !(nameInput.value.trim() && phoneInput.value.trim());
+  }
+  nameInput.addEventListener('input', checkName);
+  phoneInput.addEventListener('input', checkName);
+  btnName.addEventListener('click', () => show(idx + 1));
+
+  /* Выбор опций (single / multi) */
+  document.querySelectorAll('.quiz-opt').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const single = btn.dataset.single;
+      if(single){
+        const container = btn.closest('.qgroup');
+        container.querySelectorAll(`.quiz-opt[data-single="${single}"]`).forEach(b => {
+          if(b !== btn) b.classList.remove('selected');
+        });
+      }
+      btn.classList.toggle('selected');
+    });
+  });
+
+  /* Файлы (визуальный список, без загрузки) */
+  const fileInput = document.getElementById('quizFiles');
+  const fileList = document.getElementById('quizFileList');
+  fileInput.addEventListener('change', () => {
+    fileList.innerHTML = '';
+    Array.from(fileInput.files).forEach(f => {
+      const chip = document.createElement('div');
+      chip.className = 'quiz-file-chip';
+      chip.innerHTML = `<span>📄</span>${f.name}`;
+      fileList.appendChild(chip);
+    });
+  });
+
+  /* Сбор ответов и финал (всегда на русском — для единообразия у дизайнера) */
+  let summaryText = '';
+
+  function buildSummary(){
+    const sections = [];
+    document.querySelectorAll('.quiz-step[data-section]').forEach(step => {
+      const lines = [];
+      step.querySelectorAll('input[data-label], textarea[data-label]').forEach(el => {
+        if(el.value && el.value.trim()) lines.push(`• ${el.dataset.label}: ${el.value.trim()}`);
+      });
+      step.querySelectorAll('.qgroup[data-label]').forEach(g => {
+        const vals = Array.from(g.querySelectorAll('.quiz-opt.selected')).map(b => b.dataset.val || b.textContent.trim());
+        if(vals.length) lines.push(`• ${g.dataset.label}: ${vals.join(', ')}`);
+      });
+      if(lines.length) sections.push(`— ${step.dataset.section} —\n` + lines.join('\n'));
+    });
+    return sections.join('\n\n');
+  }
+
+  function finalize(){
+    const name = nameInput.value.trim();
+    const phone = phoneInput.value.trim();
+    summaryText = `Здравствуйте! Заполнил(а) анкету проектирования на сайте QiAll Design.\n\nИмя: ${name}\nТелефон: ${phone}\n\n${buildSummary()}\n\nЖду вашего ответа!`;
+    document.getElementById('quizWaBtn').href = 'https://wa.me/77478016162?text=' + encodeURIComponent(summaryText);
+  }
+
+  function esc(s){
+    return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  }
+
+  function buildPrintHTML(){
+    const name = esc(nameInput.value.trim());
+    const phone = esc(phoneInput.value.trim());
+    const date = new Date().toLocaleDateString('ru-RU', {day:'2-digit',month:'2-digit',year:'numeric'});
+    let sections = '';
+    document.querySelectorAll('.quiz-step[data-section]').forEach(step => {
+      const items = [];
+      step.querySelectorAll('input[data-label], textarea[data-label]').forEach(el => {
+        if(el.value && el.value.trim()) items.push(`<li><b>${esc(el.dataset.label)}:</b> ${esc(el.value.trim())}</li>`);
+      });
+      step.querySelectorAll('.qgroup[data-label]').forEach(g => {
+        const vals = Array.from(g.querySelectorAll('.quiz-opt.selected')).map(b => b.dataset.val || b.textContent.trim());
+        if(vals.length) items.push(`<li><b>${esc(g.dataset.label)}:</b> ${esc(vals.join(', '))}</li>`);
+      });
+      if(items.length) sections += `<div class="pd-section"><h3>${esc(step.dataset.section)}</h3><ul>${items.join('')}</ul></div>`;
+    });
+    return `
+      <div class="pd-head">
+        <span class="pd-logo">QiAll Design</span>
+        <span class="pd-date">Анкета заполнена: ${date}</span>
+      </div>
+      <div class="pd-client">
+        <div><b>Имя</b>${name || '—'}</div>
+        <div><b>Телефон</b>${phone || '—'}</div>
+      </div>
+      ${sections}
+      <p class="pd-foot">Документ сформирован автоматически на основе ответов, введённых клиентом в анкете проектирования QiAll Design (${date}). Содержимое отражает данные, указанные клиентом самостоятельно.</p>
+    `;
+  }
+
+  document.getElementById('btnSubmit').addEventListener('click', () => show(idx + 1));
+
+  document.getElementById('quizPdfBtn').addEventListener('click', () => {
+    document.getElementById('printDoc').innerHTML = buildPrintHTML();
+    window.print();
+  });
+
+  /* ── Карусель стилей (шаг 6) ── */
+  const STYLES = [
+    {nameKey:'s6.opt.minimal',    descKey:'s6.styledesc.minimal',    featKey:'s6.stylefeat.minimal',    val:'Минимализм',            img:'style-minimalism.jpg'},
+    {nameKey:'s6.opt.modclassic', descKey:'s6.styledesc.modclassic', featKey:'s6.stylefeat.modclassic', val:'Современная классика',  img:'style-modclassic.jpg'},
+    {nameKey:'s6.opt.neoclassic', descKey:'s6.styledesc.neoclassic', featKey:'s6.stylefeat.neoclassic', val:'Неоклассика',           img:'style-neoclassic.jpg'},
+    {nameKey:'s6.opt.loft',       descKey:'s6.styledesc.loft',       featKey:'s6.stylefeat.loft',       val:'Лофт',                  img:'style-loft.jpg'},
+    {nameKey:'s6.opt.scandi',     descKey:'s6.styledesc.scandi',     featKey:'s6.stylefeat.scandi',     val:'Скандинавский',         img:'style-scandi.jpg'},
+    {nameKey:'s6.opt.artdeco',    descKey:'s6.styledesc.artdeco',    featKey:'s6.stylefeat.artdeco',    val:'Ар-деко',               img:'style-artdeco.jpg'},
+    {nameKey:'s6.opt.japandi',    descKey:'s6.styledesc.japandi',    featKey:'s6.stylefeat.japandi',    val:'Джапанди',              img:'style-japandi.jpg'},
+    {nameKey:'s6.opt.eclectic',   descKey:'s6.styledesc.eclectic',   featKey:'s6.stylefeat.eclectic',   val:'Эклектика',             img:'style-eclectic.jpg'},
+    {nameKey:'s6.opt.hitech',     descKey:'s6.styledesc.hitech',     featKey:'s6.stylefeat.hitech',     val:'Хай-тек',               img:'style-hitech.jpg'},
+    {nameKey:'s6.opt.eco',        descKey:'s6.styledesc.eco',        featKey:'s6.stylefeat.eco',        val:'Эко-стиль',             img:'style-eco.jpg'},
+    {nameKey:'s6.opt.popart',     descKey:'s6.styledesc.popart',     featKey:'s6.stylefeat.popart',     val:'Поп-арт',               img:'style-popart.jpg'},
+    {nameKey:'s6.opt.boho',       descKey:'s6.styledesc.boho',       featKey:'s6.stylefeat.boho',       val:'Бохо',                  img:'style-boho.jpg'}
+  ];
+  let styleIdx = 0;
+  const styleCarImg = document.getElementById('styleCarImg');
+  const styleCarImgWrap = document.getElementById('styleCarImgWrap');
+  const styleCarPlaceholder = document.getElementById('styleCarPlaceholder');
+  const styleCarName = document.getElementById('styleCarName');
+  const styleCarDesc = document.getElementById('styleCarDesc');
+  const styleCarFeatures = document.getElementById('styleCarFeatures');
+  const styleCarText = document.getElementById('styleCarText');
+  const styleCarCounter = document.getElementById('styleCarCounter');
+
+  function renderStyleCard(){
+    const s = STYLES[styleIdx];
+    const name = (I18N[currentLang] && I18N[currentLang][s.nameKey]) || s.val;
+    const desc = (I18N[currentLang] && I18N[currentLang][s.descKey]) || '';
+    const feat = (I18N[currentLang] && I18N[currentLang][s.featKey]) || '';
+    styleCarName.textContent = name;
+    styleCarDesc.textContent = desc;
+    styleCarFeatures.textContent = feat;
+    styleCarPlaceholder.textContent = name;
+    styleCarImgWrap.classList.remove('style-car-noimg');
+    styleCarImg.alt = name;
+    styleCarImg.src = s.img;
+    styleCarCounter.textContent = (styleIdx + 1) + ' / ' + STYLES.length;
+  }
+
+  function showStyleCard(i){
+    styleIdx = (i + STYLES.length) % STYLES.length;
+    styleCarText.classList.add('style-car-fading');
+    styleCarImgWrap.classList.add('style-car-swap');
+    setTimeout(() => {
+      renderStyleCard();
+      styleCarText.classList.remove('style-car-fading');
+      styleCarImgWrap.classList.remove('style-car-swap');
+    }, 180);
+  }
+
+  document.getElementById('styleCarPrev').addEventListener('click', () => showStyleCard(styleIdx - 1));
+  document.getElementById('styleCarNext').addEventListener('click', () => showStyleCard(styleIdx + 1));
+
+  document.querySelectorAll('.qgroup[data-label="Предпочтительный стиль"] .quiz-opt').forEach((btn, i) => {
+    btn.addEventListener('click', () => showStyleCard(i));
+  });
+
+  renderStyleCard();
+
+  /* ── Язык ── */
+  function applyLang(l){
+    currentLang = l;
+    document.documentElement.lang = l === 'kz' ? 'kk' : l;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if(I18N[l] && I18N[l][key] !== undefined) el.textContent = I18N[l][key];
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+      const key = el.dataset.i18nPh;
+      if(I18N[l] && I18N[l][key] !== undefined) el.placeholder = I18N[l][key];
+    });
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
+    localStorage.setItem(LANG_KEY, l);
+    renderStyleCard();
+  }
+  document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
+  applyLang(currentLang);
+})();
+
+/* ── QUIZ ACCESS CONTROL ── */
+(function(){
+  const BACKEND    = 'https://qart-site-production.up.railway.app';
+  const TOKEN_KEY  = 'qiall_token';
+  const EXPIRY_KEY = 'qiall_token_expiry';
+
+  function unlock(name, phone){
+    document.getElementById('quizLock').style.display    = 'none';
+    document.getElementById('quizContent').style.display = '';
+    if(name)  document.getElementById('quizName').value  = name;
+    if(phone) document.getElementById('quizPhone').value = phone;
+  }
+
+  const savedToken  = localStorage.getItem(TOKEN_KEY);
+  const savedExpiry = parseInt(localStorage.getItem(EXPIRY_KEY)||'0', 10);
+  if(savedToken && Date.now() < savedExpiry){ unlock(); }
+
+  let pollTimer = null;
+
+  window.qlSubmit = function(){
+    const name  = document.getElementById('qlName').value.trim();
+    const phone = document.getElementById('qlPhone').value.trim();
+    if(!name || !phone){ alert('Введите имя и телефон'); return; }
+    const btn = document.getElementById('qlBtn');
+    btn.disabled = true;
+    fetch(BACKEND + '/api/request', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({name, phone})
+    })
+    .then(r => r.json())
+    .then(data => {
+      if(!data.id) throw new Error('no id');
+      document.getElementById('qlForm').style.display = 'none';
+      document.getElementById('qlWait').style.display = 'flex';
+      startPolling(data.id, name, phone);
+    })
+    .catch(() => { btn.disabled = false; alert('Ошибка соединения. Попробуйте ещё раз.'); });
+  };
+
+  function startPolling(id, name, phone){
+    pollTimer = setInterval(() => {
+      fetch(BACKEND + '/api/status/' + id)
+        .then(r => r.json())
+        .then(data => {
+          if(data.status === 'approved' && data.token){
+            clearInterval(pollTimer);
+            localStorage.setItem(TOKEN_KEY,  data.token);
+            localStorage.setItem(EXPIRY_KEY, Date.now() + 24*60*60*1000);
+            unlock(name, phone);
+          } else if(data.status === 'denied'){
+            clearInterval(pollTimer);
+            document.getElementById('qlWait').style.display   = 'none';
+            document.getElementById('qlDenied').style.display = 'flex';
+          }
+        }).catch(()=>{});
+    }, 5000);
+  }
+})();
+</script>
+</body>
+</html>
