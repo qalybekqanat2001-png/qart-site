@@ -1812,6 +1812,14 @@ function goBackFromCalc() {
 async function goToFinal() {
   document.getElementById('stepCalc').classList.remove('active');
   document.getElementById('stepFinal').classList.add('active');
+  localStorage.setItem('qiall_quiz_prefill', JSON.stringify({
+    name:    document.getElementById('quizName').value.trim(),
+    phone:   document.getElementById('quizPhone').value.trim(),
+    objtype: answers['q1'] || '',
+    address: document.getElementById('quizAddress').value.trim(),
+    area:    document.getElementById('areaInput').value.trim(),
+    city:    answers['q4'] || ''
+  }));
   await sendToTelegram(buildLeadMessage());
   // Отправляем файлы если есть
   const files = document.getElementById('quizFiles').files;

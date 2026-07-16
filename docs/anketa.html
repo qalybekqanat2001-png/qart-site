@@ -1545,11 +1545,38 @@ en:{
   const TOKEN_KEY  = 'qiall_token';
   const EXPIRY_KEY = 'qiall_token_expiry';
 
+  function selectOpt(single, val){
+    const btn = document.querySelector(`.quiz-opt[data-single="${single}"][data-val="${val}"]`);
+    if(!btn) return;
+    btn.closest('.qgroup').querySelectorAll(`.quiz-opt[data-single="${single}"]`).forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  }
+
+  function prefillFromQuiz(){
+    const raw = localStorage.getItem('qiall_quiz_prefill');
+    if(!raw) return;
+    try {
+      const d = JSON.parse(raw);
+      if(d.objtype) selectOpt('objtype', d.objtype);
+      if(d.city)    selectOpt('city', d.city);
+      if(d.address){
+        const el = document.querySelector('input[data-label="Адрес объекта / название ЖК"]');
+        if(el) el.value = d.address;
+      }
+      if(d.area){
+        const el = document.querySelector('input[data-label="Площадь объекта (м²)"]');
+        if(el) el.value = d.area.replace(/[^\d.]/g,'');
+      }
+    } catch(e){}
+  }
+
   function unlock(name, phone){
     document.getElementById('quizLock').style.display    = 'none';
     document.getElementById('quizContent').style.display = '';
     if(name)  document.getElementById('quizName').value  = name;
     if(phone) document.getElementById('quizPhone').value = phone;
+    prefillFromQuiz();
+    document.getElementById('quizName').dispatchEvent(new Event('input'));
   }
 
   const savedToken  = localStorage.getItem(TOKEN_KEY);
