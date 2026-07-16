@@ -1,11 +1,14 @@
 const express = require('express');
 const cors = require('cors');
+const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 const TelegramBot = require('node-telegram-bot-api');
 
 const app = express();
 app.use(express.json());
 app.use(cors({ origin: '*' }));
+
+const upload = multer({ storage: multer.memoryStorage() });
 
 const BOT_TOKEN = process.env.BOT_TOKEN;
 const OWNER_ID  = process.env.OWNER_CHAT_ID;
@@ -56,6 +59,26 @@ app.get('/api/status/:id', (req, res) => {
     status: r.status,
     token:  r.status === 'approved' ? r.token : null
   });
+});
+
+// ── POST /api/submit-anketa ───────────────────────────────────────────────
+app.post('/api/submit-anketa', upload.single('pdf'), (req, res) => {
+  const name  = (req.body && req.body.name)  || 'Клиент';
+  const phone = (req.body && req.body.phone) || '—';
+
+  if (!req.file) return res.status(400).json({ error: 'no pdf' });
+
+  bot.sendDocument(
+    OWNER_ID,
+    req.file.buffer,
+    {
+      caption: `📋 *Анкета заполнена*\n\n👤 *Имя:* ${name}\n📞 *Телефон:* ${phone}`,
+      parse_mode: 'Markdown'
+    },
+    { filename: 'Anketa-QiAll.pdf', contentType: 'application/pdf' }
+  ).catch(err => console.error('Telegram doc error:', err.message));
+
+  res.json({ ok: true });
 });
 
 // ── Telegram callback ──────────────────────────────────────────────────────
