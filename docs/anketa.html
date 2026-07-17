@@ -1497,16 +1497,25 @@ en:{
     document.body.appendChild(pdfEl);
     function _clean(){ try{ document.body.removeChild(pdfEl); }catch(e){} }
 
-    html2pdf().set({
+    function _pdfOpts(){ return {
       margin:[8,8], filename:'QiAll-Anketa.pdf',
       image:{type:'jpeg',quality:.95},
-      html2canvas:{scale:2,useCORS:true,logging:false},
+      html2canvas:{
+        scale:2, useCORS:true, logging:false, backgroundColor:'#ffffff',
+        onclone:function(clonedDoc, el){
+          // перемещаем клон в видимую зону чтобы html2canvas мог его захватить
+          el.style.position='absolute';
+          el.style.top='0';
+          el.style.left='0';
+          el.style.bottom='auto';
+        }
+      },
       jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
-    }).from(pdfEl).toPdf().get('pdf').then(function(pdf){
+    }; }
+
+    html2pdf().set(_pdfOpts()).from(pdfEl).toPdf().get('pdf').then(function(pdf){
       _clean();
-      // Скачать клиенту
       pdf.save('QiAll-Anketa.pdf');
-      // Конвертируем в base64 и отправляем боту
       const ab = pdf.output('arraybuffer');
       const bytes = new Uint8Array(ab);
       let bin = '';
@@ -1519,7 +1528,7 @@ en:{
     }).catch(function(){
       _clean();
       setStatus('');
-      sendText(); // фолбэк: отправить хотя бы текст
+      sendText();
     });
   });
 
@@ -1529,20 +1538,25 @@ en:{
       window.print();
       return;
     }
-    const pdfEl = document.createElement('div');
-    pdfEl.style.cssText = 'position:fixed;top:-9999px;left:0;width:794px;background:#fff;color:#000;padding:20mm 16mm;font-family:Arial,sans-serif;font-size:12px;line-height:1.6';
-    pdfEl.innerHTML = buildPrintHTML();
-    document.body.appendChild(pdfEl);
+    const pdfEl2 = document.createElement('div');
+    pdfEl2.style.cssText = 'position:fixed;top:-9999px;left:0;width:794px;background:#fff;padding:20mm 16mm;font-family:Arial,sans-serif;font-size:12px;line-height:1.6';
+    pdfEl2.innerHTML = buildPrintHTML();
+    document.body.appendChild(pdfEl2);
     html2pdf().set({
       margin:[8,8], filename:'QiAll-Anketa.pdf',
       image:{type:'jpeg',quality:.95},
-      html2canvas:{scale:2,useCORS:true,logging:false},
+      html2canvas:{
+        scale:2, useCORS:true, logging:false, backgroundColor:'#ffffff',
+        onclone:function(clonedDoc, el){
+          el.style.position='absolute'; el.style.top='0'; el.style.left='0'; el.style.bottom='auto';
+        }
+      },
       jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
-    }).from(pdfEl).toPdf().get('pdf').then(function(pdf){
-      try{ document.body.removeChild(pdfEl); }catch(e){}
+    }).from(pdfEl2).toPdf().get('pdf').then(function(pdf){
+      try{ document.body.removeChild(pdfEl2); }catch(e){}
       pdf.save('QiAll-Anketa.pdf');
     }).catch(function(){
-      try{ document.body.removeChild(pdfEl); }catch(e){}
+      try{ document.body.removeChild(pdfEl2); }catch(e){}
       document.getElementById('printDoc').innerHTML = buildPrintHTML();
       window.print();
     });
