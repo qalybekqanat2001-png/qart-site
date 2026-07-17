@@ -1427,30 +1427,48 @@ en:{
     const name = esc(nameInput.value.trim());
     const phone = esc(phoneInput.value.trim());
     const date = new Date().toLocaleDateString('ru-RU', {day:'2-digit',month:'2-digit',year:'numeric'});
+    const S = {
+      wrap:    'font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#111;background:#fff',
+      head:    'display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid #111;padding-bottom:12px;margin-bottom:16px',
+      logo:    'font-size:18px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#111',
+      datelbl: 'font-size:10px;color:#666',
+      client:  'display:flex;gap:32px;margin-bottom:20px',
+      clabel:  'display:block;font-size:9px;text-transform:uppercase;color:#888;margin-bottom:2px',
+      cval:    'font-size:13px;font-weight:600;color:#111',
+      section: 'margin-bottom:18px',
+      secHead: 'font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#444;border-bottom:1px solid #ddd;padding-bottom:5px;margin:0 0 8px',
+      ul:      'list-style:none;padding:0;margin:0',
+      li:      'padding:3px 0;font-size:11px;color:#222;border-bottom:1px solid #f4f4f4',
+      label:   'color:#666;font-weight:600',
+      foot:    'margin-top:28px;font-size:9px;color:#bbb'
+    };
     let sections = '';
     document.querySelectorAll('.quiz-step[data-section]').forEach(step => {
       const items = [];
       step.querySelectorAll('input[data-label], textarea[data-label]').forEach(el => {
-        if(el.value && el.value.trim()) items.push(`<li><b>${esc(el.dataset.label)}:</b> ${esc(el.value.trim())}</li>`);
+        if(el.value && el.value.trim())
+          items.push(`<li style="${S.li}"><span style="${S.label}">${esc(el.dataset.label)}:</span> ${esc(el.value.trim())}</li>`);
       });
       step.querySelectorAll('.qgroup[data-label]').forEach(g => {
         const vals = Array.from(g.querySelectorAll('.quiz-opt.selected')).map(b => b.dataset.val || b.textContent.trim());
-        if(vals.length) items.push(`<li><b>${esc(g.dataset.label)}:</b> ${esc(vals.join(', '))}</li>`);
+        if(vals.length)
+          items.push(`<li style="${S.li}"><span style="${S.label}">${esc(g.dataset.label)}:</span> ${esc(vals.join(', '))}</li>`);
       });
-      if(items.length) sections += `<div class="pd-section"><h3>${esc(step.dataset.section)}</h3><ul>${items.join('')}</ul></div>`;
+      if(items.length)
+        sections += `<div style="${S.section}"><h3 style="${S.secHead}">${esc(step.dataset.section)}</h3><ul style="${S.ul}">${items.join('')}</ul></div>`;
     });
-    return `
-      <div class="pd-head">
-        <span class="pd-logo">QiAll Design</span>
-        <span class="pd-date">Анкета заполнена: ${date}</span>
+    return `<div style="${S.wrap}">
+      <div style="${S.head}">
+        <span style="${S.logo}">QiAll Design</span>
+        <span style="${S.datelbl}">Анкета заполнена: ${date}</span>
       </div>
-      <div class="pd-client">
-        <div><b>Имя</b>${name || '—'}</div>
-        <div><b>Телефон</b>${phone || '—'}</div>
+      <div style="${S.client}">
+        <div><span style="${S.clabel}">Имя</span><span style="${S.cval}">${name || '—'}</span></div>
+        <div><span style="${S.clabel}">Телефон</span><span style="${S.cval}">${phone || '—'}</span></div>
       </div>
       ${sections}
-      <p class="pd-foot">Документ сформирован автоматически на основе ответов, введённых клиентом в анкете проектирования QiAll Design (${date}). Содержимое отражает данные, указанные клиентом самостоятельно.</p>
-    `;
+      <p style="${S.foot}">Документ сформирован автоматически на основе ответов, введённых клиентом в анкете проектирования QiAll Design (${date}).</p>
+    </div>`;
   }
 
   document.getElementById('btnSubmit').addEventListener('click', () => {
