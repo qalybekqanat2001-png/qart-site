@@ -1492,7 +1492,7 @@ en:{
     if(typeof html2pdf === 'undefined'){ sendText(); return; }
 
     const pdfEl = document.createElement('div');
-    pdfEl.style.cssText = 'position:fixed;top:-9999px;left:0;width:794px;background:#fff;color:#000;padding:20mm 16mm;font-family:Arial,sans-serif;font-size:12px;line-height:1.6';
+    pdfEl.style.cssText = 'position:fixed;top:0;left:0;width:794px;background:#fff;color:#000;padding:20mm 16mm;font-family:Arial,sans-serif;font-size:12px;line-height:1.6;z-index:99999;pointer-events:none';
     pdfEl.innerHTML = buildPrintHTML();
     document.body.appendChild(pdfEl);
     function _clean(){ try{ document.body.removeChild(pdfEl); }catch(e){} }
@@ -1500,16 +1500,7 @@ en:{
     function _pdfOpts(){ return {
       margin:[8,8], filename:'QiAll-Anketa.pdf',
       image:{type:'jpeg',quality:.95},
-      html2canvas:{
-        scale:2, useCORS:true, logging:false, backgroundColor:'#ffffff',
-        onclone:function(clonedDoc, el){
-          // перемещаем клон в видимую зону чтобы html2canvas мог его захватить
-          el.style.position='absolute';
-          el.style.top='0';
-          el.style.left='0';
-          el.style.bottom='auto';
-        }
-      },
+      html2canvas:{scale:2, useCORS:true, logging:false, backgroundColor:'#ffffff'},
       jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
     }; }
 
@@ -1539,18 +1530,13 @@ en:{
       return;
     }
     const pdfEl2 = document.createElement('div');
-    pdfEl2.style.cssText = 'position:fixed;top:-9999px;left:0;width:794px;background:#fff;padding:20mm 16mm;font-family:Arial,sans-serif;font-size:12px;line-height:1.6';
+    pdfEl2.style.cssText = 'position:fixed;top:0;left:0;width:794px;background:#fff;color:#000;padding:20mm 16mm;font-family:Arial,sans-serif;font-size:12px;line-height:1.6;z-index:99999;pointer-events:none';
     pdfEl2.innerHTML = buildPrintHTML();
     document.body.appendChild(pdfEl2);
     html2pdf().set({
       margin:[8,8], filename:'QiAll-Anketa.pdf',
       image:{type:'jpeg',quality:.95},
-      html2canvas:{
-        scale:2, useCORS:true, logging:false, backgroundColor:'#ffffff',
-        onclone:function(clonedDoc, el){
-          el.style.position='absolute'; el.style.top='0'; el.style.left='0'; el.style.bottom='auto';
-        }
-      },
+      html2canvas:{scale:2, useCORS:true, logging:false, backgroundColor:'#ffffff'},
       jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
     }).from(pdfEl2).toPdf().get('pdf').then(function(pdf){
       try{ document.body.removeChild(pdfEl2); }catch(e){}
