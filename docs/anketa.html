@@ -1423,6 +1423,35 @@ en:{
     return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   }
 
+  function buildAnswers(){
+    const sections = [];
+    document.querySelectorAll('.quiz-step[data-section]').forEach(step => {
+      const items = [];
+      step.querySelectorAll('input[data-label], textarea[data-label]').forEach(el => {
+        if(el.value && el.value.trim()) items.push({ label: el.dataset.label, value: el.value.trim() });
+      });
+      step.querySelectorAll('.qgroup[data-label]').forEach(g => {
+        const vals = Array.from(g.querySelectorAll('.quiz-opt.selected')).map(b => b.dataset.val || b.textContent.trim());
+        if(vals.length) items.push({ label: g.dataset.label, value: vals.join(', ') });
+      });
+      if(items.length) sections.push({ title: step.dataset.section, items });
+    });
+    return sections;
+  }
+
+  function downloadPdfB64(b64, filename){
+    const bytes = atob(b64);
+    const uint8 = new Uint8Array(bytes.length);
+    for(let i = 0; i < bytes.length; i++) uint8[i] = bytes.charCodeAt(i);
+    const blob = new Blob([uint8], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
   function buildPrintHTML(){
     const name = esc(nameInput.value.trim());
     const phone = esc(phoneInput.value.trim());
@@ -1471,10 +1500,11 @@ en:{
     </div>`;
   }
 
-  document.getElementById('btnSubmit').addEventListener('click', () => {
+  document.getElementById('btnSubmit').addEventListener('click', async () => {
     const _name    = nameInput.value.trim();
     const _phone   = phoneInput.value.trim();
     const _summary = buildSummary();
+    const _answers = buildAnswers();
     const _BACK    = 'https://qart-site-production.up.railway.app';
     show(idx + 1);
 
@@ -1482,70 +1512,41 @@ en:{
     function setStatus(txt){ if(statusEl){ statusEl.textContent = txt; statusEl.style.display = txt ? '' : 'none'; } }
     setStatus('Формируем PDF...');
 
-    function sendText(){
-      fetch(_BACK + '/api/submit-anketa', {
+    try {
+      const resp = await fetch(_BACK + '/api/submit-anketa', {
         method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ name:_name, phone:_phone, summary:_summary })
-      }).then(()=>setStatus('Анкета отправлена ✓')).catch(()=>setStatus('Ошибка отправки'));
+        body: JSON.stringify({ name:_name, phone:_phone, summary:_summary, answers:_answers })
+      });
+      const data = await resp.json();
+      if(data.pdf){
+        downloadPdfB64(data.pdf, 'QiAll-Anketa.pdf');
+        setStatus('PDF скачан и отправлен в Telegram ✓');
+      } else {
+        setStatus('Анкета отправлена ✓');
+      }
+    } catch(e){
+      setStatus('Анкета отправлена ✓');
     }
-
-    if(typeof html2pdf === 'undefined'){ sendText(); return; }
-
-    const pdfEl = document.createElement('div');
-    pdfEl.style.cssText = 'position:fixed;top:0;left:0;width:794px;background:#fff;color:#000;padding:20mm 16mm;font-family:Arial,sans-serif;font-size:12px;line-height:1.6;z-index:99999;pointer-events:none';
-    pdfEl.innerHTML = buildPrintHTML();
-    document.body.appendChild(pdfEl);
-    function _clean(){ try{ document.body.removeChild(pdfEl); }catch(e){} }
-
-    function _pdfOpts(){ return {
-      margin:[8,8], filename:'QiAll-Anketa.pdf',
-      image:{type:'jpeg',quality:.95},
-      html2canvas:{scale:2, useCORS:true, logging:false, backgroundColor:'#ffffff'},
-      jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
-    }; }
-
-    html2pdf().set(_pdfOpts()).from(pdfEl).toPdf().get('pdf').then(function(pdf){
-      _clean();
-      pdf.save('QiAll-Anketa.pdf');
-      const ab = pdf.output('arraybuffer');
-      const bytes = new Uint8Array(ab);
-      let bin = '';
-      bytes.forEach(function(b){ bin += String.fromCharCode(b); });
-      const b64 = btoa(bin);
-      fetch(_BACK + '/api/submit-anketa', {
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ name:_name, phone:_phone, summary:_summary, pdf:b64 })
-      }).then(()=>setStatus('PDF отправлен вам в Telegram ✓')).catch(()=>setStatus('Анкета отправлена ✓'));
-    }).catch(function(){
-      _clean();
-      setStatus('');
-      sendText();
-    });
   });
 
-  document.getElementById('quizPdfBtn').addEventListener('click', () => {
-    if(typeof html2pdf === 'undefined'){
+  document.getElementById('quizPdfBtn').addEventListener('click', async () => {
+    const _BACK = 'https://qart-site-production.up.railway.app';
+    try {
+      const resp = await fetch(_BACK + '/api/submit-anketa', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          name: nameInput.value.trim(),
+          phone: phoneInput.value.trim(),
+          answers: buildAnswers(),
+          skipTelegram: true
+        })
+      });
+      const data = await resp.json();
+      if(data.pdf) downloadPdfB64(data.pdf, 'QiAll-Anketa.pdf');
+    } catch(e){
       document.getElementById('printDoc').innerHTML = buildPrintHTML();
       window.print();
-      return;
     }
-    const pdfEl2 = document.createElement('div');
-    pdfEl2.style.cssText = 'position:fixed;top:0;left:0;width:794px;background:#fff;color:#000;padding:20mm 16mm;font-family:Arial,sans-serif;font-size:12px;line-height:1.6;z-index:99999;pointer-events:none';
-    pdfEl2.innerHTML = buildPrintHTML();
-    document.body.appendChild(pdfEl2);
-    html2pdf().set({
-      margin:[8,8], filename:'QiAll-Anketa.pdf',
-      image:{type:'jpeg',quality:.95},
-      html2canvas:{scale:2, useCORS:true, logging:false, backgroundColor:'#ffffff'},
-      jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
-    }).from(pdfEl2).toPdf().get('pdf').then(function(pdf){
-      try{ document.body.removeChild(pdfEl2); }catch(e){}
-      pdf.save('QiAll-Anketa.pdf');
-    }).catch(function(){
-      try{ document.body.removeChild(pdfEl2); }catch(e){}
-      document.getElementById('printDoc').innerHTML = buildPrintHTML();
-      window.print();
-    });
   });
 
   /* ── Карусель стилей (шаг 6) ── */
@@ -1714,6 +1715,5 @@ en:{
   }
 })();
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>

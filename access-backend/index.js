@@ -1,7 +1,9 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 const TelegramBot = require('node-telegram-bot-api');
+const PDFDocument = require('pdfkit');
 
 const app = express();
 app.use(express.json({ limit: '10mb' }));
@@ -11,6 +13,81 @@ const BOT_TOKEN = process.env.BOT_TOKEN;
 const OWNER_ID  = process.env.OWNER_CHAT_ID;
 
 const bot = new TelegramBot(BOT_TOKEN, { polling: true });
+
+// ── PDF генератор анкеты ──────────────────────────────────────────────────
+const FONT_DIR = path.join(__dirname, 'fonts');
+
+function generateAnketaPDF(name, phone, answers) {
+  return new Promise((resolve, reject) => {
+    const doc = new PDFDocument({ size: 'A4', margins: { top: 50, bottom: 60, left: 50, right: 50 } });
+    const chunks = [];
+    doc.on('data', c => chunks.push(c));
+    doc.on('end', () => resolve(Buffer.concat(chunks)));
+    doc.on('error', reject);
+
+    try {
+      doc.registerFont('DJ',  path.join(FONT_DIR, 'DejaVu.ttf'));
+      doc.registerFont('DJB', path.join(FONT_DIR, 'DejaVu-Bold.ttf'));
+    } catch (e) {
+      // шрифт не найден — fallback на встроенный (без кириллицы), не крашимся
+      console.error('Font error:', e.message);
+    }
+
+    const W = doc.page.width - 100;
+    const L = 50;
+    const date = new Date().toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+    // Шапка
+    doc.font('DJB').fontSize(18).fillColor('#111111').text('QIALL DESIGN', L, 50);
+    doc.font('DJ').fontSize(9).fillColor('#777777')
+       .text(`Анкета заполнена: ${date}`, L, 56, { align: 'right', width: W });
+    const lineY = 76;
+    doc.moveTo(L, lineY).lineTo(L + W, lineY).strokeColor('#111111').lineWidth(1.5).stroke();
+
+    // Клиент
+    const cy = lineY + 12;
+    doc.font('DJ').fontSize(8).fillColor('#999999').text('ИМЯ', L, cy);
+    doc.font('DJB').fontSize(12).fillColor('#111111').text(name || '—', L, cy + 10, { width: 200 });
+    doc.font('DJ').fontSize(8).fillColor('#999999').text('ТЕЛЕФОН', L + 250, cy);
+    doc.font('DJB').fontSize(12).fillColor('#111111').text(phone || '—', L + 250, cy + 10, { width: 200 });
+    doc.y = cy + 36;
+
+    // Разделы
+    answers.forEach(section => {
+      if (doc.y > doc.page.height - 160) doc.addPage();
+      doc.moveDown(0.4);
+
+      // Заголовок раздела
+      doc.font('DJB').fontSize(9).fillColor('#444444').text(section.title.toUpperCase(), L, doc.y);
+      doc.moveDown(0.2);
+      doc.moveTo(L, doc.y).lineTo(L + W, doc.y).strokeColor('#cccccc').lineWidth(0.5).stroke();
+      doc.moveDown(0.4);
+
+      // Строки
+      section.items.forEach(({ label, value }) => {
+        if (doc.y > doc.page.height - 80) doc.addPage();
+        const rowY = doc.y;
+        const col1 = 160;
+        const col2 = W - col1 - 10;
+
+        doc.font('DJB').fontSize(9).fillColor('#666666').text(label + ':', L, rowY, { width: col1 });
+        const afterLabel = doc.y;
+
+        doc.font('DJ').fontSize(9).fillColor('#222222').text(value, L + col1 + 10, rowY, { width: col2 });
+        const afterValue = doc.y;
+
+        doc.y = Math.max(afterLabel, afterValue) + 3;
+      });
+    });
+
+    // Футер
+    const footY = doc.page.height - 45;
+    doc.font('DJ').fontSize(8).fillColor('#bbbbbb')
+       .text(`Документ сформирован автоматически. QiAll Design, ${date}`, L, footY, { align: 'center', width: W });
+
+    doc.end();
+  });
+}
 
 // Хранилище запросов (память, сбрасывается при перезапуске)
 const requests = new Map();
@@ -59,35 +136,36 @@ app.get('/api/status/:id', (req, res) => {
 });
 
 // ── POST /api/submit-anketa ───────────────────────────────────────────────
-app.post('/api/submit-anketa', (req, res) => {
-  const { name = 'Клиент', phone = '—', summary = '', pdf } = req.body || {};
+app.post('/api/submit-anketa', async (req, res) => {
+  const { name = 'Клиент', phone = '—', summary = '', answers = [], skipTelegram = false } = req.body || {};
   const header = `📋 Анкета заполнена\n\n👤 Имя: ${name}\n📞 Телефон: ${phone}`;
 
-  if (pdf) {
-    // Клиент прислал PDF в base64 — отправляем документом
-    const buf = Buffer.from(pdf, 'base64');
-    bot.sendDocument(
-      OWNER_ID,
-      buf,
-      { caption: header },
-      { filename: 'Anketa-QiAll.pdf', contentType: 'application/pdf' }
-    ).catch(err => {
-      console.error('Telegram doc error:', err.message);
-      // Фолбэк: отправить текстом
-      if (summary) {
-        bot.sendMessage(OWNER_ID, (header + '\n\n' + summary).slice(0, 4096)).catch(() => {});
-      }
-    });
-  } else if (summary) {
-    // PDF не пришёл — отправляем текстом
-    const full = header + '\n\n' + summary;
-    // Разбиваем на части по 4096 символов (лимит Telegram)
-    for (let i = 0; i < full.length; i += 4096) {
-      bot.sendMessage(OWNER_ID, full.slice(i, i + 4096)).catch(err => console.error('Telegram msg error:', err.message));
-    }
-  }
+  try {
+    const pdfBuf = await generateAnketaPDF(name, phone, answers);
+    const pdfB64 = pdfBuf.toString('base64');
 
-  res.json({ ok: true });
+    if (!skipTelegram) {
+      bot.sendDocument(
+        OWNER_ID,
+        pdfBuf,
+        { caption: header },
+        { filename: 'Anketa-QiAll.pdf', contentType: 'application/pdf' }
+      ).catch(err => {
+        console.error('Telegram doc error:', err.message);
+        if (summary) {
+          bot.sendMessage(OWNER_ID, (header + '\n\n' + summary).slice(0, 4096)).catch(() => {});
+        }
+      });
+    }
+
+    res.json({ ok: true, pdf: pdfB64 });
+  } catch (err) {
+    console.error('PDF gen error:', err.message);
+    if (!skipTelegram && summary) {
+      bot.sendMessage(OWNER_ID, (header + '\n\n' + summary).slice(0, 4096)).catch(() => {});
+    }
+    res.json({ ok: true, pdf: null });
+  }
 });
 
 // ── Telegram callback ──────────────────────────────────────────────────────
